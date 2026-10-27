@@ -108,3 +108,18 @@ def test_purpose_classifier_reads_purpose_not_boilerplate():
     assert primary_purpose("The Company is filing this Amendment to restate its previously issued financial statements.") == "restatement"
     assert primary_purpose("This Amendment is filed solely to correct the number for Net cash provided by financing "
                            "activities in the Statement of Cash Flows.") == "targeted_fix"
+
+
+def test_injection_changes_every_copy_of_a_duplicated_fact(tmp_path):
+    duplicated = INSTANCE.replace(
+        '<us-gaap:NetIncomeLoss contextRef="c2024" unitRef="usd" decimals="-3" id="f3">300000</us-gaap:NetIncomeLoss>',
+        '<us-gaap:NetIncomeLoss contextRef="c2024" unitRef="usd" decimals="-3" id="f3">300000</us-gaap:NetIncomeLoss>'
+        '<us-gaap:NetIncomeLoss contextRef="c2024" unitRef="usd" decimals="-3" id="f4">300000</us-gaap:NetIncomeLoss>')
+    source = tmp_path / "dup_htm.xml"
+    source.write_text(duplicated)
+    target = tmp_path / "out.xml"
+    weights = {"NetIncomeLoss": 1.0, "Assets": 1e-9}
+    inject(source, "sign_flip", 1, random.Random(0), target, concept_weights=weights)
+    facts = parse_instance(target)
+    values = facts[facts["concept"] == "NetIncomeLoss"]["value"].tolist()
+    assert values == [-300000.0, -300000.0]

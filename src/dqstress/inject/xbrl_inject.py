@@ -6,6 +6,9 @@ modified filing. Each operator mirrors a correction type observed in real SEC am
 (see results/p1_corrections), and every change is logged with the original value.
 
 Eligible facts: numeric, not nil, non-zero, us-gaap element, no dimensions, unit USD or shares.
+An instance often reports the same fact more than once (face statement and notes). An injected error
+changes every copy of the logical fact (same element, context and unit), because changing a single copy
+creates an inconsistent duplicate that real corrections rarely show (see docs/design.md, change log).
 """
 from __future__ import annotations
 
@@ -63,6 +66,13 @@ def _eligible(root) -> list:
     return eligible
 
 
+def _logical_facts(elements: list) -> list[list]:
+    groups: dict[tuple, list] = {}
+    for element in elements:
+        groups.setdefault((element.tag, element.get("contextRef"), element.get("unitRef")), []).append(element)
+    return list(groups.values())
+
+
 def _record(element, operator, old_value, new_value, new_concept=None):
     return {"concept": f"{element.prefix}:{etree.QName(element).localname}", "context_ref": element.get("contextRef"),
             "fact_id": element.get("id"), "operator": operator, "old_value": old_value, "new_value": new_value,
@@ -94,7 +104,8 @@ def inject(instance: Path, operator: str, n_facts: int, rng: random.Random, targ
             return None
         chosen = rng.choices(pairs, weights=[w for _, _, w in pairs], k=1)[0]
         namespace = etree.QName(by_concept[chosen[1]][0]).namespace
-        for element in by_concept[chosen[1]][:n_facts]:
+        # A wrong element is usually used for the whole line item, i.e. in every period it is reported.
+        for element in by_concept[chosen[1]]:
             old_tag = element.tag
             element.tag = f"{{{namespace}}}{chosen[0]}"
             injection.changes.append(_record(element, operator, element.text, element.text, f"{US_GAAP_PREFIX}:{chosen[0]}")
@@ -115,33 +126,48 @@ def inject(instance: Path, operator: str, n_facts: int, rng: random.Random, targ
             return None
         weights = [concept_weights.get(c, 1e-3) if concept_weights else 1.0 for c, _, _ in candidates]
         for concept, current, prior in _weighted_sample(candidates, weights, n_facts, rng):
-            injection.changes.append(_record(current, operator, current.text, prior.text))
-            injection.changes.append(_record(prior, operator, prior.text, current.text))
-            current.text, prior.text = prior.text, current.text
+            current_text, prior_text = current.text, prior.text
+            injection.changes.append(_record(current, operator, current_text, prior_text))
+            injection.changes.append(_record(prior, operator, prior_text, current_text))
+            copies = _logical_facts(by_concept[concept])
+            for group in copies:
+                key = group[0].get("contextRef")
+                if key == current.get("contextRef"):
+                    for element in group:
+                        element.text = prior_text
+                elif key == prior.get("contextRef"):
+                    for element in group:
+                        element.text = current_text
     else:
-        if not eligible:
+        groups = _logical_facts(eligible)
+        if not groups:
             return None
-        weights = [concept_weights.get(etree.QName(e).localname, 1e-3) if concept_weights else 1.0 for e in eligible]
-        for element in _weighted_sample(eligible, weights, n_facts, rng):
-            old_text = element.text
+        weights = [concept_weights.get(etree.QName(g[0]).localname, 1e-3) if concept_weights else 1.0 for g in groups]
+        for group in _weighted_sample(groups, weights, n_facts, rng):
+            first = group[0]
+            old_text = first.text
             old = float(old_text)
+            if operator == "drop_fact":
+                injection.changes.append(_record(first, operator, old_text, None) | {"copies": len(group)})
+                for element in group:
+                    element.getparent().remove(element)
+                continue
             if operator == "sign_flip":
-                element.text = _format_like(old_text, -old)
+                new_value = -old
             elif operator == "scale_x1000":
-                element.text = _format_like(old_text, old * 1000)
+                new_value = old * 1000
             elif operator == "changed_amount":
-                ratio = rng.choice(amount_ratios) if amount_ratios else 10 ** rng.uniform(-0.5, 0.5)
-                element.text = _format_like(old_text, old * ratio)
-            elif operator == "one_digit":
+                new_value = old * (rng.choice(amount_ratios) if amount_ratios else 10 ** rng.uniform(-0.5, 0.5))
+            else:  # one_digit
                 digits = list(str(int(abs(old))))
                 position = rng.randrange(len(digits))
-                digits[position] = rng.choice([d for d in "0123456789" if d != digits[position]] if position else "123456789".replace(digits[0], ""))
-                element.text = _format_like(old_text, float("".join(digits)) * (1 if old > 0 else -1))
-            elif operator == "drop_fact":
-                injection.changes.append(_record(element, operator, old_text, None))
-                element.getparent().remove(element)
-                continue
-            injection.changes.append(_record(element, operator, old_text, element.text))
+                options = [d for d in "0123456789" if d != digits[position]] if position else \
+                    [d for d in "123456789" if d != digits[0]]
+                digits[position] = rng.choice(options)
+                new_value = float("".join(digits)) * (1 if old > 0 else -1)
+            for element in group:
+                element.text = _format_like(element.text, new_value)
+            injection.changes.append(_record(first, operator, old_text, first.text) | {"copies": len(group)})
     if not injection.changes:
         return None
     target.parent.mkdir(parents=True, exist_ok=True)

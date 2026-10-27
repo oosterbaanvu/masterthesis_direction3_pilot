@@ -1,0 +1,6 @@
+control,mean_flags_per_clean_filing,median,share_filings_with_flags
+generic_schema,3.78,1.0,0.54
+naive_non_negative,87.19,68.0,1.0
+stat_magnitude,1.72,1.0,0.58
+stat_period_jump,2.17,0.0,0.48
+stat_sign_rarity,0.15,0.0,0.07

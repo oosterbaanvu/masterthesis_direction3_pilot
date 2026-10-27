@@ -1,0 +1,8 @@
+operator,generic_schema,naive_non_negative,stat_magnitude,stat_period_jump,stat_sign_rarity
+changed_amount,0.0,0.0,0.0,0.05555555555555555,0.0
+drop_fact,0.0,0.0,0.0,0.0,0.0
+one_digit,0.0,0.0,0.0,0.0,0.0
+period_swap,0.0,0.07407407407407407,0.0,0.0,0.0
+retag,0.0,0.24074074074074073,0.0,0.0,0.0
+scale_x1000,0.0,0.0,0.05555555555555555,0.7962962962962963,0.0
+sign_flip,0.0,0.7222222222222222,0.0,0.0,0.05555555555555555

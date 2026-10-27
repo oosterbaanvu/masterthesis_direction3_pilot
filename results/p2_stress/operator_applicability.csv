@@ -1,0 +1,15 @@
+placement,operator,applicable
+calibrated,changed_amount,1.0
+calibrated,drop_fact,1.0
+calibrated,one_digit,1.0
+calibrated,period_swap,0.99
+calibrated,retag,1.0
+calibrated,scale_x1000,1.0
+calibrated,sign_flip,1.0
+uniform,changed_amount,1.0
+uniform,drop_fact,1.0
+uniform,one_digit,1.0
+uniform,period_swap,0.99
+uniform,retag,1.0
+uniform,scale_x1000,1.0
+uniform,sign_flip,1.0

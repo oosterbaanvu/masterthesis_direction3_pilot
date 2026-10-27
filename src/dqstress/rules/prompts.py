@@ -94,3 +94,29 @@ def element_table(concepts: pd.DataFrame, names: list[str]) -> str:
 def discover_prompt(concepts: pd.DataFrame, names: list[str], feedback: str = "") -> str:
     return (f"## Inputs\n\n{FACTS_SCHEMA}\n\n{CONCEPTS_SCHEMA}\n\n## Task\n\n"
             + DISCOVER_TASK.format(elements=element_table(concepts, names), feedback=feedback))
+
+
+JUDGE_SYSTEM = ("You are a careful reviewer of SEC financial statements in XBRL. You look for reporting errors in "
+                "the reported numbers. Answer only with JSON.")
+
+JUDGE_TASK = """Below are the numeric facts (no dimensions, units USD or shares) of one filing, one per line as
+`row | element | period | unit | value`. Periods are 'I:<date>' for instants and 'D:<start>..<end>' for durations.
+Some facts may contain reporting errors such as a wrong sign, a wrong scale (e.g. x1000), an amount that does not fit
+the other figures, a value under the wrong element, or a value assigned to the wrong period.
+
+Return a JSON list with at most {budget} objects {{"row": <row number>, "reason": "<short reason>"}}, ordered from most
+to least likely error. Return [] if nothing looks wrong.
+
+{rows}"""
+
+
+def judge_prompt(facts: pd.DataFrame, budget: int = 10, max_rows: int = 220) -> tuple[str, pd.DataFrame]:
+    plain = facts[facts["is_numeric"] & facts["value"].notna() & (facts["dimensions"] == "")
+                  & facts["unit"].isin(["USD", "shares"])].copy()
+    latest = sorted(plain["end"].dropna().unique())[-2:]
+    plain = plain[plain["end"].isin(latest)].head(max_rows).reset_index(drop=True)
+    plain["period"] = ["I:" + e if t == "instant" else f"D:{s}..{e}" for t, s, e in
+                       zip(plain["period_type"], plain["start"], plain["end"])]
+    lines = [f"{i} | {p}:{c} | {per} | {u} | {v:,.0f}" for i, (p, c, per, u, v) in
+             enumerate(zip(plain["prefix"], plain["concept"], plain["period"], plain["unit"], plain["value"]))]
+    return JUDGE_TASK.format(budget=budget, rows="\n".join(lines)), plain

@@ -1,0 +1,18 @@
+{
+  "operators": {
+    "sign_flip": 34,
+    "scale_x1000": 44,
+    "changed_amount": 348,
+    "one_digit": 348,
+    "period_swap": 19,
+    "drop_fact": 721,
+    "retag": 93
+  },
+  "amount_ratios": 2485,
+  "amount_ratio_quantiles": {
+    "0.1": 0.379,
+    "0.5": 0.997,
+    "0.9": 2.91
+  },
+  "retag_pairs": 109
+}
