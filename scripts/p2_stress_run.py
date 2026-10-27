@@ -87,7 +87,7 @@ def main() -> None:
                     new = flags[name] - clean[name]
                     rows.append(base | {"applicable": True, "control": name, "new_flags": len(new),
                                         "detected_lenient": bool(new), "detected_strict": bool(new & injected),
-                                        "injected": json.dumps(injection.changes)[:2000]})
+                                        "injected": json.dumps(injection.changes)})
     pd.DataFrame(rows).to_csv(OUT / "injected_detection.csv.gz", index=False)
     pd.DataFrame(clean_rows).to_csv(OUT / "clean_flags.csv", index=False)
 

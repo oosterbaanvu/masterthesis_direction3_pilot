@@ -43,3 +43,56 @@ qwen2.5-coder-7b,DQC_0109,greedy,rollDQC.US.0109.9565_CXDO-us-2024,ok,,4,0,0,0,0
 qwen2.5-coder-7b,DQC_0109,greedy,rollDQC.US.0109.9567_AEHR-us-2024,ok,,10,0,0,0,0,0,1180.0
 qwen2.5-coder-7b,DQC_0109,greedy,rollDQC.US.0109.9571_GURE-us-2023,ok,,2,0,0,2,0,2,1180.0
 qwen2.5-coder-7b,DQC_0109,greedy,rollDQC.US.0109.9572_AEHR-us-2024,ok,,5,0,0,0,0,0,1180.0
+qwen2.5-coder-7b,DQC_0179,greedy,DQC.US.0179.10139_BMNR-US-2025,ok,,1,0,0,0,0,0,748.6,stop,1308
+qwen2.5-coder-7b,DQC_0179,greedy,DQC.US.0179.10139_CK0001018164-us-2024,ok,,1,0,0,0,0,0,748.6,stop,1308
+qwen2.5-coder-7b,DQC_0179,greedy,DQC.US.0179.10139_JAKK-US-2025,ok,,1,0,0,0,0,0,748.6,stop,1308
+qwen2.5-coder-7b,DQC_0179,greedy,DQC.US.0179.10141_10Q_WHR-US-2024,ok,,0,1,0,0,0,0,748.6,stop,1308
+qwen2.5-coder-7b,DQC_0179,greedy,DQC.US.0179.10141_WHR-us-2024,ok,,1,0,0,0,0,0,748.6,stop,1308
+qwen2.5-coder-7b,DQC_0179,greedy,DQC.US.0179.10143_BXP-US-2025,ok,,6,0,0,0,0,0,748.6,stop,1308
+qwen2.5-coder-7b,DQC_0179,greedy,DQC.US.0179.10143_BXP-us-2024,ok,,8,0,0,0,0,0,748.6,stop,1308
+qwen2.5-coder-7b,DQC_0179,greedy,DQC.US.0179.10143_OLN-US-2024,ok,,1,0,0,0,0,0,748.6,stop,1308
+qwen2.5-coder-7b,DQC_0179,greedy,DQC.US.0179.10144_BTCC-us-2024,ok,,11,0,0,16,0,16,748.6,stop,1308
+qwen2.5-coder-7b,DQC_0179,greedy,DQC.US.0179.10144_EARN-US-2024,ok,,1,0,0,9,0,9,748.6,stop,1308
+qwen2.5-coder-7b,DQC_0179,greedy,DQC.US.0179.10144_GSL-US-2024,ok,,6,0,0,10,0,10,748.6,stop,1308
+qwen2.5-coder-7b,DQC_0179,greedy,DQC.US.0179.10144_GSL-US-2025,ok,,15,0,0,14,0,14,748.6,stop,1308
+qwen2.5-coder-7b,DQC_0179,greedy,DQC.US.0179.10144_LAPC-US-2025,ok,,11,0,0,22,0,22,748.6,stop,1308
+qwen2.5-coder-7b,DQC_0179,greedy,DQC.US.0179.10151_CCEC-US-2025,ok,,2,0,2,2,2,0,748.6,stop,1308
+qwen2.5-coder-7b,DQC_0179,greedy,DQC.US.0179.10151_NVEC-US-2026,ok,,2,0,2,2,2,0,748.6,stop,1308
+qwen2.5-coder-7b,DQC_0179,greedy,DQC.US.0179.10151_OGS-US-2025,ok,,2,0,2,2,2,0,748.6,stop,1308
+qwen2.5-coder-7b,DQC_0179,greedy,DQC.US.0179.10151_OLED-us-2024,ok,,2,0,2,2,2,0,748.6,stop,1308
+qwen2.5-coder-7b,DQC_0179,greedy,DQC.US.0179.10151_SBLK-US-2025,ok,,2,0,2,2,2,0,748.6,stop,1308
+qwen2.5-coder-7b,DQC_0179,greedy,rollDQC.US.0179.10140_HFWA-us-2024,ok,,45,0,45,18,10,8,748.6,stop,1308
+qwen2.5-coder-7b,DQC_0179,greedy,rollDQC.US.0179.10142_PCG-us-2024,ok,,2,0,0,0,0,0,748.6,stop,1308
+qwen2.5-coder-7b,DQC_0116,greedy,DQC.US.0116.9573_10KA_CEI-US-2024,ok,,4,0,0,0,0,0,146.8,stop,179
+qwen2.5-coder-7b,DQC_0116,greedy,DQC.US.0116.9573_10K_IQST-US-2025,ok,,1,0,0,0,0,0,146.8,stop,179
+qwen2.5-coder-7b,DQC_0116,greedy,DQC.US.0116.9573_10Q_COSM-US-2025,ok,,1,0,0,0,0,0,146.8,stop,179
+qwen2.5-coder-7b,DQC_0116,greedy,DQC.US.0116.9573_20F_SBLK-US-2024,ok,,1,0,0,0,0,0,146.8,stop,179
+qwen2.5-coder-7b,DQC_0116,greedy,DQC.US.0116.9573_6K_SBLK-US-2025,ok,,1,0,0,0,0,0,146.8,stop,179
+qwen2.5-coder-7b,DQC_0116,greedy,DQC.US.0116.9573_CEI-us-2024,ok,,2,0,0,0,0,0,146.8,stop,179
+qwen2.5-coder-7b,DQC_0116,greedy,DQC.US.0116.9573_COSM-US-2025,ok,,1,0,0,0,0,0,146.8,stop,179
+qwen2.5-coder-7b,DQC_0116,greedy,DQC.US.0116.9573_ESGH-US-2024,ok,,1,0,0,0,0,0,146.8,stop,179
+qwen2.5-coder-7b,DQC_0116,greedy,DQC.US.0116.9573_IQST-US-2025,ok,,1,0,0,0,0,0,146.8,stop,179
+qwen2.5-coder-7b,DQC_0116,greedy,DQC.US.0116.9573_POSAM_ESGH-US-2024,ok,,1,0,0,0,0,0,146.8,stop,179
+qwen2.5-coder-7b,DQC_0116,greedy,DQC.US.0116.9573_SBLK-US-2024,ok,,1,0,0,0,0,0,146.8,stop,179
+qwen2.5-coder-7b,DQC_0116,greedy,DQC.US.0116.9573_SBLK-US-2025,ok,,1,0,0,0,0,0,146.8,stop,179
+qwen2.5-coder-7b,DQC_0116,greedy,DQC.US.0116.9726_20F_PRFX-US-2025,ok,,1,0,0,0,0,0,146.8,stop,179
+qwen2.5-coder-7b,DQC_0116,greedy,DQC.US.0116.9726_PRFX-US-2025,ok,,1,0,0,0,0,0,146.8,stop,179
+qwen2.5-coder-7b,DQC_0116,greedy,DQC.US.0116.9726_S1_TPTG-US-2024,ok,,94,0,0,0,0,0,146.8,stop,179
+qwen2.5-coder-7b,DQC_0116,greedy,DQC.US.0116.9726_TPTW-us-2024,ok,,94,0,0,0,0,0,146.8,stop,179
+qwen2.5-coder-7b,DQC_0116,greedy,rollDQC.US.0116.9727_COSM-us-2024,ok,,5,0,0,0,0,0,146.8,stop,179
+qwen2.5-coder-7b,DQC_0013,greedy,DQC.US.0013.2781_EXC-us-2024,rejected,name not allowed: eval,2,0,0,0,0,0,232.4,stop,184
+qwen2.5-coder-7b,DQC_0013,greedy,DQC.US.0013_EXC-us-2023,rejected,name not allowed: eval,6,0,0,0,0,0,232.4,stop,184
+qwen2.5-coder-7b,DQC_0013,greedy,DQC.US.0013_FORR-us-2024,rejected,name not allowed: eval,1,0,0,0,0,0,232.4,stop,184
+qwen2.5-coder-7b,DQC_0013,greedy,DQC.US.0013_HOFT-us-2024,rejected,name not allowed: eval,1,0,0,0,0,0,232.4,stop,184
+qwen2.5-coder-7b,DQC_0013,greedy,DQC.US.0013_ICG_US-2024,rejected,name not allowed: eval,0,1,0,0,0,0,232.4,stop,184
+qwen2.5-coder-7b,DQC_0013,greedy,DQC.US.0013_JWN-us-2024,rejected,name not allowed: eval,3,0,0,0,0,0,232.4,stop,184
+qwen2.5-coder-7b,DQC_0013,greedy,DQC.US.0013_KMX_US-2025,rejected,name not allowed: eval,1,0,0,0,0,0,232.4,stop,184
+qwen2.5-coder-7b,DQC_0013,greedy,DQC.US.0013_SNAL-us-2024,rejected,name not allowed: eval,1,0,0,0,0,0,232.4,stop,184
+qwen2.5-coder-7b,DQC_0013,greedy,rollDQC.US.0013_CARE-us-2023,rejected,name not allowed: eval,5,0,0,0,0,0,232.4,stop,184
+qwen2.5-coder-7b,DQC_0013,greedy,rollDQC.US.0013_CODI-K-us-2024,rejected,name not allowed: eval,2,0,0,0,0,0,232.4,stop,184
+qwen2.5-coder-7b,DQC_0013,greedy,rollDQC.US.0013_CODI-Q-us-2024,rejected,name not allowed: eval,2,0,0,0,0,0,232.4,stop,184
+qwen2.5-coder-7b,DQC_0013,greedy,rollDQC.US.0013_FORR-us-2024,rejected,name not allowed: eval,1,0,0,0,0,0,232.4,stop,184
+qwen2.5-coder-7b,DQC_0013,greedy,rollDQC.US.0013_FSLR-us-2023,rejected,name not allowed: eval,1,0,0,0,0,0,232.4,stop,184
+qwen2.5-coder-7b,DQC_0013,greedy,rollDQC.US.0013_HOFT-us-2024,rejected,name not allowed: eval,1,0,0,0,0,0,232.4,stop,184
+qwen2.5-coder-7b,DQC_0013,greedy,rollDQC.US.0013_JWN-us-2024,rejected,name not allowed: eval,3,0,0,0,0,0,232.4,stop,184
+qwen2.5-coder-7b,DQC_0013,greedy,rollDQC.US.0013_SNAL-us-2024,rejected,name not allowed: eval,1,0,0,0,0,0,232.4,stop,184

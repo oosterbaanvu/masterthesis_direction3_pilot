@@ -13,6 +13,7 @@ from pathlib import Path
 
 import pandas as pd
 
+from dqstress.inject.diff import injected_keys
 from dqstress.rules.sandbox import run_rule
 from dqstress.sec.natural import gold_keys, load_gold
 from dqstress.sec.xbrl_instance import parse_instance
@@ -50,9 +51,10 @@ def main() -> None:
             for variant in variants.itertuples(index=False):
                 target = VARIANTS / variant.adsh / f"{variant.operator}_{variant.placement}.xml"
                 facts_path = Path(tmp) / "facts.parquet"
-                parse_instance(target).to_parquet(facts_path)
+                variant_facts = parse_instance(target)
+                variant_facts.to_parquet(facts_path)
                 flags, status = flags_for(code, facts_path)
-                injected = {(c["new_concept"] or c["concept"], c["context_ref"]) for c in json.loads(variant.injected)}
+                injected = injected_keys(pd.read_parquet(STORE / variant.adsh / "facts.parquet"), variant_facts)
                 new = flags - clean_flags.get(variant.adsh, set())
                 rows.append({"adsh": variant.adsh, "form": variant.form, "operator": variant.operator,
                              "placement": variant.placement, "applicable": True, "control": name,

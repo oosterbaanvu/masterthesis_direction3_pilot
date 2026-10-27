@@ -137,3 +137,11 @@ def test_registry_gate_never_approves_automatically(tmp_path):
     append(registry, {"rule_id": "r1", "status": "candidate"})
     append(registry, {"rule_id": "r1", "status": "approved", "approver": "reviewer"})
     assert current(registry)["r1"]["status"] == "approved"
+
+
+def test_injected_keys_recovers_changed_facts(instance, tmp_path):
+    from dqstress.inject.diff import injected_keys
+    target = tmp_path / "v.xml"
+    result = inject(instance, "sign_flip", 1, random.Random(0), target)
+    keys = injected_keys(parse_instance(instance), parse_instance(target))
+    assert keys == {(c["concept"], c["context_ref"]) for c in result.changes}

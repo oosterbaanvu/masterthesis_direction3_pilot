@@ -14,6 +14,8 @@ from pathlib import Path
 import pandas as pd
 
 from dqstress.dqc import run_official
+from dqstress.inject.diff import injected_keys
+from dqstress.sec.xbrl_instance import parse_instance
 from dqstress.sec.natural import gold_keys, load_gold
 from dqstress.splits import split_of
 
@@ -61,7 +63,7 @@ def main() -> None:
             target = folder / f"{variant.operator}.xml"
             shutil.copy(VARIANTS / filing.adsh / f"{variant.operator}_calibrated.xml", target)
             status, flags = run_official.run(target, folder / f"{variant.operator}.json")
-            injected = {(c["new_concept"] or c["concept"], c["context_ref"]) for c in json.loads(variant.injected)}
+            injected = injected_keys(pd.read_parquet(STORE / filing.adsh / "facts.parquet"), parse_instance(target))
             new = flag_set(flags) - flag_set(clean)
             rows.append({"adsh": filing.adsh, "form": filing.form, "operator": variant.operator, "placement": "calibrated",
                          "applicable": status == "ok", "control": "official_dqc", "new_flags": len(new),
