@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
 import time
 from dataclasses import dataclass
@@ -30,7 +31,10 @@ class Completion:
 
 
 class LocalModel:
-    def __init__(self, name: str, model_dir: Path, n_ctx: int = 12288, threads: int = 4):
+    def __init__(self, name: str, model_dir: Path, n_ctx: int = 12288, threads: int | None = None):
+        # llama.cpp threads busy-wait: more threads than free cores (e.g. while Arelle runs) slows generation
+        # down dramatically, so the thread count is configurable (DQ_LLM_THREADS).
+        threads = threads or int(os.environ.get("DQ_LLM_THREADS", "4"))
         self.name = name
         self.spec = MODELS[name]
         self.path = Path(model_dir) / self.spec["file"]
