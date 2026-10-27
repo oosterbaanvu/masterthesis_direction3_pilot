@@ -1,0 +1,6 @@
+# Raw data, third-party checkouts, model weights and environments stay local.
+data/
+.venv/
+__pycache__/
+*.egg-info/
+.pytest_cache/

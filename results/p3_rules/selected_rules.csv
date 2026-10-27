@@ -1,0 +1,19 @@
+rule,number,element_lists,title,release_date,effective_date,doc_chars,source_lines,required_inputs,source_year,tests_remote,tests_local,expected_outputs,cases,positive_cases,located,stratum
+DQC_0156,0156,,Basic and Diluted Extension Elements,2023-07-06,2023-09-01,2924,44.0,facts_only,2025.0,13,0,25,24,24,1.0,released_before_models
+DQC_0109,0109,,Concentration Risk,2021-06-29,2021-09-01,14428,337.0,facts_only,2025.0,10,4,20,20,19,1.0,released_before_models
+DQC_0179,0179,,Dividend Event Disclosures,2024-06-27,2024-08-31,10439,295.0,taxonomy_metadata,2025.0,17,2,20,20,20,1.0,released_before_models
+DQC_0116,0116,,Line Items Requiring the Asset Acquisition Axis,2021-06-29,2021-09-01,3031,245.0,facts_only,2025.0,8,1,17,17,17,1.0,released_before_models
+DQC_0013,0013,DQC_0013_ListOfElements.xlsx,Negative Values With Dependence,2016-09-29,2017-01-01,4919,85.0,facts_only,2025.0,8,8,16,16,16,1.0,released_before_models
+DQC_0014,0014,DQC_0014_ListOfElements.xlsx,Negative Values With No Dimensions,2016-09-29,2017-01-01,4281,38.0,facts_only,2025.0,6,10,16,16,16,1.0,released_before_models
+DQC_0011,0011,DQC_011_ListOfElements.xlsx,Dimensional Equivalents,2017-10-04,2018-01-01,3841,51.0,taxonomy_metadata,2025.0,9,6,15,15,15,1.0,released_before_models
+DQC_0009,0009,DQC_0009_ListOfElements.xlsx,Element A must be less than or equal to Element B,2015-11-19,2016-01-01,12104,403.0,facts_only,2025.0,8,1,11,11,11,1.0,released_before_models
+DQC_0091,0091,,Invalid Value for Percentage Items,2020-07-15,2020-09-01,2953,40.0,taxonomy_metadata,2025.0,5,0,10,10,10,1.0,released_before_models
+DQC_0124,0124,,Breakdown of Lease Liabilities & Assets Across Financial Statement Lines Items,2021-09-29,2021-12-01,5858,469.0,facts_only,2025.0,7,3,10,10,10,1.0,released_before_models
+DQC_0204,0204,,Invalid Axis used for Tangible and Intangible Assets,2025-06-18,2025-09-01,5066,129.0,facts_only,2025.0,9,2,13,13,13,1.0,released_after_models
+DQC_0212,0212,,Missing Shares Issued or Authorized Facts When Shares Outstanding Reported,2025-10-15,2025-12-15,4279,166.0,facts_only,2025.0,11,1,12,12,9,1.0,released_after_models
+DQC_0228,0228,,'Other' Concept Should Not Exceed Aggregate,2026-03-18,2026-06-01,3720,60.0,facts_only,2025.0,8,1,9,9,9,1.0,released_after_models
+DQC_0207,0207,,Invalid Subtotals in Schedule of Investments,2025-06-18,2025-09-01,8945,225.0,facts_only,2025.0,7,0,7,7,7,1.0,released_after_models
+DQC_0245,0245,,Consolidated Entities Axis in Statement Section,2026-10-07,2026-12-01,3922,49.0,facts_only,2025.0,7,0,7,7,7,1.0,released_after_models
+DQC_0238,0238,,Segment Reporting Text Block Used Without StatementBusinessSegmentsAxis,2026-06-29,2026-09-01,4028,43.0,facts_only,2025.0,4,0,5,5,5,1.0,released_after_models
+DQC_0234,0234,,Incorrect Use of IncomeTaxAuthorityAxis with Domestic Tax Reconciliation Concepts,2026-06-29,2026-09-01,5347,93.0,facts_only,2025.0,5,0,5,4,4,1.0,released_after_models
+DQC_0241,0241,,Incorrect Use of TransactionTypeAxis with Transaction Market Method Members,2026-06-29,2026-09-01,3682,44.0,facts_only,2023.0,1,0,2,2,2,1.0,released_after_models

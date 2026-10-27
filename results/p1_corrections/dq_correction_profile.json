@@ -1,0 +1,42 @@
+{
+  "source": "SEC FSDS 2023q1-2025q2, amendments with purpose targeted_fix or xbrl_fix",
+  "filings": 133,
+  "facts": 3370,
+  "share_of_filings_by_type": {
+    "other_value": 0.812,
+    "period_move": 0.053,
+    "retag": 0.496,
+    "scale": 0.03,
+    "sign_flip": 0.173,
+    "zero_change": 0.113
+  },
+  "facts_per_filing_median": 14.0,
+  "top_tags": {
+    "StockholdersEquity": 276,
+    "DebtAndEquitySecuritiesUnrealizedGainLoss": 171,
+    "NetIncomeLoss": 156,
+    "EarningsPerShareBasic": 85,
+    "EarningsPerShareDiluted": 79,
+    "OperatingIncomeLoss": 75,
+    "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest": 70,
+    "RetainedEarningsAccumulatedDeficit": 70,
+    "Revenues": 60,
+    "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest": 58,
+    "OperatingExpenses": 57,
+    "ProfitLoss": 53,
+    "Liabilities": 51,
+    "LiabilitiesCurrent": 50,
+    "GeneralAndAdministrativeExpense": 42,
+    "LiabilitiesAndStockholdersEquity": 42,
+    "Assets": 40,
+    "ComprehensiveIncomeNetOfTax": 40,
+    "AssetsCurrent": 35,
+    "NetCashProvidedByUsedInOperatingActivities": 35,
+    "GrossProfit": 28,
+    "RevenueFromContractWithCustomerExcludingAssessedTax": 27,
+    "IncreaseDecreaseInAccountsReceivable": 27,
+    "StockIssuedDuringPeriodValueNewIssues": 25,
+    "AdditionalPaidInCapital": 25
+  },
+  "share_current_vs_prior_period": null
+}

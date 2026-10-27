@@ -1,0 +1,39 @@
+{
+  "quarters": [
+    "2023q1",
+    "2023q2",
+    "2023q3",
+    "2023q4",
+    "2024q1",
+    "2024q2",
+    "2024q3",
+    "2024q4",
+    "2025q1",
+    "2025q2"
+  ],
+  "submissions": 68875,
+  "amendments_10K_10Q": 1650,
+  "paired_amendments": 1294,
+  "unmatched_amendments": 356,
+  "pairs_by_kind": {
+    "full_refiling": 1277,
+    "partial_amendment": 17
+  },
+  "full_refilings_with_numeric_change": 631,
+  "full_refilings_with_retag": 326,
+  "full_refilings_with_period_move": 36,
+  "corrections_by_type": {
+    "fact_added": 101318,
+    "other_value": 22897,
+    "fact_removed": 13647,
+    "retag": 2234,
+    "precision": 1562,
+    "nil_change": 897,
+    "zero_change": 537,
+    "sign_flip": 299,
+    "scale": 202,
+    "period_move": 122,
+    "scale_and_sign": 4
+  },
+  "control_filings": 600
+}

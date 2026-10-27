@@ -1,0 +1,186 @@
+rule,number,element_lists,title,release_date,effective_date,doc_chars,source_lines,required_inputs,source_year,tests_remote,tests_local,expected_outputs
+DQC_0001,0001,DQC_0001_ListOfAxes.xlsx,Axis with Inappropriate Members,2016-09-29,2017-03-28,13927,1353.0,dts_relationships,2025,8,18,27
+DQC_0004,0004,,Element Values Are Equal,2015-11-19,2016-01-01,11024,663.0,dts_relationships,2025,5,10,15
+DQC_0005,0005,,Context Dates After Period End Date,2015-11-19,2016-01-01,10057,117.0,facts_only,2025,3,2,5
+DQC_0006,0006,,DEI and Block Tag Date Contexts,,,4608,80.0,facts_only,2025,0,1,1
+DQC_0008,0008,,Reversed Calculation,,,4628,42.0,dts_relationships,2025,4,0,4
+DQC_0009,0009,DQC_0009_ListOfElements.xlsx,Element A must be less than or equal to Element B,2015-11-19,2016-01-01,12104,403.0,facts_only,2025,8,1,11
+DQC_0011,0011,DQC_011_ListOfElements.xlsx,Dimensional Equivalents,2017-10-04,2018-01-01,3841,51.0,taxonomy_metadata,2025,9,6,15
+DQC_0013,0013,DQC_0013_ListOfElements.xlsx,Negative Values With Dependence,2016-09-29,2017-01-01,4919,85.0,facts_only,2025,8,8,16
+DQC_0014,0014,DQC_0014_ListOfElements.xlsx,Negative Values With No Dimensions,2016-09-29,2017-01-01,4281,38.0,facts_only,2025,6,10,16
+DQC_0015,0015,DQC_0015_ListOfElements.xlsx;DQC_0015_MemberExclusions.xlsx,Negative Values,2015-11-19,2016-01-01,25002,46.0,facts_only,2025,0,4,4
+DQC_0018,0018,,Deprecated element is used in the filing,2016-09-29,2017-01-01,2715,60.0,dts_relationships,2025,7,0,7
+DQC_0033,0033,,Document Period End Date Context,,,3161,54.0,facts_only,2025,3,0,3
+DQC_0036,0036,,Document Period End Date Context / Fact Value Check,,,2813,35.0,facts_only,2025,0,1,1
+DQC_0041,0041,,Axis with a Default Member that Differs from the Base Taxonomy,,,3367,55.0,dts_relationships,2025,3,0,3
+DQC_0043,0043,,Incorrect Calculation Weights in Operating Cash Flows,2017-10-04,2018-06-01,10338,217.0,dts_relationships,2025,7,2,9
+DQC_0044,0044,,Accrual Items used in Investing/Financing Cash flow Reconciliation,2017-10-04,2018-06-01,5916,89.0,facts_only,2025,2,0,2
+DQC_0045,0045,,Movement of Concepts between Calculation Trees,2017-10-04,2018-06-01,3820,119.0,facts_only,2025,1,2,3
+DQC_0046,0046,,Inappropriate Calculation Descendent,2017-10-04,2018-06-01,4578,165.0,dts_relationships,2025,1,1,2
+DQC_0047,0047,,Calculation Descendants with No Balance Type,2017-10-04,2018-06-01,3626,43.0,dts_relationships,2025,1,0,1
+DQC_0048,0048,,Required Calculation Parent Element in the Cash Flow Statement,2017-10-04,2018-06-01,7123,105.0,taxonomy_metadata,2025,6,0,6
+DQC_0049,0049,,Single Calculation Tree for Change in Cash Flows,2017-10-04,2018-06-01,6283,54.0,taxonomy_metadata,2025,0,0,0
+DQC_0051,0051,,Before Tax Items,2017-10-04,2018-06-01,4430,96.0,dts_relationships,2025,1,2,3
+DQC_0052,0052,,Member Values,2017-10-04,2018-06-01,3174,38.0,facts_only,2025,0,1,1
+DQC_0053,0053,,Excluded Members from an Axis,2017-10-04,2018-06-01,4358,52.0,dts_relationships,2025,0,0,0
+DQC_0054,0054,,Excluded Dimensions from a Table,2017-10-04,2018-06-01,3463,71.0,facts_only,2025,0,1,1
+DQC_0055,0055,,Required Member on An Axis,2017-10-04,2018-06-01,5110,158.0,dts_relationships,2025,1,3,4
+DQC_0057,0057,,Cash Flow Opening and Closing Balances,2017-10-04,2018-06-01,4241,109.0,taxonomy_metadata,2025,1,1,2
+DQC_0060,0060,,Element Dependence for Specific Elements,2017-10-04,2018-06-01,4329,137.0,facts_only,2025,2,1,3
+DQC_0061,0061,,Cash Flow Continuing Operations Elements not Used,2017-10-04,2018-06-01,5483,102.0,dts_relationships,2025,1,2,3
+DQC_0062,0062,,No Fact Value for Change in Cash,2017-10-04,2018-06-01,6759,,,,0,1,1
+DQC_0065,0065,,Interest Paid Net (Operating) Not on Cash Flow,2017-10-04,2018-06-01,3308,80.0,dts_relationships,2025,4,1,5
+DQC_0067,0067,,Mutually Exclusive Elements,2018-10-10,2019-01-01,5826,56.0,facts_only,2025,0,1,1
+DQC_0068,0068,,Geographical Axis Used with Pension Line Items,2018-10-10,2019-01-01,3507,39.0,facts_only,2025,0,1,1
+DQC_0069,0069,,Plan Asset Categories Component Members,2018-10-10,2019-01-01,8022,102.0,dts_relationships,2025,0,0,0
+DQC_0070,0070,,Plan Asset Dimensional Aggregation,2018-10-10,2019-01-01,8599,116.0,dts_relationships,2025,0,1,1
+DQC_0071,0071,,Revenue/Cost Single Member,2018-10-10,2019-01-01,5563,64.0,dts_relationships,2025,0,1,1
+DQC_0072,0072,,Plan Asset Categories Percentage,2018-10-10,2019-01-01,5590,52.0,dts_relationships,2025,0,0,0
+DQC_0073,0073,,Plan Asset Categories Allowed Line Items,2018-10-10,2019-01-01,6642,82.0,facts_only,2025,3,0,3
+DQC_0074,0074,,Nil Values on Typed Axis,2018-10-10,2019-01-01,3425,42.0,taxonomy_metadata,2025,1,0,1
+DQC_0076,0076,,Performance Obligations With No Durations,2018-10-10,2019-01-01,4280,46.0,facts_only,2025,0,1,1
+DQC_0077,0077,,Satisfaction Period With No Satisfaction Start Date Axis,2018-10-10,2019-01-01,3670,52.0,facts_only,2025,1,0,1
+DQC_0078,0078,,Ownership Interest With No Ownership Axis,2018-10-10,2019-01-01,3509,50.0,facts_only,2025,0,1,1
+DQC_0079,0079,,Extension Members,2019-02-13,2019-05-08,3162,51.0,facts_only,2025,4,0,8
+DQC_0081,0081,,Sibling and Child Relationships,2019-07-15,2019-09-30,15844,260.0,dts_relationships,2025,13,2,26
+DQC_0082,0082,,Disaggregation by Variable Interest Elements (VIE),2019-10-01,2020-03-31,4145,45.0,facts_only,2024,0,0,0
+DQC_0083,0083,,Consolidated Variable Interest Entities (VIE),2019-10-01,2020-03-31,3784,102.0,taxonomy_metadata,2024,0,0,0
+DQC_0084,0084,,Durational Aggregation,2019-10-01,2020-01-01,5335,107.0,taxonomy_metadata,2025,1,0,1
+DQC_0085,0085,,Deferred Tax Assets & Liabilities,2020-02-12,2020-05-15,11830,279.0,dts_relationships,2025,4,4,8
+DQC_0086,0086,,Transition Tax Elements,2020-02-12,2020-05-15,2728,42.0,facts_only,2025,0,0,0
+DQC_0087,0087,,Breakdown of Operating Lease liabilities across Financial Statement Lines Items,2020-02-12,2020-05-15,5839,267.0,facts_only,2025,0,3,3
+DQC_0088,0088,,Operating Lease Cost And Expense,2023-10-05,2023-12-01,3335,74.0,dts_relationships,2025,1,1,3
+DQC_0089,0089,,Invalid Elements Used On Range Axis,2020-02-12,2020-05-15,3160,43.0,facts_only,2025,0,0,0
+DQC_0090,0090,,Incorrect Calculation of Operating Lease Liability Payments Due,2020-02-12,2020-05-15,5361,154.0,dts_relationships,2025,0,2,2
+DQC_0091,0091,,Invalid Value for Percentage Items,2020-07-15,2020-09-01,2953,40.0,taxonomy_metadata,2025,5,0,10
+DQC_0094,0094,,US Maturity Schedules,2020-07-15,2020-09-01,5776,90.0,facts_only,2025,0,2,2
+DQC_0095,0095,,Scale - Common Stock Outstanding,2020-07-15,2020-09-01,2510,60.0,taxonomy_metadata,2025,1,0,1
+DQC_0098,0098,,Liability Revenue Recognized,2020-10-07,2021-01-01,5904,90.0,facts_only,2025,0,2,2
+DQC_0099,0099,,FS with No Associated Calculation,2020-10-07,2021-01-01,7482,150.0,dts_relationships,2025,0,1,1
+DQC_0100,0100,,Invalid Consolidation Axis,2020-10-07,2021-01-01,2690,34.0,facts_only,2024,0,0,0
+DQC_0107,0107,,General Text Block,2021-06-29,2021-09-01,3581,37.0,facts_only,2025,0,0,0
+DQC_0108,0108,,Fact Value Consistency Over Time,2021-06-29,2021-09-01,4345,106.0,taxonomy_metadata,2025,9,1,10
+DQC_0109,0109,,Concentration Risk,2021-06-29,2021-09-01,14428,337.0,facts_only,2025,10,4,20
+DQC_0110,0110,,Missing Business Acquisition Axis (Short Period),2021-06-29,2021-09-01,3123,53.0,facts_only,2025,0,1,2
+DQC_0112,0112,,Line Items Requiring the Business Acquisition Axis,2021-06-29,2021-09-01,5061,69.0,facts_only,2025,0,1,1
+DQC_0113,0113,,Gross Acquisition Less Than Net Acquisition,2021-06-29,2021-09-01,2920,55.0,facts_only,2025,2,0,2
+DQC_0114,0114,,Assets Acquired Net of Goodwill,2021-06-29,2021-09-01,3604,66.0,facts_only,2025,0,1,1
+DQC_0116,0116,,Line Items Requiring the Asset Acquisition Axis,2021-06-29,2021-09-01,3031,245.0,facts_only,2025,8,1,17
+DQC_0117,0117,,Financial Statement Tables Dimensional Cross Check,2021-09-29,2021-12-01,10629,290.0,dts_relationships,2025,1,1,6
+DQC_0118,0118,,Financial Statement Tables Calculation Check of Required Context,2021-09-29,2021-12-01,7042,204.0,dts_relationships,2025,1,0,1
+DQC_0119,0119,,Income Before Tax Equity Method,2021-09-29,2021-12-01,6008,78.0,dts_relationships,2025,0,1,1
+DQC_0120,0120,,Incorrect Line Item Reference,2021-09-29,2021-12-01,4530,60.0,dts_relationships,2025,0,1,1
+DQC_0121,0121,,Incorrect Transition Elements Used,2021-09-29,2021-12-01,6912,138.0,taxonomy_metadata,2025,7,0,7
+DQC_0122,0122,,Components of Equity on the Balance Sheet,2021-09-29,2021-12-01,5186,67.0,taxonomy_metadata,2025,0,1,1
+DQC_0123,0123,,Missing Components of Equity Axis,2021-09-29,2021-12-01,4644,44.0,facts_only,2025,4,0,8
+DQC_0124,0124,,Breakdown of Lease Liabilities & Assets Across Financial Statement Lines Items,2021-09-29,2021-12-01,5858,469.0,facts_only,2025,7,3,10
+DQC_0125,0125,,Lease Cost Cannot be Negative,2022-01-19,2022-05-01,2576,48.0,facts_only,2025,0,0,0
+DQC_0131,0131,,Lease Allocation in Balance Sheet,2022-01-19,2022-05-01,2913,72.0,facts_only,2025,0,1,1
+DQC_0132,0132,,Operating Lease Amortization,2022-01-19,2022-05-01,4180,75.0,taxonomy_metadata,2025,1,0,1
+DQC_0133,0133,,Equity Method Investment Reporting,2022-06-29,2022-09-01,8154,102.0,facts_only,2025,1,2,3
+DQC_0134,0134,,Investment Schedule - Financial Instrument Axis,2022-06-29,2022-09-01,6685,71.0,facts_only,2025,0,1,1
+DQC_0135,0135,,Extensible Enumerations for Financial Statement Captions,2022-06-29,2022-09-01,12432,310.0,dts_relationships,2025,1,1,2
+DQC_0136,0136,,Caption Value Matches Financial Statements,2022-06-29,2022-09-01,3518,67.0,facts_only,2025,0,1,1
+DQC_0137,0137,,Location Axis with a Single Member,2022-06-29,2022-09-01,3862,70.0,taxonomy_metadata,2025,0,1,1
+DQC_0139,0139,,Bank Ratios - Scale Issues,2022-09-21,2022-12-01,11588,201.0,facts_only,2025,1,4,5
+DQC_0140,0140,,Investment Schedule Cross Calc,2022-09-21,2022-12-01,7565,296.0,dts_relationships,2025,1,1,2
+DQC_0141,0141,,Inconsistent Accrued Interest Elements,2022-09-21,2022-12-01,4039,87.0,dts_relationships,2025,0,1,1
+DQC_0142,0142,,Typed Dimension Axis Restriction,2023-01-25,2023-03-31,3796,51.0,facts_only,2025,3,0,3
+DQC_0143,0143,,Derivative Position Extensible Enumeration,2023-01-25,2023-03-31,2192,43.0,facts_only,2025,0,0,0
+DQC_0144,0144,,No Balance Attribute in Financial Statements,2023-01-25,2023-03-31,2563,50.0,dts_relationships,2025,1,0,1
+DQC_0145,0145,,Inappropriate Cash Flow Presentation,2023-01-25,2023-03-31,5163,99.0,dts_relationships,2025,1,2,3
+DQC_0146,0146,,Incorrect Period Reported,2023-01-25,2023-03-31,2844,68.0,taxonomy_metadata,2025,1,0,1
+DQC_0147,0147,,Incorrect Sign of Elimination Items,2023-01-25,2023-03-31,3289,42.0,facts_only,2025,0,1,1
+DQC_0148,0148,,OCI Items In Income & Income in OCI,2023-07-06,2023-09-01,3583,68.0,dts_relationships,2025,0,2,3
+DQC_0149,0149,,Use of Noncurrent Assets,2023-07-06,2023-09-01,4123,74.0,dts_relationships,2025,0,1,1
+DQC_0150,0150,,Segment Reporting Inconsistencies,2023-07-06,2023-09-01,10477,325.0,dts_relationships,2025,1,3,4
+DQC_0152,0152,,Year List Items Used with Tax Period Axis,2024-01-16,2024-05-16,2563,38.0,taxonomy_metadata,2025,0,1,1
+DQC_0153,0153,,Financial Statements Table Placement,2023-07-06,2023-09-01,2821,50.0,dts_relationships,2025,0,1,1
+DQC_0154,0154,,Tax Reconciliation Items,2023-07-06,2023-09-01,5264,175.0,taxonomy_metadata,2025,5,2,8
+DQC_0155,0155,,Exchange Rate Effect Inconsistency,2023-07-06,2023-09-01,3816,50.0,dts_relationships,2025,0,1,1
+DQC_0156,0156,,Basic and Diluted Extension Elements,2023-07-06,2023-09-01,2924,44.0,facts_only,2025,13,0,25
+DQC_0157,0157,,Bank Measures Less than One Percent,2023-07-06,2023-09-01,2178,44.0,facts_only,2025,0,0,0
+DQC_0158,0158,,Related and Nonrelated Party Axis and Extensible Enumerations,2023-07-06,2023-09-01,4342,63.0,facts_only,2025,1,0,1
+DQC_0159,0159,,Financial Statement Abstract Concepts,2023-10-05,2023-12-01,3119,69.0,facts_only,2025,1,0,2
+DQC_0160,0160,,Descendants of NonrelatedPartyMember,2023-10-05,2023-12-01,3121,69.0,dts_relationships,2025,0,0,0
+DQC_0161,0161,,Single Member Disaggregation,2023-10-05,2023-12-01,4103,66.0,dts_relationships,2025,0,1,1
+DQC_0162,0162,,Trading Symbol,2023-10-05,2023-12-01,3179,66.0,facts_only,2025,4,0,7
+DQC_0163,0163,,Segment Expenditure Addition To Long Lived Assets,2023-10-05,2023-12-01,3574,50.0,dts_relationships,2025,0,1,1
+DQC_0164,0164,,Use of Location Axis,2023-10-05,2023-12-01,6129,165.0,dts_relationships,2025,1,2,3
+DQC_0165,0165,,Useful Life of Leasehold Improvements,2023-10-05,2023-12-01,3815,42.0,facts_only,2025,0,0,0
+DQC_0167,0167,,Inconsistent Calculation Roots,2024-01-16,2024-05-16,2981,166.0,dts_relationships,2025,0,3,3
+DQC_0168,0168,,Tax Reconciliation Calculation,2024-01-16,2024-05-16,3868,129.0,dts_relationships,2025,15,0,23
+DQC_0169,0169,,Calculation in the Parenthetical Disclosure,2024-01-16,2024-05-16,2279,45.0,taxonomy_metadata,2025,0,1,1
+DQC_0170,0170,,ECD Rule 10b51 Flag Disclosures,2024-01-16,2024-05-16,2132,133.0,facts_only,2025,9,0,9
+DQC_0171,0171,,ASU 201613 Transition Elements,2024-01-16,2024-05-16,3842,75.0,facts_only,2025,10,0,10
+DQC_0174,0174,,Conditional NonNegs,2023-10-05,2023-12-01,2914,43.0,facts_only,2025,0,0,0
+DQC_0175,0175,,Litigation Settlement Roll Forward Elements,2024-01-16,2024-05-16,2746,44.0,dts_relationships,2025,0,0,0
+DQC_0176,0176,,US-GAAP Elements used in IFRS Filings,2024-01-16,2024-05-16,2957,,,,0,0,0
+DQC_0177,0177,,Addition of PEO and Nonpeo Compensation Adjustments,2024-01-16,2024-05-16,9728,186.0,dts_relationships,2025,10,1,11
+DQC_0178,0178,,Dividend Disclosures in the Statement of Changes in Shareholders Equity,2024-06-27,2024-08-31,19575,333.0,facts_only,2025,5,5,12
+DQC_0179,0179,,Dividend Event Disclosures,2024-06-27,2024-08-31,10439,295.0,taxonomy_metadata,2025,17,2,20
+DQC_0180,0180,,Dividend Financial Statement Disclosures,2024-06-27,2024-08-31,6352,170.0,facts_only,2025,1,0,2
+DQC_0181,0181,,Interest Expense Operating and Nonoperating,2024-06-27,2024-08-31,4059,87.0,dts_relationships,2025,12,1,23
+DQC_0182,0182,,Dimensional Equivalents Using the Meta Taxonomy,2024-06-27,2024-08-31,2525,73.0,dts_relationships,2025,0,1,1
+DQC_0183,0183,,Face Financial Statement Location using the Accrual Axis,2024-06-27,2024-08-31,4346,127.0,taxonomy_metadata,2025,0,4,4
+DQC_0184,0184,,OCI Reconciliation of Before Tax and Net of Tax OCI Items,2024-06-27,2024-08-31,4515,126.0,dts_relationships,2025,1,0,1
+DQC_0185,0185,,Reconciliation in Schedule Of Unrecognized Tax Benefits Roll Forward Table Text Block,2024-06-27,2024-08-31,1970,94.0,facts_only,2025,1,0,4
+DQC_0187,0187,,Property Plant and Equipment Calculation,2024-06-27,2024-08-31,5294,274.0,dts_relationships,2025,0,3,3
+DQC_0188,0188,,ECD Adjustment Member Check,2024-06-27,2024-08-31,1793,48.0,dts_relationships,2025,0,0,0
+DQC_0189,0189,,Single Member Disaggregation,2024-07-15,2024-08-31,4042,63.0,dts_relationships,2025,0,1,1
+DQC_0190,0190,,Employee Benefit Reporting,2024-09-25,2024-11-30,7643,614.0,dts_relationships,2025,19,1,23
+DQC_0191,0191,,Proxy - PEO Concepts Recorded with NEO Member,2024-09-25,2024-11-30,1422,48.0,taxonomy_metadata,2025,0,1,1
+DQC_0192,0192,,Balance Sheet Numerical Scaling,2024-09-25,2024-11-30,1723,82.0,dts_relationships,2025,0,0,0
+DQC_0193,0193,,Standard Dividend Member Name,2024-06-27,2024-11-30,2794,64.0,facts_only,2025,4,0,4
+DQC_0194,0194,,Negative Values for  Members on the Statement of Equity Components Axis,2025-02-28,2025-04-15,2117,273.0,facts_only,2025,11,2,13
+DQC_0195,0195,,Facts using an invalid member with the Equity Components Axis,2025-02-28,2025-04-15,6563,494.0,facts_only,2025,9,5,14
+DQC_0196,0196,,Opening and Closing Balances on the Statement of Shareholders Equity,2025-02-28,2025-04-15,8532,450.0,taxonomy_metadata,2025,0,7,7
+DQC_0197,0197,,Income Statement Items used on The Changes in Shareholders Equity,2025-02-28,2025-04-15,2180,81.0,dts_relationships,2025,0,1,1
+DQC_0198,0198,,Tax Reconciliation Percentage and Monetary Disclosures,2025-02-28,2025-09-01,7965,247.0,facts_only,2025,2,1,3
+DQC_0199,0199,,BDC Reports Include Interest Rates and Maturity Dates,2025-02-28,2027-03-31,3879,77.0,facts_only,2025,12,0,12
+DQC_0200,0200,,Income Statement Location Axis with Instant Elements,2025-02-28,2025-04-15,1841,43.0,taxonomy_metadata,2025,9,0,15
+DQC_0201,0201,,Private Company Concepts,2025-02-28,2025-04-15,1448,44.0,taxonomy_metadata,2025,1,0,1
+DQC_0202,0202,,Cyber Taxonomy Disclosures,2025-02-28,2025-04-15,1552,41.0,taxonomy_metadata,2025,5,0,5
+DQC_0203,0203,,Income Tax Authority Axis with Invalid Members,,,1400,,,,0,0,0
+DQC_0204,0204,,Invalid Axis used for Tangible and Intangible Assets,2025-06-18,2025-09-01,5066,129.0,facts_only,2025,9,2,13
+DQC_0205,0205,,Invalid Member used on Balance Sheet Location Axis,2025-04-15,,2571,,,,0,0,0
+DQC_0206,0206,,Invalid Member used on Disaggregation Of Income Statement Expense Caption Axis,2025-06-18,2025-09-01,2042,51.0,taxonomy_metadata,2025,1,0,1
+DQC_0207,0207,,Invalid Subtotals in Schedule of Investments,2025-06-18,2025-09-01,8945,225.0,facts_only,2025,7,0,7
+DQC_0208,0208,,Subtotals match Extensible Enumerations in the Schedule of Investments,2026-03-18,2026-06-01,5478,110.0,dts_relationships,2025,4,0,4
+DQC_0209,0209,,Missing Extensible Enumeration Elements on the Schedule of Investments,,,426,8.0,facts_only,2025,0,0,0
+DQC_0210,0210,,Missing Investment Identifier Axis,2025-06-18,2025-09-01,1953,46.0,taxonomy_metadata,2025,1,0,1
+DQC_0211,0211,,Missing Fact Value for Extensible Enumeration,2025-06-18,2025-09-01,2557,51.0,dts_relationships,2025,1,0,1
+DQC_0212,0212,,Missing Shares Issued or Authorized Facts When Shares Outstanding Reported,2025-10-15,2025-12-15,4279,166.0,facts_only,2025,11,1,12
+DQC_0213,0213,,Missing Calculation Children for Key Balance Sheet Items,2025-10-15,2025-12-15,2789,62.0,dts_relationships,2025,1,0,1
+DQC_0214,0214,,Missing Equity Concepts in Balance Sheet Calculation,2025-10-15,2025-12-15,2801,77.0,dts_relationships,2025,0,1,1
+DQC_0215,0215,,Extension Element Name Matches US GAAP Element,2025-10-15,2025-12-15,2152,49.0,facts_only,2025,1,0,1
+DQC_0216,0216,,Improper Use of Extension Geography Members on StatementGeographicalAxis,2025-10-15,2025-12-15,3082,93.0,dts_relationships,2025,2,0,2
+DQC_0217,0217,,Improper Use of Notional Amount Concepts with InvestmentIdentifierAxis,2025-10-15,2025-12-15,3405,48.0,facts_only,2025,0,0,0
+DQC_0218,0218,,Missing InvestmentIssuerAffiliationExtensibleEnumeration on the Schedule of Investments,,,444,8.0,facts_only,2025,0,0,0
+DQC_0219,0219,,Missing Value for NonInvestmentAssetsLessNonInvestmentLiabilities,2025-10-15,2025-12-15,3216,66.0,dts_relationships,2025,0,0,0
+DQC_0220,0220,,Improper Use of StatementTable in Notes Disclosures,2025-10-15,2025-12-15,2042,44.0,facts_only,2025,1,0,1
+DQC_0221,0221,,Missing NumberOfReportableSegments When Segment Facts Are Reported,2025-10-15,2025-12-15,2433,47.0,facts_only,2025,1,0,1
+DQC_0222,0222,,Scaling Error in EntityPublicFloat,2025-10-15,2025-12-15,2797,74.0,dts_relationships,2025,1,0,1
+DQC_0225,0225,,Prohibited Recognition and Derecognition Items on Income Statement,2026-03-18,2026-06-01,3969,352.0,taxonomy_metadata,2025,0,0,0
+DQC_0226,0226,,US GAAP Elements Used in Employee Benefit Plan Filings,2026-03-18,2026-06-01,2686,41.0,facts_only,2025,1,0,1
+DQC_0227,0227,,Calculated Ratio Consistency Checks,2026-03-18,2026-06-01,5557,126.0,dts_relationships,2025,0,0,1
+DQC_0228,0228,,'Other' Concept Should Not Exceed Aggregate,2026-03-18,2026-06-01,3720,60.0,facts_only,2025,8,1,9
+DQC_0229,0229,,Multiple 'Other' Concepts in a Calculation Network,,,3920,,,,0,0,0
+DQC_0230,0230,,Disallowed 'Other' Concepts in Calculation Networks,2026-03-18,2026-06-01,4304,58.0,dts_relationships,2025,6,0,6
+DQC_0231,0231,,Aggregate and 'Other' Concepts Appearing as Siblings in Calculation Networks,2026-03-18,2026-06-01,4242,45.0,dts_relationships,2025,0,1,1
+DQC_0233,0233,,Incorrect Use of ScenarioAdjustmentMember for Accounting Standard Updates,2026-06-29,2026-09-01,4514,53.0,facts_only,2025,0,0,0
+DQC_0234,0234,,Incorrect Use of IncomeTaxAuthorityAxis with Domestic Tax Reconciliation Concepts,2026-06-29,2026-09-01,5347,93.0,facts_only,2025,5,0,5
+DQC_0235,0235,,Incorrect Use of CollateralAxis with Repurchase Agreement and Securities Loaned Concepts,2026-06-29,2026-09-01,4369,,,,0,0,0
+DQC_0236,0236,,Domestic Tax Jurisdiction Without Other Jurisdiction Breakdown,2026-06-29,2026-09-01,3652,45.0,facts_only,2025,0,0,0
+DQC_0237,0237,,Location Balance Axis Member Not Present in Face Financial Statements,2026-06-29,2026-09-01,4545,,,,8,0,8
+DQC_0238,0238,,Segment Reporting Text Block Used Without StatementBusinessSegmentsAxis,2026-06-29,2026-09-01,4028,43.0,facts_only,2025,4,0,5
+DQC_0239,0239,,Capitalized Computer Software Concepts Incorrectly Tagged with FiniteLivedIntangibleAssetsByMajorClassAxis,2026-06-29,2026-09-01,4329,42.0,facts_only,2025,1,0,1
+DQC_0241,0241,,Incorrect Use of TransactionTypeAxis with Transaction Market Method Members,2026-06-29,2026-09-01,3682,44.0,facts_only,2023,1,0,2
+DQC_0242,0242,,Software-to-be-Sold Not Using Dedicated Capitalized Software Concepts,2026-06-29,2026-09-01,5438,52.0,facts_only,2025,1,0,1
+DQC_0243,0243,,Inappropriate Use of ConsolidationItemsAxis with Cash Flow and Equity Concepts,2026-06-29,2026-09-01,6383,86.0,dts_relationships,2025,3,0,3
+DQC_0245,0245,,Consolidated Entities Axis in Statement Section,2026-10-07,2026-12-01,3922,49.0,facts_only,2025,7,0,7
+DQC_0246,0246,,Investment Identifier Axis Key Validation,2026-10-07,2027-03-01,13115,,,,0,0,0
+DQC_0248,0248,,11-K Filing Cover Page Tagging with Legal Entity Axis,2026-10-07,2026-12-01,3580,56.0,facts_only,2025,0,0,0
+DQC_0249,0249,,Single Member Extensible Enumeration Axis Used Without Aggregate Value,2026-10-07,2026-12-01,7311,79.0,dts_relationships,2025,6,0,6
+DQC_0250,0250,,Members Used Across Incompatible Dimension Classes,2026-10-07,2026-12-01,6767,85.0,dts_relationships,2025,0,0,0
+DQC_0252,0252,,Identifier Axis Required on Schedule of Investments Tables,2026-10-07,2026-12-01,5217,223.0,taxonomy_metadata,2025,0,0,0

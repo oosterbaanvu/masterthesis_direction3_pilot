@@ -1,0 +1,56 @@
+level,purpose,facts,filings
+L1 completeness (fact dropped in amendment),no_note,1678,61
+L1 completeness (fact dropped in amendment),non_financial,1792,91
+L1 completeness (fact dropped in amendment),restatement,7108,295
+L1 completeness (fact dropped in amendment),targeted_fix,2440,104
+L1 completeness (fact dropped in amendment),unclear,599,24
+L1 completeness (fact dropped in amendment),xbrl_fix,30,6
+L1 completeness (fact missing in original),no_note,2976,64
+L1 completeness (fact missing in original),non_financial,8670,106
+L1 completeness (fact missing in original),restatement,78188,381
+L1 completeness (fact missing in original),targeted_fix,8395,122
+L1 completeness (fact missing in original),unclear,2949,30
+L1 completeness (fact missing in original),xbrl_fix,140,6
+L1 completeness (nil value filled or emptied),no_note,44,8
+L1 completeness (nil value filled or emptied),non_financial,245,23
+L1 completeness (nil value filled or emptied),restatement,290,66
+L1 completeness (nil value filled or emptied),targeted_fix,195,38
+L1 completeness (nil value filled or emptied),unclear,120,7
+L1 completeness (nil value filled or emptied),xbrl_fix,3,1
+L2 sign,no_note,33,14
+L2 sign,non_financial,25,13
+L2 sign,restatement,172,48
+L2 sign,targeted_fix,51,22
+L2 sign,unclear,21,5
+L2 sign,xbrl_fix,1,1
+L3 scale (power of ten),no_note,9,6
+L3 scale (power of ten),non_financial,6,4
+L3 scale (power of ten),restatement,107,24
+L3 scale (power of ten),targeted_fix,70,4
+L3 scale (power of ten),unclear,10,2
+L4/L6 changed amount,no_note,925,51
+L4/L6 changed amount,non_financial,2155,57
+L4/L6 changed amount,restatement,16080,365
+L4/L6 changed amount,targeted_fix,2639,106
+L4/L6 changed amount,unclear,1089,28
+L4/L6 changed amount,xbrl_fix,9,2
+L4/L6 changed amount (to or from zero),no_note,35,14
+L4/L6 changed amount (to or from zero),non_financial,41,12
+L4/L6 changed amount (to or from zero),restatement,375,98
+L4/L6 changed amount (to or from zero),targeted_fix,57,15
+L4/L6 changed amount (to or from zero),unclear,29,11
+L5 wrong element,no_note,372,39
+L5 wrong element,non_financial,222,59
+L5 wrong element,restatement,994,150
+L5 wrong element,targeted_fix,511,64
+L5 wrong element,unclear,132,12
+L5 wrong element,xbrl_fix,3,2
+L7 wrong period,no_note,28,7
+L7 wrong period,non_financial,2,2
+L7 wrong period,restatement,63,20
+L7 wrong period,targeted_fix,29,7
+representation only (rounding),no_note,228,24
+representation only (rounding),non_financial,114,18
+representation only (rounding),restatement,936,164
+representation only (rounding),targeted_fix,198,43
+representation only (rounding),unclear,86,10
