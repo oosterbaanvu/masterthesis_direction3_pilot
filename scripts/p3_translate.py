@@ -80,7 +80,8 @@ def main() -> None:
             frame["gen_seconds"] = round(completion.seconds, 1)
             frame["finish_reason"] = completion.finish_reason
             frame["completion_tokens"] = completion.completion_tokens
-            frame.to_csv(results_path, mode="a", header=not results_path.exists(), index=False)
+            previous = pd.read_csv(results_path) if results_path.exists() else pd.DataFrame()
+            pd.concat([previous, frame], ignore_index=True).to_csv(results_path, index=False)
             print(rule.rule, run_name, frame["status"].value_counts().to_dict(),
                   f"recall {frame['messages_found'].sum()}/{frame['official_messages'].sum()}",
                   f"{completion.seconds:.0f}s", flush=True)
