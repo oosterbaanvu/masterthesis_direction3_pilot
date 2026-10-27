@@ -14,6 +14,22 @@ repeatable and auditable enough for a regulated institution? Concretely:
 3. How does "AI as rule-writer" compare with "AI as judge" (the model labels facts directly), with
    statistical checks and with an expert rule set, at equal review effort?
 
+## Working research question (not fixed)
+
+*To what extent can LLM-generated validation rules provide reliable and reproducible error detection beyond
+expert-defined data quality controls in financial XBRL filings?* The pilot still runs the broader comparison
+(LLM judge, statistical checks, official DQC rules) so that the final scope can be chosen from evidence.
+
+## Five evaluation dimensions, always reported separately
+
+| | Dimension | Reference | Status of the reference |
+| --- | --- | --- | --- |
+| E1 | Reproducing official expert rules | DQC committee's expected messages on real filings | official, but a message is not proof of an error |
+| E2 | Detecting controlled injected errors | injection log | exact, but only "value changed" |
+| E3 | Detecting possible real errors | amendment correction candidates | unverified (see docs/analysis_sec_corrections_evidence.md) |
+| E4 | Added detection beyond existing controls | E2/E3 minus what official DQC and statistics already flag | as E2/E3 |
+| E5 | Stability, false alarms, human review needed | repeated runs; flags on never-amended filings; items per filing | flags on clean filings are alerts, not proven false positives |
+
 ## Domain discipline (no apples-to-oranges)
 
 * One primary domain: SEC financial-statement XBRL filings. Replications (GLEIF, HMDA) are analysed

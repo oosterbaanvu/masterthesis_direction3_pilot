@@ -1,0 +1,66 @@
+{
+  "ai_review_is_ground_truth": false,
+  "rows": 64,
+  "evidence_scope": {
+    "type_heuristic_only": 52,
+    "filing_context_only": 10,
+    "specific_field_and_filing_note": 2
+  },
+  "confidence": {
+    "very_low": 52,
+    "low": 10,
+    "medium": 2
+  },
+  "evidence_conclusion": {
+    "unclear": 62,
+    "representation_only": 2
+  },
+  "heuristic_rows_with_one_label_per_type": true,
+  "heuristic_label_per_type": {
+    "other_value": "legitimate_restatement",
+    "period_move": "representation_only",
+    "retag": "representation_only",
+    "scale": "error_corrected",
+    "scale_and_sign": "error_corrected",
+    "sign_flip": "error_corrected",
+    "zero_change": "error_corrected"
+  },
+  "scope_by_type": {
+    "other_value": {
+      "filing_context_only": 1,
+      "specific_field_and_filing_note": 0,
+      "type_heuristic_only": 9
+    },
+    "period_move": {
+      "filing_context_only": 0,
+      "specific_field_and_filing_note": 0,
+      "type_heuristic_only": 10
+    },
+    "retag": {
+      "filing_context_only": 0,
+      "specific_field_and_filing_note": 0,
+      "type_heuristic_only": 10
+    },
+    "scale": {
+      "filing_context_only": 5,
+      "specific_field_and_filing_note": 2,
+      "type_heuristic_only": 3
+    },
+    "scale_and_sign": {
+      "filing_context_only": 3,
+      "specific_field_and_filing_note": 0,
+      "type_heuristic_only": 1
+    },
+    "sign_flip": {
+      "filing_context_only": 1,
+      "specific_field_and_filing_note": 0,
+      "type_heuristic_only": 9
+    },
+    "zero_change": {
+      "filing_context_only": 0,
+      "specific_field_and_filing_note": 0,
+      "type_heuristic_only": 10
+    }
+  },
+  "human_decisions_filled": 0
+}
