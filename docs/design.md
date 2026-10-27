@@ -74,3 +74,6 @@ with CPU, memory and time limits. Nothing generated is executed outside this san
   were reported more than once; changing one copy created an inconsistent duplicate that the generic duplicate
   check caught (38-61% "detection"), while natural corrections almost never show this (0-3%). The first run is
   kept under results/p2_stress/attempts/run1_single_copy/ for transparency.
+* 2026-10-27: the output limit for rule translation was raised from 1,200 to 2,048 tokens after DQC_0179 was cut off
+  at the limit (unterminated code). Only that rule had reached the limit; it is regenerated. Greedy outputs that ended
+  before the limit are unaffected by the change. The finish reason of every call is now logged.

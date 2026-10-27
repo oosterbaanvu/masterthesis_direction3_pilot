@@ -26,6 +26,7 @@ class Completion:
     prompt_tokens: int
     completion_tokens: int
     seconds: float
+    finish_reason: str = ""
 
 
 class LocalModel:
@@ -46,13 +47,16 @@ class LocalModel:
         text = out["choices"][0]["message"]["content"] or ""
         text = re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL).strip()
         usage = out["usage"]
-        return Completion(text, usage["prompt_tokens"], usage["completion_tokens"], time.time() - start)
+        return Completion(text, usage["prompt_tokens"], usage["completion_tokens"], time.time() - start,
+                          out["choices"][0].get("finish_reason") or "")
 
 
 def extract_code(text: str) -> str | None:
     blocks = re.findall(r"```(?:python)?\s*\n(.*?)```", text, flags=re.DOTALL)
     if blocks:
         return max(blocks, key=len).strip()
+    # An answer cut off at the token limit has an opening fence but no closing one.
+    text = re.sub(r"^\s*```(?:python)?\s*\n", "", text)
     return text.strip() if "def check" in text else None
 
 

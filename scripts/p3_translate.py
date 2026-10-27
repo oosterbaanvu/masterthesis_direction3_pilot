@@ -59,7 +59,7 @@ def main() -> None:
         for run_name, temperature, seed in runs(args.sampled):
             if (rule.rule, run_name) in finished:
                 continue
-            completion = model.complete(prompts.SYSTEM, user, temperature=temperature, seed=seed)
+            completion = model.complete(prompts.SYSTEM, user, temperature=temperature, seed=seed, max_tokens=2048)
             code = extract_code(completion.text) or ""
             (code_dir / f"{rule.rule}_{run_name}.py").write_text(code)
             log_call(RES / "llm_calls.jsonl", {"experiment": "translate", "model": args.model, "rule": rule.rule,
@@ -67,6 +67,7 @@ def main() -> None:
                                                "system": prompts.SYSTEM, "user": user, "response": completion.text,
                                                "prompt_tokens": completion.prompt_tokens,
                                                "completion_tokens": completion.completion_tokens,
+                                               "finish_reason": completion.finish_reason,
                                                "seconds": round(completion.seconds, 1)})
             rows = []
             for case in cases[cases["rule"] == rule.rule].itertuples(index=False):
@@ -77,6 +78,8 @@ def main() -> None:
                 rows.append(row)
             frame = pd.DataFrame(rows)
             frame["gen_seconds"] = round(completion.seconds, 1)
+            frame["finish_reason"] = completion.finish_reason
+            frame["completion_tokens"] = completion.completion_tokens
             frame.to_csv(results_path, mode="a", header=not results_path.exists(), index=False)
             print(rule.rule, run_name, frame["status"].value_counts().to_dict(),
                   f"recall {frame['messages_found'].sum()}/{frame['official_messages'].sum()}",
