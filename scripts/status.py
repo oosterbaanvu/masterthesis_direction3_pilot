@@ -19,7 +19,8 @@ def count_rows(path: Path, column: str | None = None) -> str:
 
 def main() -> None:
     running = subprocess.run(["pgrep", "-af", "scripts/p"], capture_output=True, text=True).stdout
-    running = [line.split("scripts/")[-1] for line in running.splitlines() if "pgrep" not in line and "python" in line]
+    running = [line.split("scripts/")[-1] for line in running.splitlines()
+               if "/bin/python" in line.split(" ")[1] and "pgrep" not in line] if running else []
     selected = len(pd.read_csv(ROOT / "results/p3_rules/selected_rules.csv"))
     lines = [f"# Pilot status ({time.strftime('%Y-%m-%d %H:%M UTC', time.gmtime())})", "",
              "| Part | Progress |", "| --- | --- |",

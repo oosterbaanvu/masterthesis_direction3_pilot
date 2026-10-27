@@ -9,4 +9,4 @@
 | P3 translate, qwen2.5-coder-7b (greedy) | 2 done of 18 rules |
 | P3 translate, qwen3-8b (greedy) | not started of 18 rules |
 
-Running now: p2_official_dqc.py --n 12 > data/work/p2_official_dqc.log 2>&1; tail -3 data/work/p2_official_dqc.log' < /dev/null && pwd -P >| /tmp/claude-09cd-cwd, p2_official_dqc.py --n 12, p3_translate.py --model qwen2.5-coder-7b
+Running now: p2_official_dqc.py --n 12, p3_translate.py --model qwen2.5-coder-7b
