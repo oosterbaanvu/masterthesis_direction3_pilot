@@ -53,3 +53,31 @@ Reading the table:
 
 In the pilot, every result on amendment data is labelled "correction candidates" and kept separate from results
 on official DQC tests and on injected errors.
+
+## 4. Second AI review with document links (batch 1, 20 targeted non-dimensional candidates)
+
+File: `results/p1_corrections/ai_document_review_batch1_NOT_HUMAN_GOLD.csv` (AI-assisted by the author with
+ChatGPT; human decisions intentionally left blank). Each row cites the document page it relied on, so it can
+be checked quickly by a person, but it is not human ground truth.
+
+* Original fact stated as confirmed wrong: 6 of 20. All six are **accounting or classification corrections**
+  documented in a restatement schedule (reclassified receivables, AOCI reallocated to non-controlling interest,
+  warrants reclassified from equity to liabilities, non-controlling interest moved to permanent equity, a
+  liability moved from non-current to current). None is a typing, sign or scale error.
+* Retags (4): two keep the same value and only change the element (e.g. CostOfRevenueNet -> CostOfRevenue);
+  one is a material current/non-current classification correction; one is unresolved.
+* Sign flips (5) and period moves (2): none confirmed; several conflict with the stated purpose of the amendment
+  (for example a 10-K/A filed to fix the auditor's signature), which suggests extraction or presentation
+  differences rather than corrected errors.
+* Status: 12 unclear, 6 legitimate restatement, 2 representation only.
+
+Implications:
+* Even in the "targeted fix" subset, the confirmed cases are restatement-type accounting errors. The purpose
+  classifier labelled at least some restatement amendments as targeted fixes; this is a known limitation and the
+  classifier is not re-tuned on this batch (it would then be evaluated on its own tuning data).
+* Amendment candidates are therefore mainly a source of **accounting-classification errors**, which value-level
+  data-quality rules are not designed to catch, plus tagging changes whose wrongness is often not provable.
+  Data-entry errors (typo, sign, scale) are rare or unconfirmed in this source.
+* For the thesis this argues for: E3 reported as exploratory; error-type calibration of injection taken only from
+  patterns, not from labels; and, if natural errors stay in scope, a human-verified subset built from document links
+  like these.

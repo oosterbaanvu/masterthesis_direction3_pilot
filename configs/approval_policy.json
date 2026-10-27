@@ -1,0 +1,7 @@
+{
+  "description": "Gate for AI-proposed rules. A rule is never adopted automatically: 'candidate' means it may be shown to a reviewer for approval.",
+  "max_alerts_per_clean_filing": 1.0,
+  "min_gap_catch_rate": 0.2,
+  "min_runs_reproducing_rule": 2,
+  "reject_on_sandbox_failure": true
+}

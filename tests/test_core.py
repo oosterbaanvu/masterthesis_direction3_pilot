@@ -123,3 +123,17 @@ def test_injection_changes_every_copy_of_a_duplicated_fact(tmp_path):
     facts = parse_instance(target)
     values = facts[facts["concept"] == "NetIncomeLoss"]["value"].tolist()
     assert values == [-300000.0, -300000.0]
+
+
+def test_registry_gate_never_approves_automatically(tmp_path):
+    from dqstress.registry import append, current, gate
+    policy = {"max_alerts_per_clean_filing": 1.0, "min_gap_catch_rate": 0.2, "min_runs_reproducing_rule": 2,
+              "reject_on_sandbox_failure": True}
+    status, _ = gate({"alerts_per_clean_filing": 0.1, "gap_catch_rate": 0.9, "runs_reproducing_rule": 3}, policy)
+    assert status == "candidate"
+    status, reasons = gate({"alerts_per_clean_filing": 5.0, "gap_catch_rate": 0.9}, policy)
+    assert status == "rejected" and "alerts per clean filing" in reasons[0]
+    registry = tmp_path / "registry.jsonl"
+    append(registry, {"rule_id": "r1", "status": "candidate"})
+    append(registry, {"rule_id": "r1", "status": "approved", "approver": "reviewer"})
+    assert current(registry)["r1"]["status"] == "approved"
