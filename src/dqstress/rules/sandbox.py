@@ -41,6 +41,34 @@ json.dump({"flagged": flagged}, open(args["out"], "w"))
 '''
 
 
+BATCH_RUNNER = r'''
+import json, sys, resource, signal
+resource.setrlimit(resource.RLIMIT_AS, (4 * 1024**3, 4 * 1024**3))
+import pandas as pd
+args = json.load(open(sys.argv[1]))
+concepts = pd.read_parquet(args["concepts"]) if args.get("concepts") else None
+lists = {name: pd.read_csv(path) for name, path in args.get("lists", {}).items()}
+namespace = {}
+exec(compile(open(args["code"]).read(), "generated_rule", "exec"), namespace)
+def timeout(signum, frame):
+    raise TimeoutError("per-file time limit")
+signal.signal(signal.SIGALRM, timeout)
+results = {}
+for path in args["facts"]:
+    signal.alarm(args["per_file_seconds"])
+    try:
+        result = namespace["check"](pd.read_parquet(path), lists, concepts)
+        flagged = [{"qname": str(i.get("qname")), "context_ref": str(i.get("context_ref"))}
+                   for i in (result or []) if isinstance(i, dict)]
+        results[path] = {"status": "ok", "flagged": flagged}
+    except Exception as error:
+        results[path] = {"status": "error", "flagged": [], "detail": f"{type(error).__name__}: {error}"[:200]}
+    finally:
+        signal.alarm(0)
+json.dump(results, open(args["out"], "w"))
+'''
+
+
 @dataclass
 class SandboxResult:
     status: str  # ok / rejected / error / timeout
@@ -95,3 +123,31 @@ def run_rule(code: str, facts_path: Path, lists: dict[str, Path] | None = None,
         if proc.returncode != 0 or not (tmp / "out.json").exists():
             return SandboxResult("error", [], proc.stderr.strip().splitlines()[-1][:300] if proc.stderr else "no output")
         return SandboxResult("ok", json.loads((tmp / "out.json").read_text())["flagged"])
+
+
+def run_rule_batch(code: str, facts_paths: list[Path], lists: dict[str, Path] | None = None,
+                   concepts_path: Path | None = None, per_file_seconds: int = 30) -> dict[str, SandboxResult]:
+    """Run one generated rule on many fact tables in a single restricted child process."""
+    reason = static_check(code)
+    if reason:
+        return {str(p): SandboxResult("rejected", [], reason) for p in facts_paths}
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp = Path(tmp)
+        (tmp / "rule.py").write_text(code)
+        (tmp / "runner.py").write_text(BATCH_RUNNER)
+        args = {"facts": [str(Path(p).resolve()) for p in facts_paths], "code": str(tmp / "rule.py"),
+                "out": str(tmp / "out.json"), "per_file_seconds": per_file_seconds,
+                "lists": {k: str(Path(v).resolve()) for k, v in (lists or {}).items()},
+                "concepts": str(Path(concepts_path).resolve()) if concepts_path else None}
+        (tmp / "args.json").write_text(json.dumps(args))
+        env = {"PATH": os.environ.get("PATH", ""), "HTTPS_PROXY": "http://127.0.0.1:9",
+               "HTTP_PROXY": "http://127.0.0.1:9", "NO_PROXY": "", "PYTHONHASHSEED": "0"}
+        try:
+            subprocess.run([sys.executable, str(tmp / "runner.py"), str(tmp / "args.json")], cwd=tmp, env=env,
+                           capture_output=True, text=True, timeout=per_file_seconds * len(facts_paths) + 120)
+        except subprocess.TimeoutExpired:
+            return {str(Path(p).resolve()): SandboxResult("timeout", []) for p in facts_paths}
+        if not (tmp / "out.json").exists():
+            return {str(Path(p).resolve()): SandboxResult("error", [], "runner crashed") for p in facts_paths}
+        raw = json.loads((tmp / "out.json").read_text())
+        return {path: SandboxResult(r["status"], r["flagged"], r.get("detail", "")) for path, r in raw.items()}
