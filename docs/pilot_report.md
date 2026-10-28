@@ -26,6 +26,12 @@ This is exploratory evidence for choosing a thesis direction, not a confirmatory
 - **Artefact.** De `dqstress`-tool werkt end-to-end (registreren, stresstest, AI-voorstel, sandbox, poort,
   goedkeuring, rapport).
 
+- **Minipilot (28 okt).** Geen lekken tussen ontwikkel- en testbedrijven. Met de officiële XULE-code erbij gingen 3 van
+  9 mislukte regels werken (één exact, één deels, één met ruim 3.300 extra meldingen); ontbrekende documentatie verklaart
+  dus maar een klein deel van de fouten. Per subregel kwalificeren tegen de bestaande controles houdt bij max. 1 alert
+  per verslag 1 subregel over die 3 van 195 gemiste fouten extra vangt; een generiek filter heeft voor dezelfde winst
+  ongeveer twee keer zoveel alerts nodig. Zie `docs/minipilot.md`.
+
 ## 1. Question and scope
 
 Working question (not fixed): *To what extent can LLM-generated validation rules provide reliable and reproducible
@@ -175,3 +181,8 @@ write an HTML report. Example: `docs/examples/dqstress_report_demo.html`.
 ## 8. Reproduction
 
 See README. Every script states its inputs and outputs; long runs are resumable.
+
+## 9. Mini-pilot
+
+Three checks on the weak points (leakage, missing information in the rule documentation, per-rule qualification of
+the AI rule sets) are reported in `docs/minipilot.md`.

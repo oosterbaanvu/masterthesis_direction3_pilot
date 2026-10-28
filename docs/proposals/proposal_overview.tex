@@ -239,11 +239,49 @@ Added value and alerts (E4 and E5). The best AI rule set added 6 errors beyond t
 \label{fig:alerts}
 \end{figure}
 
+\subsection{Mini-pilot: three checks on the weak points}
+
+Before choosing the topic, we ran three small checks on the weakest points of the second pilot \cite{minipilot}.
+
+Leakage. None of the 66 test filings shares a company with a filing used for development, so the main results are not inflated by the same company appearing on both sides.
+
+Missing information. We gave Qwen2.5-Coder the official implementation of nine rules that both models had failed, next to the description. Three of the nine then worked: one exactly (DQC\_0241, released after the model), one partly, and one found all official messages but also about 3{,}300 others. Six still failed, mostly because the model did not carry the logic over to the data correctly, or because the rule needs taxonomy information that the data table does not hold. Missing documentation therefore explains only a small part of the failures.
+
+Qualifying single rules. The AI rule sets contain 24 sub-rules. We split the test filings by company into a selection half and an evaluation half, chose rules on the first and measured on the second (Figure~\ref{fig:qual}). Without filtering, the sub-rules caught 42 of the 195 errors that the existing controls missed, at about 1{,}000 alerts per filing. Keeping only sub-rules that add a catch beyond the existing controls, within one alert per filing, left one sub-rule that caught 3 extra errors at 0.2 alerts per filing. A generic filter that ignores the existing controls needed about twice as many alerts for the same number of extra catches. Most extra catches were sign errors; changed amounts and removed facts were not caught at any alert level. Alert limits above 1 and 5 were chosen after seeing the first results, so that part is exploratory.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{fig_c_qualification.pdf}
+\caption{Mini-pilot. Extra injected errors caught beyond the existing controls (of 195 missed) against mean alerts per filing, on the evaluation half (34 filings), for increasing alert limits. Each point is a set of sub-rules chosen on the selection half.}
+\label{fig:qual}
+\end{figure}
+
 \section{What this means for the research}
 
 For small local models the pilot gives a clear but preliminary answer. They can sometimes reproduce an expert rule, but not reliably and not stably, and the rules they invent add little beyond the expert rules and statistical checks at a high alert cost. At the same time, the existing controls catch only a third of the injected errors, so there is a real gap that better rules could close. The evaluation design works and measures what a team needs to know. The pilot is small: two small models on a normal processor, DQC on 12 test filings, the judge on 6, stability on nine rules, and no significance tests.
 
-The thesis therefore keeps the design and makes it stronger: larger open-weight models on the GPU cluster, at least three generations per rule, a non-AI rule-suggestion baseline next to the statistical checks, a sample of real corrections checked by a person, the protocol fixed before the final test, and the same design on three to five datasets. It must also handle the domain issues the pilot exposed, such as the meaning of signs and debit or credit balances, values at a moment versus over a period, year-to-date figures, scale, duplicated numbers, company-specific labels and matching the rule version to the taxonomy year. Possible outcomes are that AI rules help only for some error types, or not at all; a clear negative result still tells a team what evidence to ask for before adopting an AI-written rule.
+The mini-pilot adds two things. Low scores are not mainly caused by missing documentation, and qualifying single rules against the existing controls is a real, measurable step that separates useful from noisy rules. With small models, little value survives it. This suggests sharpening the question towards qualification: under what conditions can LLM-generated rules be qualified to add reliable detection value beyond expert-defined controls, and at what review cost? Table~\ref{tab:weak} lists the known weaknesses and how the thesis addresses them.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}LL@{}}
+\toprule
+Weakness of the pilots & How the thesis addresses it \\
+\midrule
+Two small models, one prompt & Larger open-weight models; input conditions as variables (description, plus official implementation); several generations per rule \\
+E1 measures recall on official tests only & Run AI and official rules on the same real filings and report agreement in both directions \\
+Small samples (DQC on 12 filings, 34 filings for qualification) & Official DQC on all test filings; intervals for every result \\
+No independent human labels & Two annotators with XBRL or accounting knowledge on a sample chosen in advance; review per rule instead of per alert \\
+Judge saw only part of a filing & The same scope for every control \\
+One injected error per variant & Also combined errors and errors that depend on dimensions \\
+\bottomrule
+\end{tabularx}
+\caption{Known weaknesses of the pilots and the planned answer.}
+\label{tab:weak}
+\end{table}
+
+The thesis therefore keeps the design and makes it stronger: larger open-weight models on the GPU cluster, at least three generations per rule, qualification of single rules against a generic filter, a non-AI rule-suggestion baseline next to the statistical checks, a sample of real corrections checked by two people, the protocol fixed before the final test, and the same design on three to five datasets. It must also handle the domain issues the pilot exposed, such as the meaning of signs and debit or credit balances, values at a moment versus over a period, year-to-date figures, scale, duplicated numbers, company-specific labels and matching the rule version to the taxonomy year. Possible outcomes are that AI rules help only for some error types, or not at all; a clear negative result still tells a team what evidence to ask for before adopting an AI-written rule.
 
 \section{Engineering artefact}
 
@@ -331,6 +369,8 @@ The pilot produced a working command-line tool, \texttt{dqstress}, that follows 
 \bibitem{lucario} Q. Qin, H. Li, and E. Merlo, ``Unsupervised, Robust, and Lightweight Detection of Data Pattern Anomalies and Outliers,'' Information and Software Technology, vol. 192, article 108035, 2026. doi:10.1016/j.infsof.2026.108035.
 
 \bibitem{riolu} Q. Qin, H. Li, E. Merlo, and M. Lamothe, ``Automated, Unsupervised, and Auto-Parameterized Inference of Data Patterns and Anomaly Detection,'' Proceedings of ICSE, pp. 2419--2431, 2025. doi:10.1109/ICSE55347.2025.00078.
+
+\bibitem{minipilot} T. Oosterbaan, ``Mini-pilot: three checks before choosing the thesis topic,'' project repository \texttt{masterthesis\_direction3\_pilot}, file \texttt{docs/minipilot.md}, 28 October 2026.
 
 \bibitem{rein} M. Abdelaal, C. Hammacher, and H. Schoening, ``REIN: A Comprehensive Benchmark Framework for Data Cleaning Methods in ML Pipelines,'' Proceedings of EDBT, pp. 499--511, 2023. arXiv:2302.04702.
 

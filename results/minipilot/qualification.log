@@ -1,0 +1,8 @@
+test filings per half: {'evaluation': 34, 'selection': 32}
+sub-rules: 24 with a catch beyond existing on selection: 10
+        policy  budget  rules_kept  variants  caught_by_existing  caught_by_kept_rules  added_beyond_existing  alerts_per_clean_filing  clean_filings
+    unfiltered     NaN          24       237                  42                    50                     42                  1026.71             34
+generic_filter     1.0           4       237                  42                     1                      0                     0.35             34
+generic_filter     5.0           7       237                  42                     5                      3                     3.44             34
+  expert_aware     1.0           1       237                  42                     3                      3                     0.21             34
+  expert_aware     5.0           1       237                  42                     3                      3                     0.21             34

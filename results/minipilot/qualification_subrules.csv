@@ -1,0 +1,25 @@
+rule_id,set,subrule,alerts_per_clean_filing_evaluation,alerts_per_clean_filing_selection,catches_evaluation,catches_selection,catches_beyond_existing_evaluation,catches_beyond_existing_selection
+qwen2.5-coder-7b/discover_greedy::AccountingRelationship,qwen2.5-coder-7b/discover_greedy,AccountingRelationship,0.06,0.06,1.0,0.0,1.0,0.0
+qwen2.5-coder-7b/discover_greedy::WrongElement,qwen2.5-coder-7b/discover_greedy,WrongElement,1.94,1.69,2.0,2.0,1.0,2.0
+qwen2.5-coder-7b/discover_greedy::WrongScale,qwen2.5-coder-7b/discover_greedy,WrongScale,8.12,5.44,0.0,0.0,0.0,0.0
+qwen2.5-coder-7b/discover_greedy::WrongSign,qwen2.5-coder-7b/discover_greedy,WrongSign,6.38,4.34,4.0,2.0,3.0,2.0
+qwen2.5-coder-7b/discover_greedy_repair1::AccountingRelationship,qwen2.5-coder-7b/discover_greedy_repair1,AccountingRelationship,0.35,0.75,3.0,3.0,3.0,2.0
+qwen2.5-coder-7b/discover_greedy_repair1::WrongElement,qwen2.5-coder-7b/discover_greedy_repair1,WrongElement,6.56,9.25,6.0,4.0,5.0,4.0
+qwen2.5-coder-7b/discover_greedy_repair1::WrongScale,qwen2.5-coder-7b/discover_greedy_repair1,WrongScale,33.85,35.94,0.0,1.0,0.0,1.0
+qwen2.5-coder-7b/discover_greedy_repair1::WrongSign,qwen2.5-coder-7b/discover_greedy_repair1,WrongSign,18.59,25.09,15.0,15.0,13.0,14.0
+qwen2.5-coder-7b/discover_sample1::AccountingRelationship,qwen2.5-coder-7b/discover_sample1,AccountingRelationship,0.06,0.16,0.0,0.0,0.0,0.0
+qwen2.5-coder-7b/discover_sample1::WrongPeriod,qwen2.5-coder-7b/discover_sample1,WrongPeriod,0.18,0.12,1.0,0.0,0.0,0.0
+qwen2.5-coder-7b/discover_sample1::WrongSign,qwen2.5-coder-7b/discover_sample1,WrongSign,0.12,0.22,0.0,0.0,0.0,0.0
+qwen3-8b/discover_sample1::Incorrect sign for asset,qwen3-8b/discover_sample1,Incorrect sign for asset,0.06,0.38,0.0,0.0,0.0,0.0
+qwen3-8b/discover_sample1::Incorrect sign for income or expense,qwen3-8b/discover_sample1,Incorrect sign for income or expense,17.09,17.66,6.0,10.0,4.0,7.0
+qwen3-8b/discover_sample1::Incorrect sign for liability,qwen3-8b/discover_sample1,Incorrect sign for liability,11.97,12.34,0.0,0.0,0.0,0.0
+qwen3-8b/discover_sample1::Invalid context_ref,qwen3-8b/discover_sample1,Invalid context_ref,2.38,0.44,0.0,0.0,0.0,0.0
+qwen3-8b/discover_sample1::Invalid dimension format,qwen3-8b/discover_sample1,Invalid dimension format,1027.26,1195.81,0.0,0.0,0.0,0.0
+qwen3-8b/discover_sample1::Mismatched period type,qwen3-8b/discover_sample1,Mismatched period type,798.32,991.5,17.0,17.0,16.0,15.0
+qwen3-8b/discover_sample1::Mismatched unit for monetary concept,qwen3-8b/discover_sample1,Mismatched unit for monetary concept,0.38,2.72,0.0,0.0,0.0,0.0
+qwen3-8b/discover_sample1::Mismatched unit for perShare concept,qwen3-8b/discover_sample1,Mismatched unit for perShare concept,0.12,0.0,0.0,0.0,0.0,0.0
+qwen3-8b/discover_sample1::Missing value for numeric fact,qwen3-8b/discover_sample1,Missing value for numeric fact,27.59,43.41,0.0,0.0,0.0,0.0
+qwen3-8b/gapclose_sample1::Inconsistent assets with liabilities and equity,qwen3-8b/gapclose_sample1,Inconsistent assets with liabilities and equity,0.74,0.62,1.0,2.0,0.0,0.0
+qwen3-8b/gapclose_sample1::Missing fact value,qwen3-8b/gapclose_sample1,Missing fact value,147.35,161.84,0.0,0.0,0.0,0.0
+qwen3-8b/gapclose_sample1::Wrong sign for credit item,qwen3-8b/gapclose_sample1,Wrong sign for credit item,49.15,58.12,28.0,33.0,24.0,27.0
+qwen3-8b/gapclose_sample1::Wrong sign for debit item,qwen3-8b/gapclose_sample1,Wrong sign for debit item,249.15,330.66,4.0,2.0,4.0,2.0

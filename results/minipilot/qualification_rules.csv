@@ -1,0 +1,14 @@
+policy,budget,rule_id
+generic_filter,1,qwen2.5-coder-7b/discover_sample1::WrongPeriod
+generic_filter,1,qwen2.5-coder-7b/discover_sample1::AccountingRelationship
+generic_filter,1,qwen2.5-coder-7b/discover_sample1::WrongSign
+generic_filter,1,qwen3-8b/discover_sample1::Incorrect sign for asset
+generic_filter,5,qwen2.5-coder-7b/discover_sample1::WrongPeriod
+generic_filter,5,qwen2.5-coder-7b/discover_sample1::AccountingRelationship
+generic_filter,5,qwen2.5-coder-7b/discover_sample1::WrongSign
+generic_filter,5,qwen3-8b/discover_sample1::Incorrect sign for asset
+generic_filter,5,qwen3-8b/discover_sample1::Invalid context_ref
+generic_filter,5,qwen3-8b/gapclose_sample1::Inconsistent assets with liabilities and equity
+generic_filter,5,qwen2.5-coder-7b/discover_greedy_repair1::AccountingRelationship
+expert_aware,1,qwen2.5-coder-7b/discover_greedy_repair1::AccountingRelationship
+expert_aware,5,qwen2.5-coder-7b/discover_greedy_repair1::AccountingRelationship

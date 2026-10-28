@@ -180,8 +180,36 @@ def fig_b_alerts():
     fig.savefig(OUT / "fig_b_alerts.pdf", bbox_inches="tight")
 
 
+def fig_c_qualification():
+    curve = pd.read_csv(ROOT / "results/minipilot/qualification_curve.csv")
+    base = pd.read_csv(ROOT / "results/minipilot/qualification_results.csv")
+    unf = base[base["policy"] == "unfiltered"].iloc[0]
+    fig, ax = plt.subplots(figsize=(TEXT_W, 2.6))
+    for policy, name, c, m in [("generic_filter", "Generic filter (ignores existing controls)", BLUE, "o"),
+                               ("expert_aware", "Expert-aware qualification", ORANGE, "s")]:
+        part = curve[curve["policy"] == policy].drop_duplicates(["alerts_per_clean_filing", "added_beyond_existing"])
+        part = part[part["alerts_per_clean_filing"] > 0].sort_values("alerts_per_clean_filing")
+        ax.plot(part["alerts_per_clean_filing"], part["added_beyond_existing"], color=c, linewidth=2, marker=m,
+                markersize=6, markeredgecolor="white", label=name)
+    ax.scatter([unf["alerts_per_clean_filing"]], [unf["added_beyond_existing"]], s=40, color=INK2, zorder=3,
+               label="All 24 sub-rules, unfiltered")
+    ax.axvline(1, color=INK2, linewidth=0.8, linestyle=(0, (3, 2)))
+    ax.text(1.08, 44, "pilot gate: 1 alert", fontsize=7, color=INK2, va="top")
+    ax.set_xscale("log")
+    ax.set_xlim(0.1, 3000)
+    ax.set_ylim(0, 48)
+    ax.set_xticks([0.1, 1, 10, 100, 1000], ["0.1", "1", "10", "100", "1,000"])
+    ax.set_xlabel("Mean alerts on a filing that was never corrected (log scale)")
+    ax.set_ylabel("Extra errors caught\n(of 195 missed)")
+    ax.grid(axis="x", visible=False)
+    ax.legend(frameon=False, loc="lower right")
+    fig.tight_layout()
+    fig.savefig(OUT / "fig_c_qualification.pdf", bbox_inches="tight")
+
+
 if __name__ == "__main__":
     fig_a_increment()
     fig_b_e1_e5()
     fig_b_catch()
     fig_b_alerts()
+    fig_c_qualification()
