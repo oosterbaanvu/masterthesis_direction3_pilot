@@ -1,0 +1,35 @@
+
+## Stress-test feedback on development filings
+The current controls (schema checks, historical sign and magnitude checks, period-jump check) were tested by injecting one error into otherwise unchanged filings. Share of injected errors that were MISSED:
+- an amount changed to a different, plausible-looking amount (changed_amount): missed 51/54
+- a fact that should be reported is missing (drop_fact): missed 54/54
+- one digit of an amount mistyped (one_digit): missed 54/54
+- the current-period and prior-period values of an element swapped (period_swap): missed 54/54
+- a correct value reported under a related but wrong element (retag): missed 54/54
+- a value reported 1000 times too large (scale_x1000): missed 10/54
+- a value reported with the wrong sign (sign_flip): missed 51/54
+
+Examples of missed injected errors (element, context, value before -> after):
+- changed_amount: us-gaap:GeneralAndAdministrativeExpense -> us-gaap:GeneralAndAdministrativeExpense, 77417000 -> 275470738
+- changed_amount: us-gaap:LiabilitiesAndStockholdersEquity -> us-gaap:LiabilitiesAndStockholdersEquity, 299129 -> 298311
+- changed_amount: us-gaap:OperatingIncomeLoss -> us-gaap:OperatingIncomeLoss, -14406000 -> -12409129
+- drop_fact: us-gaap:ProfitLoss -> us-gaap:ProfitLoss, -276056000 -> None
+- drop_fact: us-gaap:ComprehensiveIncomeNetOfTax -> us-gaap:ComprehensiveIncomeNetOfTax, -1219588 -> None
+- drop_fact: us-gaap:LiabilitiesAndStockholdersEquity -> us-gaap:LiabilitiesAndStockholdersEquity, 26496000 -> None
+- one_digit: us-gaap:RetainedEarningsAccumulatedDeficit -> us-gaap:RetainedEarningsAccumulatedDeficit, -3477249000 -> -3477279000
+- one_digit: us-gaap:AccountsPayableAndAccruedLiabilitiesCurrent -> us-gaap:AccountsPayableAndAccruedLiabilitiesCurrent, 1450574 -> 1456574
+- one_digit: us-gaap:NetCashProvidedByUsedInOperatingActivities -> us-gaap:NetCashProvidedByUsedInOperatingActivities, 738000 -> 730000
+- period_swap: us-gaap:LossOnContractTermination -> us-gaap:LossOnContractTermination, 7341000 -> 7445000
+- period_swap: us-gaap:LossOnContractTermination -> us-gaap:LossOnContractTermination, 7445000 -> 7341000
+- period_swap: us-gaap:StockIssuedDuringPeriodSharesIssuedForServices -> us-gaap:StockIssuedDuringPeriodSharesIssuedForServices, 4881311 -> 6488867
+- retag: us-gaap:TreasuryStockCommonShares -> us-gaap:TreasuryStockShares, 8285000 -> 8285000
+- retag: us-gaap:StockIssuedDuringPeriodValueShareBasedCompensation -> us-gaap:AllocatedShareBasedCompensationExpense, 65880 -> 65880
+- retag: us-gaap:StockIssuedDuringPeriodValueShareBasedCompensation -> us-gaap:AllocatedShareBasedCompensationExpense, 123582 -> 123582
+- scale_x1000: us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents -> us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents, 39782000 -> 39782000000
+- scale_x1000: us-gaap:IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest -> us-gaap:IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest, 60803000 -> 60803000000
+- scale_x1000: us-gaap:IncreaseDecreaseInAccountsPayable -> us-gaap:IncreaseDecreaseInAccountsPayable, 87097 -> 87097000
+- sign_flip: us-gaap:IncreaseDecreaseInAccountsReceivable -> us-gaap:IncreaseDecreaseInAccountsReceivable, 3045000 -> -3045000
+- sign_flip: us-gaap:NetIncomeLossAttributableToNoncontrollingInterest -> us-gaap:NetIncomeLossAttributableToNoncontrollingInterest, -5791 -> 5791
+- sign_flip: us-gaap:CurrentForeignTaxExpenseBenefit -> us-gaap:CurrentForeignTaxExpenseBenefit, 95000 -> -95000
+
+Write rules that catch the missed error types while raising few alerts on correct filings.
