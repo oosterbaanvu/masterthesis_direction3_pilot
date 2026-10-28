@@ -92,7 +92,7 @@ def test_sandbox_runs_rule_and_returns_flags(instance, tmp_path):
             "    big = facts[facts['value'] > 1_400_000]\n"
             "    return [{'qname': p + ':' + c, 'context_ref': r} for p, c, r in zip(big['prefix'], big['concept'], big['context_ref'])]\n")
     result = run_rule(code, facts_path)
-    assert result.status == "ok" and result.flagged == [{"qname": "us-gaap:Assets", "context_ref": "c2024"}]
+    assert result.status == "ok" and result.flagged == [{"qname": "us-gaap:Assets", "context_ref": "c2024", "rule": ""}]
 
 
 def test_message_recall_ignores_dei_only_messages():
