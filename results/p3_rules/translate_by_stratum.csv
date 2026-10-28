@@ -1,0 +1,5 @@
+model,stratum,rules,micro_recall,messages,rules_recall_ge_80,rules_zero,fully_executing
+qwen2.5-coder-7b,released_after_models,6,0.033,90,0,5,5
+qwen2.5-coder-7b,released_before_models,10,0.409,755,1,6,8
+qwen3-8b,released_after_models,6,0.133,90,1,4,5
+qwen3-8b,released_before_models,10,0.416,755,3,6,8

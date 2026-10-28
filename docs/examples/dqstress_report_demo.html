@@ -1,0 +1,118 @@
+<!doctype html><html><head><meta charset='utf-8'><title>dqstress report</title><style>body{font-family:sans-serif;max-width:1100px;margin:2rem auto;padding:0 1rem}table{border-collapse:collapse}td,th{border:1px solid #ccc;padding:4px 8px}</style></head><body><h1>Data-quality control report: demo_filing</h1>
+<p>Source data/sec_instances/0000096021-24-000128/syy-20240629_htm.xml, SHA-256 <code>1f0011510369f9f6...</code>, 2225 facts.</p>
+<h2>Coverage: share of injected errors caught</h2>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>generic_schema</th>
+      <th>stat_magnitude</th>
+      <th>stat_period_jump</th>
+      <th>stat_sign_rarity</th>
+    </tr>
+    <tr>
+      <th>operator</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>changed_amount</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>drop_fact</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>one_digit</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>period_swap</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>retag</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>scale_x1000</th>
+      <td>0.0</td>
+      <td>0.5</td>
+      <td>0.5</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>sign_flip</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+<h2>Findings of existing controls</h2>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>findings</th>
+    </tr>
+    <tr>
+      <th>control</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>generic_schema</th>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>stat_magnitude</th>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>
+<h2>AI-proposed rules and decisions</h2>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>rule</th>
+      <th>status</th>
+      <th>evidence</th>
+      <th>reasons</th>
+      <th>decided_by</th>
+      <th>recorded_at</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>discover_greedy_repair1</td>
+      <td>rejected</td>
+      <td>{"sandbox_failures": 0, "alerts_per_clean_filing": 90.0, "gap_catch_rate": 0.0, "overall_catch_rate": 0.0, "runs_reproducing_rule": 1}</td>
+      <td>alerts per clean filing 90.00 &gt; 1.0; catch rate on targeted gap 0.00 &lt; 0.2</td>
+      <td></td>
+      <td>2026-10-28T08:35:15Z</td>
+    </tr>
+  </tbody>
+</table></body></html>

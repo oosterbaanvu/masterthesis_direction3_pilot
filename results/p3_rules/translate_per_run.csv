@@ -1,0 +1,73 @@
+model,rule,run,cases,executed,found,messages,recall,title,stratum,release_date
+qwen2.5-coder-7b,DQC_0009,greedy,11,1.0,0,15,0.0,Element A must be less than or equal to Element B,released_before_models,2015-11-19
+qwen2.5-coder-7b,DQC_0009,sample1,11,1.0,0,15,0.0,Element A must be less than or equal to Element B,released_before_models,2015-11-19
+qwen2.5-coder-7b,DQC_0009,sample2,11,1.0,0,15,0.0,Element A must be less than or equal to Element B,released_before_models,2015-11-19
+qwen2.5-coder-7b,DQC_0011,greedy,15,1.0,0,38,0.0,Dimensional Equivalents,released_before_models,2017-10-04
+qwen2.5-coder-7b,DQC_0013,greedy,16,0.0,0,31,0.0,Negative Values With Dependence,released_before_models,2016-09-29
+qwen2.5-coder-7b,DQC_0014,greedy,16,1.0,0,36,0.0,Negative Values With No Dimensions,released_before_models,2016-09-29
+qwen2.5-coder-7b,DQC_0014,sample1,16,1.0,0,36,0.0,Negative Values With No Dimensions,released_before_models,2016-09-29
+qwen2.5-coder-7b,DQC_0014,sample2,16,1.0,0,36,0.0,Negative Values With No Dimensions,released_before_models,2016-09-29
+qwen2.5-coder-7b,DQC_0091,greedy,10,0.0,0,7,0.0,Invalid Value for Percentage Items,released_before_models,2020-07-15
+qwen2.5-coder-7b,DQC_0109,greedy,20,1.0,56,83,0.6746987951807228,Concentration Risk,released_before_models,2021-06-29
+qwen2.5-coder-7b,DQC_0109,sample1,20,1.0,82,83,0.9879518072289156,Concentration Risk,released_before_models,2021-06-29
+qwen2.5-coder-7b,DQC_0109,sample2,20,1.0,27,83,0.3253012048192771,Concentration Risk,released_before_models,2021-06-29
+qwen2.5-coder-7b,DQC_0116,greedy,17,1.0,0,211,0.0,Line Items Requiring the Asset Acquisition Axis,released_before_models,2021-06-29
+qwen2.5-coder-7b,DQC_0124,greedy,10,1.0,2,18,0.1111111111111111,Breakdown of Lease Liabilities & Assets Across Financial Statement Lines Items,released_before_models,2021-09-29
+qwen2.5-coder-7b,DQC_0124,sample1,10,0.5,0,18,0.0,Breakdown of Lease Liabilities & Assets Across Financial Statement Lines Items,released_before_models,2021-09-29
+qwen2.5-coder-7b,DQC_0124,sample2,10,0.5,0,18,0.0,Breakdown of Lease Liabilities & Assets Across Financial Statement Lines Items,released_before_models,2021-09-29
+qwen2.5-coder-7b,DQC_0156,greedy,24,1.0,196,196,1.0,Basic and Diluted Extension Elements,released_before_models,2023-07-06
+qwen2.5-coder-7b,DQC_0156,sample1,24,1.0,196,196,1.0,Basic and Diluted Extension Elements,released_before_models,2023-07-06
+qwen2.5-coder-7b,DQC_0156,sample2,24,1.0,196,196,1.0,Basic and Diluted Extension Elements,released_before_models,2023-07-06
+qwen2.5-coder-7b,DQC_0179,greedy,20,1.0,55,120,0.4583333333333333,Dividend Event Disclosures,released_before_models,2024-06-27
+qwen2.5-coder-7b,DQC_0179,sample1,20,1.0,0,120,0.0,Dividend Event Disclosures,released_before_models,2024-06-27
+qwen2.5-coder-7b,DQC_0179,sample2,20,0.85,0,120,0.0,Dividend Event Disclosures,released_before_models,2024-06-27
+qwen2.5-coder-7b,DQC_0204,greedy,13,1.0,0,35,0.0,Invalid Axis used for Tangible and Intangible Assets,released_after_models,2025-06-18
+qwen2.5-coder-7b,DQC_0204,sample1,13,1.0,0,35,0.0,Invalid Axis used for Tangible and Intangible Assets,released_after_models,2025-06-18
+qwen2.5-coder-7b,DQC_0204,sample2,13,1.0,10,35,0.2857142857142857,Invalid Axis used for Tangible and Intangible Assets,released_after_models,2025-06-18
+qwen2.5-coder-7b,DQC_0207,greedy,7,1.0,0,16,0.0,Invalid Subtotals in Schedule of Investments,released_after_models,2025-06-18
+qwen2.5-coder-7b,DQC_0212,greedy,12,1.0,0,9,0.0,Missing Shares Issued or Authorized Facts When Shares Outstanding Reported,released_after_models,2025-10-15
+qwen2.5-coder-7b,DQC_0212,sample1,12,0.0,0,9,0.0,Missing Shares Issued or Authorized Facts When Shares Outstanding Reported,released_after_models,2025-10-15
+qwen2.5-coder-7b,DQC_0212,sample2,12,1.0,0,9,0.0,Missing Shares Issued or Authorized Facts When Shares Outstanding Reported,released_after_models,2025-10-15
+qwen2.5-coder-7b,DQC_0228,greedy,9,0.0,0,16,0.0,'Other' Concept Should Not Exceed Aggregate,released_after_models,2026-03-18
+qwen2.5-coder-7b,DQC_0234,greedy,4,1.0,3,6,0.5,Incorrect Use of IncomeTaxAuthorityAxis with Domestic Tax Reconciliation Concepts,released_after_models,2026-06-29
+qwen2.5-coder-7b,DQC_0234,sample1,4,1.0,3,6,0.5,Incorrect Use of IncomeTaxAuthorityAxis with Domestic Tax Reconciliation Concepts,released_after_models,2026-06-29
+qwen2.5-coder-7b,DQC_0234,sample2,4,1.0,3,6,0.5,Incorrect Use of IncomeTaxAuthorityAxis with Domestic Tax Reconciliation Concepts,released_after_models,2026-06-29
+qwen2.5-coder-7b,DQC_0238,greedy,5,1.0,0,0,,Segment Reporting Text Block Used Without StatementBusinessSegmentsAxis,released_after_models,2026-06-29
+qwen2.5-coder-7b,DQC_0241,greedy,2,1.0,0,8,0.0,Incorrect Use of TransactionTypeAxis with Transaction Market Method Members,released_after_models,2026-06-29
+qwen2.5-coder-7b,DQC_0245,greedy,7,0.0,0,0,,Consolidated Entities Axis in Statement Section,released_after_models,2026-10-07
+qwen3-8b,DQC_0009,greedy,11,0.0,0,15,0.0,Element A must be less than or equal to Element B,released_before_models,2015-11-19
+qwen3-8b,DQC_0009,sample1,11,1.0,0,15,0.0,Element A must be less than or equal to Element B,released_before_models,2015-11-19
+qwen3-8b,DQC_0009,sample2,11,0.0,0,15,0.0,Element A must be less than or equal to Element B,released_before_models,2015-11-19
+qwen3-8b,DQC_0011,greedy,15,1.0,0,38,0.0,Dimensional Equivalents,released_before_models,2017-10-04
+qwen3-8b,DQC_0013,greedy,16,1.0,0,31,0.0,Negative Values With Dependence,released_before_models,2016-09-29
+qwen3-8b,DQC_0014,greedy,16,1.0,35,36,0.9722222222222222,Negative Values With No Dimensions,released_before_models,2016-09-29
+qwen3-8b,DQC_0014,sample1,16,1.0,0,36,0.0,Negative Values With No Dimensions,released_before_models,2016-09-29
+qwen3-8b,DQC_0014,sample2,16,1.0,35,36,0.9722222222222222,Negative Values With No Dimensions,released_before_models,2016-09-29
+qwen3-8b,DQC_0091,greedy,10,1.0,0,7,0.0,Invalid Value for Percentage Items,released_before_models,2020-07-15
+qwen3-8b,DQC_0109,greedy,20,1.0,82,83,0.9879518072289156,Concentration Risk,released_before_models,2021-06-29
+qwen3-8b,DQC_0109,sample1,20,1.0,82,83,0.9879518072289156,Concentration Risk,released_before_models,2021-06-29
+qwen3-8b,DQC_0109,sample2,20,0.1,4,83,0.04819277108433735,Concentration Risk,released_before_models,2021-06-29
+qwen3-8b,DQC_0116,greedy,17,1.0,0,211,0.0,Line Items Requiring the Asset Acquisition Axis,released_before_models,2021-06-29
+qwen3-8b,DQC_0124,greedy,10,1.0,0,18,0.0,Breakdown of Lease Liabilities & Assets Across Financial Statement Lines Items,released_before_models,2021-09-29
+qwen3-8b,DQC_0124,sample1,10,1.0,0,18,0.0,Breakdown of Lease Liabilities & Assets Across Financial Statement Lines Items,released_before_models,2021-09-29
+qwen3-8b,DQC_0124,sample2,10,0.0,0,18,0.0,Breakdown of Lease Liabilities & Assets Across Financial Statement Lines Items,released_before_models,2021-09-29
+qwen3-8b,DQC_0156,greedy,24,1.0,196,196,1.0,Basic and Diluted Extension Elements,released_before_models,2023-07-06
+qwen3-8b,DQC_0156,sample1,24,1.0,176,196,0.8979591836734694,Basic and Diluted Extension Elements,released_before_models,2023-07-06
+qwen3-8b,DQC_0156,sample2,24,1.0,0,196,0.0,Basic and Diluted Extension Elements,released_before_models,2023-07-06
+qwen3-8b,DQC_0179,greedy,20,0.8,1,120,0.008333333333333333,Dividend Event Disclosures,released_before_models,2024-06-27
+qwen3-8b,DQC_0179,sample1,20,1.0,56,120,0.4666666666666667,Dividend Event Disclosures,released_before_models,2024-06-27
+qwen3-8b,DQC_0179,sample2,20,1.0,17,120,0.14166666666666666,Dividend Event Disclosures,released_before_models,2024-06-27
+qwen3-8b,DQC_0204,greedy,13,1.0,0,35,0.0,Invalid Axis used for Tangible and Intangible Assets,released_after_models,2025-06-18
+qwen3-8b,DQC_0204,sample1,13,1.0,0,35,0.0,Invalid Axis used for Tangible and Intangible Assets,released_after_models,2025-06-18
+qwen3-8b,DQC_0204,sample2,13,1.0,0,35,0.0,Invalid Axis used for Tangible and Intangible Assets,released_after_models,2025-06-18
+qwen3-8b,DQC_0207,greedy,7,1.0,0,16,0.0,Invalid Subtotals in Schedule of Investments,released_after_models,2025-06-18
+qwen3-8b,DQC_0212,greedy,12,1.0,9,9,1.0,Missing Shares Issued or Authorized Facts When Shares Outstanding Reported,released_after_models,2025-10-15
+qwen3-8b,DQC_0212,sample1,12,1.0,9,9,1.0,Missing Shares Issued or Authorized Facts When Shares Outstanding Reported,released_after_models,2025-10-15
+qwen3-8b,DQC_0212,sample2,12,0.0,0,9,0.0,Missing Shares Issued or Authorized Facts When Shares Outstanding Reported,released_after_models,2025-10-15
+qwen3-8b,DQC_0228,greedy,9,0.0,0,16,0.0,'Other' Concept Should Not Exceed Aggregate,released_after_models,2026-03-18
+qwen3-8b,DQC_0234,greedy,4,1.0,3,6,0.5,Incorrect Use of IncomeTaxAuthorityAxis with Domestic Tax Reconciliation Concepts,released_after_models,2026-06-29
+qwen3-8b,DQC_0234,sample1,4,0.0,0,6,0.0,Incorrect Use of IncomeTaxAuthorityAxis with Domestic Tax Reconciliation Concepts,released_after_models,2026-06-29
+qwen3-8b,DQC_0234,sample2,4,1.0,3,6,0.5,Incorrect Use of IncomeTaxAuthorityAxis with Domestic Tax Reconciliation Concepts,released_after_models,2026-06-29
+qwen3-8b,DQC_0238,greedy,5,1.0,0,0,,Segment Reporting Text Block Used Without StatementBusinessSegmentsAxis,released_after_models,2026-06-29
+qwen3-8b,DQC_0241,greedy,2,1.0,0,8,0.0,Incorrect Use of TransactionTypeAxis with Transaction Market Method Members,released_after_models,2026-06-29
+qwen3-8b,DQC_0245,greedy,7,0.0,0,0,,Consolidated Entities Axis in Statement Section,released_after_models,2026-10-07
