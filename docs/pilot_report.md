@@ -44,7 +44,7 @@ alerts and review effort.
 
 ## 3. Methods in brief
 
-- **Controls.** Generic schema checks; statistical checks learned from 2023-2024 filings of other companies (sign
+- **Controls.** Generic schema checks; statistical checks learned from 2023-2024 filings outside the experiment sample (sign
   rarity, magnitude outlier, period jump); a naive "amounts are never negative" rule (to show false-alarm cost);
   official DQC (Arelle 2.47.3 + XULE 3.0.30055, rulesets 2023-2025); AI-written rules; an AI judge.
 - **Injection.** Seven operators (sign flip, x1000, changed amount from empirical correction ratios, one digit,

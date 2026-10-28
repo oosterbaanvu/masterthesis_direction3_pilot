@@ -149,7 +149,7 @@ Use & Models or methods & Why \\
 \midrule
 Pilot (done) & Qwen2.5-Coder-7B and Qwen3-8B \cite{qwen25coder,qwen3}, compressed to run on a normal processor & Free, local, one code model and one general model, known release dates \\
 Main research & Larger versions of the same families (for example Qwen2.5-Coder-32B, Qwen3-32B) and a second family (gpt-oss-20b and 120b \cite{gptoss}) on the university GPU cluster & Tests whether model size and model family change the conclusions \\
-Baselines without AI & Generic checks; statistical checks learned from other companies' filings; rule suggestion from data profiles as in Deequ \cite{deequ} & Shows whether AI does better than cheap methods \\
+Baselines without AI & Generic checks; statistical checks learned from filings outside the sample; rule suggestion from data profiles as in Deequ \cite{deequ} & Shows whether AI does better than cheap methods \\
 AI as judge & The same models, asked to point at suspicious numbers directly & Compares writing rules with judging data \\
 Artefact & A small or medium model that runs on one machine, behind an adapter & A bank can plug in the model it has approved \\
 \bottomrule
@@ -186,7 +186,7 @@ The lesson was that strong cheap baselines and the number of alerts decide wheth
 
 \subsection{Pilot 2: AI-written rules on SEC filings}
 
-We ran four kinds of existing controls on 240 filings: generic checks (for example the same number reported twice with different values), three statistical checks learned from 2023 and 2024 filings of other companies (unusual sign, unusual size, unusual jump between periods), a deliberately naive rule that amounts are never negative, and the official DQC rules in Arelle. We injected seven types of errors, one per copy of a filing, with placement and size based on the real corrections (Table~\ref{tab:ops}).
+We ran four kinds of existing controls on 240 filings: generic checks (for example the same number reported twice with different values), three statistical checks learned from 2023 and 2024 filings outside the sample (unusual sign, unusual size, unusual jump between periods), a deliberately naive rule that amounts are never negative, and the official DQC rules in Arelle. We injected seven types of errors, one per copy of a filing, with placement and size based on the real corrections (Table~\ref{tab:ops}).
 
 \begin{table}[htbp]
 \centering
