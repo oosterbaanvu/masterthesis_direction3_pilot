@@ -1,0 +1,10 @@
+llama_context: n_ctx_per_seq (16384) < n_ctx_train (131072) -- the full capacity of the model will not be utilized
+DQC_0009 {'ok': 11} recall 0/15 prompt 6971 tok, 647s, stop
+DQC_0011 {'ok': 15} recall 0/38 prompt 2739 tok, 292s, stop
+DQC_0013 {'ok': 16} recall 16/31 prompt 5037 tok, 529s, stop
+DQC_0091 {'ok': 10} recall 7/7 prompt 2102 tok, 190s, stop
+DQC_0116 {'ok': 17} recall 0/211 prompt 3266 tok, 303s, stop
+DQC_0204 {'error': 13} recall 0/35 prompt 3690 tok, 503s, stop
+DQC_0207 {'error': 7} recall 0/16 prompt 6001 tok, 579s, stop
+DQC_0228 {'error': 9} recall 0/16 prompt 3290 tok, 316s, stop
+DQC_0241 {'ok': 2} recall 8/8 prompt 1927 tok, 188s, stop
