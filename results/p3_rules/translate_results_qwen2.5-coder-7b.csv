@@ -217,3 +217,263 @@ qwen2.5-coder-7b,DQC_0234,greedy,DQC.US.0234.10929_AUKF33_US-2026,ok,,1,0,1,3,1,
 qwen2.5-coder-7b,DQC_0234,greedy,DQC.US.0234.10930_CPSS-US-2026,ok,,3,0,0,0,0,0,176.5,stop,555.0
 qwen2.5-coder-7b,DQC_0241,greedy,DQC.US.0241.10942_VRIAC-US-2025,ok,,4,0,0,0,0,0,64.7,stop,128.0
 qwen2.5-coder-7b,DQC_0241,greedy,DQC.US.0241.10942_VRIAC_US-2026,ok,,4,0,0,0,0,0,64.7,stop,128.0
+qwen2.5-coder-7b,DQC_0156,sample1,DQC.US.0156.10074_10KA_SFRX-US-2025,ok,,4,0,4,4,4,0,53.4,stop,109.0
+qwen2.5-coder-7b,DQC_0156,sample1,DQC.US.0156.10074_10K_TPIA-US-2025,ok,,2,0,2,2,2,0,53.4,stop,109.0
+qwen2.5-coder-7b,DQC_0156,sample1,DQC.US.0156.10074_10QA_INSI-US-2025,ok,,2,0,2,2,2,0,53.4,stop,109.0
+qwen2.5-coder-7b,DQC_0156,sample1,DQC.US.0156.10074_10Q_NBH-US-2026,ok,,4,0,4,4,4,0,53.4,stop,109.0
+qwen2.5-coder-7b,DQC_0156,sample1,DQC.US.0156.10074_10Q_UAMY-US-2024,ok,,4,0,4,4,4,0,53.4,stop,109.0
+qwen2.5-coder-7b,DQC_0156,sample1,DQC.US.0156.10074_20FA_TRSG-US-2024,ok,,4,0,4,4,4,0,53.4,stop,109.0
+qwen2.5-coder-7b,DQC_0156,sample1,DQC.US.0156.10074_20F_FFFZ-US-2025,ok,,6,0,6,6,6,0,53.4,stop,109.0
+qwen2.5-coder-7b,DQC_0156,sample1,DQC.US.0156.10074_AERT-US-2024,ok,,2,0,2,2,2,0,53.4,stop,109.0
+qwen2.5-coder-7b,DQC_0156,sample1,DQC.US.0156.10074_AFARU-US-2024,ok,,20,0,20,20,20,0,53.4,stop,109.0
+qwen2.5-coder-7b,DQC_0156,sample1,DQC.US.0156.10074_F4A_AFARU-US-2024,ok,,20,0,20,20,20,0,53.4,stop,109.0
+qwen2.5-coder-7b,DQC_0156,sample1,DQC.US.0156.10074_FFFZ-US-2025,ok,,6,0,6,6,6,0,53.4,stop,109.0
+qwen2.5-coder-7b,DQC_0156,sample1,DQC.US.0156.10074_GLND-US-2024,ok,,44,0,44,44,44,0,53.4,stop,109.0
+qwen2.5-coder-7b,DQC_0156,sample1,DQC.US.0156.10074_ICCT-US-2024,ok,,2,0,2,2,2,0,53.4,stop,109.0
+qwen2.5-coder-7b,DQC_0156,sample1,DQC.US.0156.10074_INSI-US-2025,ok,,2,0,2,2,2,0,53.4,stop,109.0
+qwen2.5-coder-7b,DQC_0156,sample1,DQC.US.0156.10074_NBH-US-2025,ok,,4,0,4,4,4,0,53.4,stop,109.0
+qwen2.5-coder-7b,DQC_0156,sample1,DQC.US.0156.10074_NBH-US-2026,ok,,4,0,4,4,4,0,53.4,stop,109.0
+qwen2.5-coder-7b,DQC_0156,sample1,DQC.US.0156.10074_POSAM_AERT-US-2024,ok,,2,0,2,2,2,0,53.4,stop,109.0
+qwen2.5-coder-7b,DQC_0156,sample1,DQC.US.0156.10074_S1A_NBH-US-2025,ok,,4,0,4,4,4,0,53.4,stop,109.0
+qwen2.5-coder-7b,DQC_0156,sample1,DQC.US.0156.10074_S1_ICCT-US-2024,ok,,2,0,2,2,2,0,53.4,stop,109.0
+qwen2.5-coder-7b,DQC_0156,sample1,DQC.US.0156.10074_S4A_GLND-US-2024,ok,,44,0,44,44,44,0,53.4,stop,109.0
+qwen2.5-coder-7b,DQC_0156,sample1,DQC.US.0156.10074_SFRX-US-2025,ok,,4,0,4,4,4,0,53.4,stop,109.0
+qwen2.5-coder-7b,DQC_0156,sample1,DQC.US.0156.10074_TPIA-US-2025,ok,,2,0,2,2,2,0,53.4,stop,109.0
+qwen2.5-coder-7b,DQC_0156,sample1,DQC.US.0156.10074_TRSG-US-2024,ok,,4,0,4,4,4,0,53.4,stop,109.0
+qwen2.5-coder-7b,DQC_0156,sample1,DQC.US.0156.10074_UAMY-us-2024,ok,,4,0,4,4,4,0,53.4,stop,109.0
+qwen2.5-coder-7b,DQC_0156,sample2,DQC.US.0156.10074_10KA_SFRX-US-2025,ok,,4,0,4,4,4,0,22.8,stop,105.0
+qwen2.5-coder-7b,DQC_0156,sample2,DQC.US.0156.10074_10K_TPIA-US-2025,ok,,2,0,2,2,2,0,22.8,stop,105.0
+qwen2.5-coder-7b,DQC_0156,sample2,DQC.US.0156.10074_10QA_INSI-US-2025,ok,,2,0,2,2,2,0,22.8,stop,105.0
+qwen2.5-coder-7b,DQC_0156,sample2,DQC.US.0156.10074_10Q_NBH-US-2026,ok,,4,0,4,4,4,0,22.8,stop,105.0
+qwen2.5-coder-7b,DQC_0156,sample2,DQC.US.0156.10074_10Q_UAMY-US-2024,ok,,4,0,4,4,4,0,22.8,stop,105.0
+qwen2.5-coder-7b,DQC_0156,sample2,DQC.US.0156.10074_20FA_TRSG-US-2024,ok,,4,0,4,5,4,1,22.8,stop,105.0
+qwen2.5-coder-7b,DQC_0156,sample2,DQC.US.0156.10074_20F_FFFZ-US-2025,ok,,6,0,6,6,6,0,22.8,stop,105.0
+qwen2.5-coder-7b,DQC_0156,sample2,DQC.US.0156.10074_AERT-US-2024,ok,,2,0,2,3,2,1,22.8,stop,105.0
+qwen2.5-coder-7b,DQC_0156,sample2,DQC.US.0156.10074_AFARU-US-2024,ok,,20,0,20,21,20,1,22.8,stop,105.0
+qwen2.5-coder-7b,DQC_0156,sample2,DQC.US.0156.10074_F4A_AFARU-US-2024,ok,,20,0,20,21,20,1,22.8,stop,105.0
+qwen2.5-coder-7b,DQC_0156,sample2,DQC.US.0156.10074_FFFZ-US-2025,ok,,6,0,6,6,6,0,22.8,stop,105.0
+qwen2.5-coder-7b,DQC_0156,sample2,DQC.US.0156.10074_GLND-US-2024,ok,,44,0,44,47,44,3,22.8,stop,105.0
+qwen2.5-coder-7b,DQC_0156,sample2,DQC.US.0156.10074_ICCT-US-2024,ok,,2,0,2,2,2,0,22.8,stop,105.0
+qwen2.5-coder-7b,DQC_0156,sample2,DQC.US.0156.10074_INSI-US-2025,ok,,2,0,2,2,2,0,22.8,stop,105.0
+qwen2.5-coder-7b,DQC_0156,sample2,DQC.US.0156.10074_NBH-US-2025,ok,,4,0,4,4,4,0,22.8,stop,105.0
+qwen2.5-coder-7b,DQC_0156,sample2,DQC.US.0156.10074_NBH-US-2026,ok,,4,0,4,4,4,0,22.8,stop,105.0
+qwen2.5-coder-7b,DQC_0156,sample2,DQC.US.0156.10074_POSAM_AERT-US-2024,ok,,2,0,2,3,2,1,22.8,stop,105.0
+qwen2.5-coder-7b,DQC_0156,sample2,DQC.US.0156.10074_S1A_NBH-US-2025,ok,,4,0,4,4,4,0,22.8,stop,105.0
+qwen2.5-coder-7b,DQC_0156,sample2,DQC.US.0156.10074_S1_ICCT-US-2024,ok,,2,0,2,2,2,0,22.8,stop,105.0
+qwen2.5-coder-7b,DQC_0156,sample2,DQC.US.0156.10074_S4A_GLND-US-2024,ok,,44,0,44,47,44,3,22.8,stop,105.0
+qwen2.5-coder-7b,DQC_0156,sample2,DQC.US.0156.10074_SFRX-US-2025,ok,,4,0,4,4,4,0,22.8,stop,105.0
+qwen2.5-coder-7b,DQC_0156,sample2,DQC.US.0156.10074_TPIA-US-2025,ok,,2,0,2,2,2,0,22.8,stop,105.0
+qwen2.5-coder-7b,DQC_0156,sample2,DQC.US.0156.10074_TRSG-US-2024,ok,,4,0,4,5,4,1,22.8,stop,105.0
+qwen2.5-coder-7b,DQC_0156,sample2,DQC.US.0156.10074_UAMY-us-2024,ok,,4,0,4,4,4,0,22.8,stop,105.0
+qwen2.5-coder-7b,DQC_0109,sample1,DQC.US.0109.9566_DEST-us-2024,ok,,2,0,2,2,2,0,370.5,stop,1071.0
+qwen2.5-coder-7b,DQC_0109,sample1,DQC.US.0109.9568_DLT-us-2024,ok,,4,0,4,4,4,0,370.5,stop,1071.0
+qwen2.5-coder-7b,DQC_0109,sample1,DQC.US.0109.9569_10KA_SUSG-US-2024,ok,,2,0,2,14,2,12,370.5,stop,1071.0
+qwen2.5-coder-7b,DQC_0109,sample1,DQC.US.0109.9569_10K_BXP-US-2024,ok,,3,0,3,3,3,0,370.5,stop,1071.0
+qwen2.5-coder-7b,DQC_0109,sample1,DQC.US.0109.9569_10K_IQST-US-2025,ok,,1,0,1,5,1,4,370.5,stop,1071.0
+qwen2.5-coder-7b,DQC_0109,sample1,DQC.US.0109.9569_10Q_AERA-US-2026,ok,,14,0,14,14,14,0,370.5,stop,1071.0
+qwen2.5-coder-7b,DQC_0109,sample1,DQC.US.0109.9569_20F_SEAL-US-2025,ok,,1,0,1,10,1,9,370.5,stop,1071.0
+qwen2.5-coder-7b,DQC_0109,sample1,DQC.US.0109.9569_6K_CNEY-US-2024,ok,,0,0,0,25,0,25,370.5,stop,1071.0
+qwen2.5-coder-7b,DQC_0109,sample1,DQC.US.0109.9569_AERA-US-2026,ok,,14,0,14,14,14,0,370.5,stop,1071.0
+qwen2.5-coder-7b,DQC_0109,sample1,DQC.US.0109.9569_BXP-us-2024,ok,,3,0,3,3,3,0,370.5,stop,1071.0
+qwen2.5-coder-7b,DQC_0109,sample1,DQC.US.0109.9569_ESGH-US-2024,ok,,6,0,6,6,6,0,370.5,stop,1071.0
+qwen2.5-coder-7b,DQC_0109,sample1,DQC.US.0109.9569_IQST-US-2025,ok,,1,0,1,5,1,4,370.5,stop,1071.0
+qwen2.5-coder-7b,DQC_0109,sample1,DQC.US.0109.9569_S1A_ESGH-US-2024,ok,,6,0,6,6,6,0,370.5,stop,1071.0
+qwen2.5-coder-7b,DQC_0109,sample1,DQC.US.0109.9569_SEAL-US-2025,ok,,1,0,1,10,1,9,370.5,stop,1071.0
+qwen2.5-coder-7b,DQC_0109,sample1,DQC.US.0109.9569_SUSG-US-2024,ok,,2,0,2,14,2,12,370.5,stop,1071.0
+qwen2.5-coder-7b,DQC_0109,sample1,DQC.US.0109.9570_MINM-us-2024,ok,,2,0,1,3,1,2,370.5,stop,1071.0
+qwen2.5-coder-7b,DQC_0109,sample1,rollDQC.US.0109.9565_CXDO-us-2024,ok,,4,0,4,4,4,0,370.5,stop,1071.0
+qwen2.5-coder-7b,DQC_0109,sample1,rollDQC.US.0109.9567_AEHR-us-2024,ok,,10,0,10,10,10,0,370.5,stop,1071.0
+qwen2.5-coder-7b,DQC_0109,sample1,rollDQC.US.0109.9571_GURE-us-2023,ok,,2,0,2,8,2,6,370.5,stop,1071.0
+qwen2.5-coder-7b,DQC_0109,sample1,rollDQC.US.0109.9572_AEHR-us-2024,ok,,5,0,5,10,5,5,370.5,stop,1071.0
+qwen2.5-coder-7b,DQC_0109,sample2,DQC.US.0109.9566_DEST-us-2024,ok,,2,0,2,2,2,0,302.5,stop,1193.0
+qwen2.5-coder-7b,DQC_0109,sample2,DQC.US.0109.9568_DLT-us-2024,ok,,4,0,4,4,4,0,302.5,stop,1193.0
+qwen2.5-coder-7b,DQC_0109,sample2,DQC.US.0109.9569_10KA_SUSG-US-2024,ok,,2,0,0,0,0,0,302.5,stop,1193.0
+qwen2.5-coder-7b,DQC_0109,sample2,DQC.US.0109.9569_10K_BXP-US-2024,ok,,3,0,0,0,0,0,302.5,stop,1193.0
+qwen2.5-coder-7b,DQC_0109,sample2,DQC.US.0109.9569_10K_IQST-US-2025,ok,,1,0,0,4,0,4,302.5,stop,1193.0
+qwen2.5-coder-7b,DQC_0109,sample2,DQC.US.0109.9569_10Q_AERA-US-2026,ok,,14,0,0,0,0,0,302.5,stop,1193.0
+qwen2.5-coder-7b,DQC_0109,sample2,DQC.US.0109.9569_20F_SEAL-US-2025,ok,,1,0,0,0,0,0,302.5,stop,1193.0
+qwen2.5-coder-7b,DQC_0109,sample2,DQC.US.0109.9569_6K_CNEY-US-2024,ok,,0,0,0,10,0,10,302.5,stop,1193.0
+qwen2.5-coder-7b,DQC_0109,sample2,DQC.US.0109.9569_AERA-US-2026,ok,,14,0,0,0,0,0,302.5,stop,1193.0
+qwen2.5-coder-7b,DQC_0109,sample2,DQC.US.0109.9569_BXP-us-2024,ok,,3,0,0,0,0,0,302.5,stop,1193.0
+qwen2.5-coder-7b,DQC_0109,sample2,DQC.US.0109.9569_ESGH-US-2024,ok,,6,0,0,0,0,0,302.5,stop,1193.0
+qwen2.5-coder-7b,DQC_0109,sample2,DQC.US.0109.9569_IQST-US-2025,ok,,1,0,0,4,0,4,302.5,stop,1193.0
+qwen2.5-coder-7b,DQC_0109,sample2,DQC.US.0109.9569_S1A_ESGH-US-2024,ok,,6,0,0,0,0,0,302.5,stop,1193.0
+qwen2.5-coder-7b,DQC_0109,sample2,DQC.US.0109.9569_SEAL-US-2025,ok,,1,0,0,0,0,0,302.5,stop,1193.0
+qwen2.5-coder-7b,DQC_0109,sample2,DQC.US.0109.9569_SUSG-US-2024,ok,,2,0,0,0,0,0,302.5,stop,1193.0
+qwen2.5-coder-7b,DQC_0109,sample2,DQC.US.0109.9570_MINM-us-2024,ok,,2,0,0,0,0,0,302.5,stop,1193.0
+qwen2.5-coder-7b,DQC_0109,sample2,rollDQC.US.0109.9565_CXDO-us-2024,ok,,4,0,4,4,4,0,302.5,stop,1193.0
+qwen2.5-coder-7b,DQC_0109,sample2,rollDQC.US.0109.9567_AEHR-us-2024,ok,,10,0,10,10,10,0,302.5,stop,1193.0
+qwen2.5-coder-7b,DQC_0109,sample2,rollDQC.US.0109.9571_GURE-us-2023,ok,,2,0,2,10,2,8,302.5,stop,1193.0
+qwen2.5-coder-7b,DQC_0109,sample2,rollDQC.US.0109.9572_AEHR-us-2024,ok,,5,0,5,10,5,5,302.5,stop,1193.0
+qwen2.5-coder-7b,DQC_0179,sample1,DQC.US.0179.10139_BMNR-US-2025,ok,,1,0,0,0,0,0,376.1,stop,1115.0
+qwen2.5-coder-7b,DQC_0179,sample1,DQC.US.0179.10139_CK0001018164-us-2024,ok,,1,0,0,0,0,0,376.1,stop,1115.0
+qwen2.5-coder-7b,DQC_0179,sample1,DQC.US.0179.10139_JAKK-US-2025,ok,,1,0,0,0,0,0,376.1,stop,1115.0
+qwen2.5-coder-7b,DQC_0179,sample1,DQC.US.0179.10141_10Q_WHR-US-2024,ok,,0,1,0,0,0,0,376.1,stop,1115.0
+qwen2.5-coder-7b,DQC_0179,sample1,DQC.US.0179.10141_WHR-us-2024,ok,,1,0,0,0,0,0,376.1,stop,1115.0
+qwen2.5-coder-7b,DQC_0179,sample1,DQC.US.0179.10143_BXP-US-2025,ok,,6,0,0,0,0,0,376.1,stop,1115.0
+qwen2.5-coder-7b,DQC_0179,sample1,DQC.US.0179.10143_BXP-us-2024,ok,,8,0,0,0,0,0,376.1,stop,1115.0
+qwen2.5-coder-7b,DQC_0179,sample1,DQC.US.0179.10143_OLN-US-2024,ok,,1,0,0,0,0,0,376.1,stop,1115.0
+qwen2.5-coder-7b,DQC_0179,sample1,DQC.US.0179.10144_BTCC-us-2024,ok,,11,0,0,0,0,0,376.1,stop,1115.0
+qwen2.5-coder-7b,DQC_0179,sample1,DQC.US.0179.10144_EARN-US-2024,ok,,1,0,0,0,0,0,376.1,stop,1115.0
+qwen2.5-coder-7b,DQC_0179,sample1,DQC.US.0179.10144_GSL-US-2024,ok,,6,0,0,0,0,0,376.1,stop,1115.0
+qwen2.5-coder-7b,DQC_0179,sample1,DQC.US.0179.10144_GSL-US-2025,ok,,15,0,0,0,0,0,376.1,stop,1115.0
+qwen2.5-coder-7b,DQC_0179,sample1,DQC.US.0179.10144_LAPC-US-2025,ok,,11,0,0,0,0,0,376.1,stop,1115.0
+qwen2.5-coder-7b,DQC_0179,sample1,DQC.US.0179.10151_CCEC-US-2025,ok,,2,0,0,0,0,0,376.1,stop,1115.0
+qwen2.5-coder-7b,DQC_0179,sample1,DQC.US.0179.10151_NVEC-US-2026,ok,,2,0,0,0,0,0,376.1,stop,1115.0
+qwen2.5-coder-7b,DQC_0179,sample1,DQC.US.0179.10151_OGS-US-2025,ok,,2,0,0,0,0,0,376.1,stop,1115.0
+qwen2.5-coder-7b,DQC_0179,sample1,DQC.US.0179.10151_OLED-us-2024,ok,,2,0,0,0,0,0,376.1,stop,1115.0
+qwen2.5-coder-7b,DQC_0179,sample1,DQC.US.0179.10151_SBLK-US-2025,ok,,2,0,0,0,0,0,376.1,stop,1115.0
+qwen2.5-coder-7b,DQC_0179,sample1,rollDQC.US.0179.10140_HFWA-us-2024,ok,,45,0,0,0,0,0,376.1,stop,1115.0
+qwen2.5-coder-7b,DQC_0179,sample1,rollDQC.US.0179.10142_PCG-us-2024,ok,,2,0,0,0,0,0,376.1,stop,1115.0
+qwen2.5-coder-7b,DQC_0179,sample2,DQC.US.0179.10139_BMNR-US-2025,ok,,1,0,0,0,0,0,240.5,stop,966.0
+qwen2.5-coder-7b,DQC_0179,sample2,DQC.US.0179.10139_CK0001018164-us-2024,ok,,1,0,0,0,0,0,240.5,stop,966.0
+qwen2.5-coder-7b,DQC_0179,sample2,DQC.US.0179.10139_JAKK-US-2025,ok,,1,0,0,0,0,0,240.5,stop,966.0
+qwen2.5-coder-7b,DQC_0179,sample2,DQC.US.0179.10141_10Q_WHR-US-2024,ok,,0,1,0,0,0,0,240.5,stop,966.0
+qwen2.5-coder-7b,DQC_0179,sample2,DQC.US.0179.10141_WHR-us-2024,ok,,1,0,0,0,0,0,240.5,stop,966.0
+qwen2.5-coder-7b,DQC_0179,sample2,DQC.US.0179.10143_BXP-US-2025,error,no output,6,0,0,0,0,0,240.5,stop,966.0
+qwen2.5-coder-7b,DQC_0179,sample2,DQC.US.0179.10143_BXP-us-2024,error,no output,8,0,0,0,0,0,240.5,stop,966.0
+qwen2.5-coder-7b,DQC_0179,sample2,DQC.US.0179.10143_OLN-US-2024,ok,,1,0,0,0,0,0,240.5,stop,966.0
+qwen2.5-coder-7b,DQC_0179,sample2,DQC.US.0179.10144_BTCC-us-2024,error,no output,11,0,0,0,0,0,240.5,stop,966.0
+qwen2.5-coder-7b,DQC_0179,sample2,DQC.US.0179.10144_EARN-US-2024,ok,,1,0,0,0,0,0,240.5,stop,966.0
+qwen2.5-coder-7b,DQC_0179,sample2,DQC.US.0179.10144_GSL-US-2024,ok,,6,0,0,0,0,0,240.5,stop,966.0
+qwen2.5-coder-7b,DQC_0179,sample2,DQC.US.0179.10144_GSL-US-2025,ok,,15,0,0,0,0,0,240.5,stop,966.0
+qwen2.5-coder-7b,DQC_0179,sample2,DQC.US.0179.10144_LAPC-US-2025,ok,,11,0,0,0,0,0,240.5,stop,966.0
+qwen2.5-coder-7b,DQC_0179,sample2,DQC.US.0179.10151_CCEC-US-2025,ok,,2,0,0,0,0,0,240.5,stop,966.0
+qwen2.5-coder-7b,DQC_0179,sample2,DQC.US.0179.10151_NVEC-US-2026,ok,,2,0,0,0,0,0,240.5,stop,966.0
+qwen2.5-coder-7b,DQC_0179,sample2,DQC.US.0179.10151_OGS-US-2025,ok,,2,0,0,0,0,0,240.5,stop,966.0
+qwen2.5-coder-7b,DQC_0179,sample2,DQC.US.0179.10151_OLED-us-2024,ok,,2,0,0,0,0,0,240.5,stop,966.0
+qwen2.5-coder-7b,DQC_0179,sample2,DQC.US.0179.10151_SBLK-US-2025,ok,,2,0,0,0,0,0,240.5,stop,966.0
+qwen2.5-coder-7b,DQC_0179,sample2,rollDQC.US.0179.10140_HFWA-us-2024,ok,,45,0,0,0,0,0,240.5,stop,966.0
+qwen2.5-coder-7b,DQC_0179,sample2,rollDQC.US.0179.10142_PCG-us-2024,ok,,2,0,0,0,0,0,240.5,stop,966.0
+qwen2.5-coder-7b,DQC_0014,sample1,DQC.US.0014.2793_HIG-us-2024,ok,,5,0,0,0,0,0,91.0,stop,186.0
+qwen2.5-coder-7b,DQC_0014,sample1,DQC.US.0014_BPOP-us-2024,ok,,1,0,0,0,0,0,91.0,stop,186.0
+qwen2.5-coder-7b,DQC_0014,sample1,DQC.US.0014_CCH-10K_US-2025,ok,,1,0,0,0,0,0,91.0,stop,186.0
+qwen2.5-coder-7b,DQC_0014,sample1,DQC.US.0014_K-us-2024,ok,,1,0,0,0,0,0,91.0,stop,186.0
+qwen2.5-coder-7b,DQC_0014,sample1,DQC.US.0014_KID-us-2024,ok,,1,0,0,0,0,0,91.0,stop,186.0
+qwen2.5-coder-7b,DQC_0014,sample1,DQC.US.0014_TWI_US-2024,ok,,0,1,0,0,0,0,91.0,stop,186.0
+qwen2.5-coder-7b,DQC_0014,sample1,rollDQC.US.0014.2787_HIG-us-2024,ok,,5,0,0,0,0,0,91.0,stop,186.0
+qwen2.5-coder-7b,DQC_0014,sample1,rollDQC.US.0014.2790_HIG-us-2024,ok,,5,0,0,0,0,0,91.0,stop,186.0
+qwen2.5-coder-7b,DQC_0014,sample1,rollDQC.US.0014.2793_HIG-us-2024,ok,,5,0,0,0,0,0,91.0,stop,186.0
+qwen2.5-coder-7b,DQC_0014,sample1,rollDQC.US.0014_ABQQ-us-2024,ok,,3,0,0,0,0,0,91.0,stop,186.0
+qwen2.5-coder-7b,DQC_0014,sample1,rollDQC.US.0014_AGM.A-us-2023,ok,,1,0,0,0,0,0,91.0,stop,186.0
+qwen2.5-coder-7b,DQC_0014,sample1,rollDQC.US.0014_BWFG-us-2023,ok,,1,0,0,0,0,0,91.0,stop,186.0
+qwen2.5-coder-7b,DQC_0014,sample1,rollDQC.US.0014_K-us-2024,ok,,1,0,0,0,0,0,91.0,stop,186.0
+qwen2.5-coder-7b,DQC_0014,sample1,rollDQC.US.0014_MNDY-us-2023,ok,,1,0,0,0,0,0,91.0,stop,186.0
+qwen2.5-coder-7b,DQC_0014,sample1,rollDQC.US.0014_PEBK-us-2023,ok,,2,0,0,0,0,0,91.0,stop,186.0
+qwen2.5-coder-7b,DQC_0014,sample1,rollDQC.US.0014_WAL-us-2023,ok,,3,0,0,0,0,0,91.0,stop,186.0
+qwen2.5-coder-7b,DQC_0014,sample2,DQC.US.0014.2793_HIG-us-2024,ok,,5,0,0,0,0,0,29.5,stop,121.0
+qwen2.5-coder-7b,DQC_0014,sample2,DQC.US.0014_BPOP-us-2024,ok,,1,0,0,0,0,0,29.5,stop,121.0
+qwen2.5-coder-7b,DQC_0014,sample2,DQC.US.0014_CCH-10K_US-2025,ok,,1,0,0,0,0,0,29.5,stop,121.0
+qwen2.5-coder-7b,DQC_0014,sample2,DQC.US.0014_K-us-2024,ok,,1,0,0,0,0,0,29.5,stop,121.0
+qwen2.5-coder-7b,DQC_0014,sample2,DQC.US.0014_KID-us-2024,ok,,1,0,0,0,0,0,29.5,stop,121.0
+qwen2.5-coder-7b,DQC_0014,sample2,DQC.US.0014_TWI_US-2024,ok,,0,1,0,0,0,0,29.5,stop,121.0
+qwen2.5-coder-7b,DQC_0014,sample2,rollDQC.US.0014.2787_HIG-us-2024,ok,,5,0,0,0,0,0,29.5,stop,121.0
+qwen2.5-coder-7b,DQC_0014,sample2,rollDQC.US.0014.2790_HIG-us-2024,ok,,5,0,0,0,0,0,29.5,stop,121.0
+qwen2.5-coder-7b,DQC_0014,sample2,rollDQC.US.0014.2793_HIG-us-2024,ok,,5,0,0,0,0,0,29.5,stop,121.0
+qwen2.5-coder-7b,DQC_0014,sample2,rollDQC.US.0014_ABQQ-us-2024,ok,,3,0,0,0,0,0,29.5,stop,121.0
+qwen2.5-coder-7b,DQC_0014,sample2,rollDQC.US.0014_AGM.A-us-2023,ok,,1,0,0,0,0,0,29.5,stop,121.0
+qwen2.5-coder-7b,DQC_0014,sample2,rollDQC.US.0014_BWFG-us-2023,ok,,1,0,0,0,0,0,29.5,stop,121.0
+qwen2.5-coder-7b,DQC_0014,sample2,rollDQC.US.0014_K-us-2024,ok,,1,0,0,0,0,0,29.5,stop,121.0
+qwen2.5-coder-7b,DQC_0014,sample2,rollDQC.US.0014_MNDY-us-2023,ok,,1,0,0,0,0,0,29.5,stop,121.0
+qwen2.5-coder-7b,DQC_0014,sample2,rollDQC.US.0014_PEBK-us-2023,ok,,2,0,0,0,0,0,29.5,stop,121.0
+qwen2.5-coder-7b,DQC_0014,sample2,rollDQC.US.0014_WAL-us-2023,ok,,3,0,0,0,0,0,29.5,stop,121.0
+qwen2.5-coder-7b,DQC_0009,sample1,DQC.US.0009.15_NIVF-US-2024,ok,,0,1,0,0,0,0,173.3,stop,274.0
+qwen2.5-coder-7b,DQC_0009,sample1,DQC.US.0009.15_NONE-us-2024,ok,,2,0,0,0,0,0,173.3,stop,274.0
+qwen2.5-coder-7b,DQC_0009,sample1,DQC.US.0009.15_TSSI-US-2025,ok,,1,0,0,0,0,0,173.3,stop,274.0
+qwen2.5-coder-7b,DQC_0009,sample1,DQC.US.0009.21_NONE-us-2024,ok,,2,0,0,0,0,0,173.3,stop,274.0
+qwen2.5-coder-7b,DQC_0009,sample1,DQC.US.0009.21_TSSI-US-2025,ok,,1,0,0,0,0,0,173.3,stop,274.0
+qwen2.5-coder-7b,DQC_0009,sample1,DQC.US.0009.22_PRES-us-2024,ok,,1,0,0,0,0,0,173.3,stop,274.0
+qwen2.5-coder-7b,DQC_0009,sample1,DQC.US.0009.23_PRES-us-2024,ok,,2,0,0,0,0,0,173.3,stop,274.0
+qwen2.5-coder-7b,DQC_0009,sample1,DQC.US.0009.24_IMII-us-2024,ok,,1,0,0,0,0,0,173.3,stop,274.0
+qwen2.5-coder-7b,DQC_0009,sample1,DQC.US.0009.40_NE-US-2025,ok,,1,0,0,0,0,0,173.3,stop,274.0
+qwen2.5-coder-7b,DQC_0009,sample1,rollDQC.US.0009.19_TENNX-us-2023,ok,,1,0,0,0,0,0,173.3,stop,274.0
+qwen2.5-coder-7b,DQC_0009,sample1,rollDQC.US.0009.46_DUK-us-2024,ok,,3,0,0,0,0,0,173.3,stop,274.0
+qwen2.5-coder-7b,DQC_0009,sample2,DQC.US.0009.15_NIVF-US-2024,ok,,0,1,0,0,0,0,66.8,stop,256.0
+qwen2.5-coder-7b,DQC_0009,sample2,DQC.US.0009.15_NONE-us-2024,ok,,2,0,0,0,0,0,66.8,stop,256.0
+qwen2.5-coder-7b,DQC_0009,sample2,DQC.US.0009.15_TSSI-US-2025,ok,,1,0,0,0,0,0,66.8,stop,256.0
+qwen2.5-coder-7b,DQC_0009,sample2,DQC.US.0009.21_NONE-us-2024,ok,,2,0,0,0,0,0,66.8,stop,256.0
+qwen2.5-coder-7b,DQC_0009,sample2,DQC.US.0009.21_TSSI-US-2025,ok,,1,0,0,0,0,0,66.8,stop,256.0
+qwen2.5-coder-7b,DQC_0009,sample2,DQC.US.0009.22_PRES-us-2024,ok,,1,0,0,0,0,0,66.8,stop,256.0
+qwen2.5-coder-7b,DQC_0009,sample2,DQC.US.0009.23_PRES-us-2024,ok,,2,0,0,0,0,0,66.8,stop,256.0
+qwen2.5-coder-7b,DQC_0009,sample2,DQC.US.0009.24_IMII-us-2024,ok,,1,0,0,0,0,0,66.8,stop,256.0
+qwen2.5-coder-7b,DQC_0009,sample2,DQC.US.0009.40_NE-US-2025,ok,,1,0,0,0,0,0,66.8,stop,256.0
+qwen2.5-coder-7b,DQC_0009,sample2,rollDQC.US.0009.19_TENNX-us-2023,ok,,1,0,0,0,0,0,66.8,stop,256.0
+qwen2.5-coder-7b,DQC_0009,sample2,rollDQC.US.0009.46_DUK-us-2024,ok,,3,0,0,0,0,0,66.8,stop,256.0
+qwen2.5-coder-7b,DQC_0124,sample1,DQC.US.0124.9585_KMX-US-2025,error,KeyError: 'concept',2,0,0,0,0,0,171.6,stop,497.0
+qwen2.5-coder-7b,DQC_0124,sample1,DQC.US.0124.9585_MTEX-us-2024,ok,,2,0,0,0,0,0,171.6,stop,497.0
+qwen2.5-coder-7b,DQC_0124,sample1,DQC.US.0124.9585_TSEM-US-2025,error,KeyError: 'concept',2,0,0,0,0,0,171.6,stop,497.0
+qwen2.5-coder-7b,DQC_0124,sample1,DQC.US.0124.9587_BXP-us-2024,ok,,2,0,0,0,0,0,171.6,stop,497.0
+qwen2.5-coder-7b,DQC_0124,sample1,DQC.US.0124.9587_CAMT-US-2025,error,KeyError: 'concept',2,0,0,0,0,0,171.6,stop,497.0
+qwen2.5-coder-7b,DQC_0124,sample1,DQC.US.0124.9587_KMX-US-2025,error,KeyError: 'concept',2,0,0,0,0,0,171.6,stop,497.0
+qwen2.5-coder-7b,DQC_0124,sample1,DQC.US.0124.9587_SFRX-US-2025,error,KeyError: 'concept',2,0,0,0,0,0,171.6,stop,497.0
+qwen2.5-coder-7b,DQC_0124,sample1,rollDQC.US.0124.9584_KMX-us-2024,ok,,1,0,0,0,0,0,171.6,stop,497.0
+qwen2.5-coder-7b,DQC_0124,sample1,rollDQC.US.0124.9586_CAMT-us-2024,ok,,1,0,0,0,0,0,171.6,stop,497.0
+qwen2.5-coder-7b,DQC_0124,sample1,rollDQC.US.0124.9588_CHKP-us-2024,ok,,2,0,0,0,0,0,171.6,stop,497.0
+qwen2.5-coder-7b,DQC_0124,sample2,DQC.US.0124.9585_KMX-US-2025,error,"KeyError: ""None of [Index(['us-gaap:extensibleList'], dtype='object')] are in the [columns]""",2,0,0,0,0,0,122.2,stop,528.0
+qwen2.5-coder-7b,DQC_0124,sample2,DQC.US.0124.9585_MTEX-us-2024,ok,,2,0,0,0,0,0,122.2,stop,528.0
+qwen2.5-coder-7b,DQC_0124,sample2,DQC.US.0124.9585_TSEM-US-2025,error,"KeyError: ""None of [Index(['us-gaap:extensibleList'], dtype='object')] are in the [columns]""",2,0,0,0,0,0,122.2,stop,528.0
+qwen2.5-coder-7b,DQC_0124,sample2,DQC.US.0124.9587_BXP-us-2024,ok,,2,0,0,0,0,0,122.2,stop,528.0
+qwen2.5-coder-7b,DQC_0124,sample2,DQC.US.0124.9587_CAMT-US-2025,error,"KeyError: ""None of [Index(['us-gaap:extensibleList', 'us-gaap:extensibleList'], dtype='object')] are in the [columns]""",2,0,0,0,0,0,122.2,stop,528.0
+qwen2.5-coder-7b,DQC_0124,sample2,DQC.US.0124.9587_KMX-US-2025,error,"KeyError: ""None of [Index(['us-gaap:extensibleList'], dtype='object')] are in the [columns]""",2,0,0,0,0,0,122.2,stop,528.0
+qwen2.5-coder-7b,DQC_0124,sample2,DQC.US.0124.9587_SFRX-US-2025,error,"KeyError: ""None of [Index(['us-gaap:extensibleList', 'us-gaap:extensibleList',\n       'us-gaap:extensibleList', 'us-gaap:extensibleList',\n       'us-gaap:extensibleList'],\n      dtype='object')] ar",2,0,0,0,0,0,122.2,stop,528.0
+qwen2.5-coder-7b,DQC_0124,sample2,rollDQC.US.0124.9584_KMX-us-2024,ok,,1,0,0,0,0,0,122.2,stop,528.0
+qwen2.5-coder-7b,DQC_0124,sample2,rollDQC.US.0124.9586_CAMT-us-2024,ok,,1,0,0,0,0,0,122.2,stop,528.0
+qwen2.5-coder-7b,DQC_0124,sample2,rollDQC.US.0124.9588_CHKP-us-2024,ok,,2,0,0,0,0,0,122.2,stop,528.0
+qwen2.5-coder-7b,DQC_0204,sample1,DQC.US.0204.10704_AIRE-10QA_US-2025,ok,,2,0,0,0,0,0,175.7,stop,505.0
+qwen2.5-coder-7b,DQC_0204,sample1,DQC.US.0204.10704_DUOT-US-2024,ok,,0,8,0,0,0,0,175.7,stop,505.0
+qwen2.5-coder-7b,DQC_0204,sample1,DQC.US.0204.10704_SKYQ-10KA_US-2024,ok,,0,1,0,0,0,0,175.7,stop,505.0
+qwen2.5-coder-7b,DQC_0204,sample1,DQC.US.0204.10704_SKYQ-US-2024,ok,,0,8,0,0,0,0,175.7,stop,505.0
+qwen2.5-coder-7b,DQC_0204,sample1,DQC.US.0204.10704_TPIA-US-2025,ok,,1,0,0,0,0,0,175.7,stop,505.0
+qwen2.5-coder-7b,DQC_0204,sample1,DQC.US.0204.10704_VEEE-US-2025,ok,,11,0,0,0,0,0,175.7,stop,505.0
+qwen2.5-coder-7b,DQC_0204,sample1,DQC.US.0204.10705_DHR_US-2025,ok,,1,0,0,0,0,0,175.7,stop,505.0
+qwen2.5-coder-7b,DQC_0204,sample1,DQC.US.0204.10705_USAC-US-2025,ok,,4,0,0,0,0,0,175.7,stop,505.0
+qwen2.5-coder-7b,DQC_0204,sample1,DQC.US.0204.10705_VIVK-US-2025,ok,,7,0,0,0,0,0,175.7,stop,505.0
+qwen2.5-coder-7b,DQC_0204,sample1,DQC.US.0204.10707_10K_BLK-US-2025,ok,,3,0,0,0,0,0,175.7,stop,505.0
+qwen2.5-coder-7b,DQC_0204,sample1,DQC.US.0204.10707_BLK-US-2025,ok,,3,0,0,0,0,0,175.7,stop,505.0
+qwen2.5-coder-7b,DQC_0204,sample1,rollDQC.US.0204.10706_LEVI_US-2023,ok,,2,0,0,0,0,0,175.7,stop,505.0
+qwen2.5-coder-7b,DQC_0204,sample1,rollDQC.US.0204.10707_TRUG_US-2024,ok,,1,0,0,0,0,0,175.7,stop,505.0
+qwen2.5-coder-7b,DQC_0204,sample2,DQC.US.0204.10704_AIRE-10QA_US-2025,ok,,2,0,2,2,2,0,83.7,stop,315.0
+qwen2.5-coder-7b,DQC_0204,sample2,DQC.US.0204.10704_DUOT-US-2024,ok,,0,8,0,0,0,0,83.7,stop,315.0
+qwen2.5-coder-7b,DQC_0204,sample2,DQC.US.0204.10704_SKYQ-10KA_US-2024,ok,,0,1,0,1,0,1,83.7,stop,315.0
+qwen2.5-coder-7b,DQC_0204,sample2,DQC.US.0204.10704_SKYQ-US-2024,ok,,0,8,0,0,0,0,83.7,stop,315.0
+qwen2.5-coder-7b,DQC_0204,sample2,DQC.US.0204.10704_TPIA-US-2025,ok,,1,0,1,1,1,0,83.7,stop,315.0
+qwen2.5-coder-7b,DQC_0204,sample2,DQC.US.0204.10704_VEEE-US-2025,ok,,11,0,0,0,0,0,83.7,stop,315.0
+qwen2.5-coder-7b,DQC_0204,sample2,DQC.US.0204.10705_DHR_US-2025,ok,,1,0,0,0,0,0,83.7,stop,315.0
+qwen2.5-coder-7b,DQC_0204,sample2,DQC.US.0204.10705_USAC-US-2025,ok,,4,0,0,0,0,0,83.7,stop,315.0
+qwen2.5-coder-7b,DQC_0204,sample2,DQC.US.0204.10705_VIVK-US-2025,ok,,7,0,0,0,0,0,83.7,stop,315.0
+qwen2.5-coder-7b,DQC_0204,sample2,DQC.US.0204.10707_10K_BLK-US-2025,ok,,3,0,3,3,3,0,83.7,stop,315.0
+qwen2.5-coder-7b,DQC_0204,sample2,DQC.US.0204.10707_BLK-US-2025,ok,,3,0,3,3,3,0,83.7,stop,315.0
+qwen2.5-coder-7b,DQC_0204,sample2,rollDQC.US.0204.10706_LEVI_US-2023,ok,,2,0,0,0,0,0,83.7,stop,315.0
+qwen2.5-coder-7b,DQC_0204,sample2,rollDQC.US.0204.10707_TRUG_US-2024,ok,,1,0,1,1,1,0,83.7,stop,315.0
+qwen2.5-coder-7b,DQC_0212,sample1,DQC.US.0212.10737_GLDM-US-2026,error,"ValueError: operands could not be broadcast together with shapes (665,16) (2,)",1,0,0,0,0,0,84.8,stop,186.0
+qwen2.5-coder-7b,DQC_0212,sample1,DQC.US.0212.10737_HTGC_US-2024,error,"ValueError: operands could not be broadcast together with shapes (6593,16) (2,)",0,0,0,0,0,0,84.8,stop,186.0
+qwen2.5-coder-7b,DQC_0212,sample1,DQC.US.0212.10737_UVIX-US-2025,error,"ValueError: operands could not be broadcast together with shapes (898,16) (2,)",1,0,0,0,0,0,84.8,stop,186.0
+qwen2.5-coder-7b,DQC_0212,sample1,DQC.US.0212.10738_AEE_US-2024,error,"ValueError: operands could not be broadcast together with shapes (2891,16) (2,)",0,0,0,0,0,0,84.8,stop,186.0
+qwen2.5-coder-7b,DQC_0212,sample1,DQC.US.0212.10738_CCEC-US-2025,error,"ValueError: operands could not be broadcast together with shapes (1972,16) (2,)",1,0,0,0,0,0,84.8,stop,186.0
+qwen2.5-coder-7b,DQC_0212,sample1,DQC.US.0212.10738_IMG-US-2025,error,"ValueError: operands could not be broadcast together with shapes (623,16) (2,)",1,0,0,0,0,0,84.8,stop,186.0
+qwen2.5-coder-7b,DQC_0212,sample1,DQC.US.0212.10738_IQST-US-2025,error,"ValueError: operands could not be broadcast together with shapes (1802,16) (2,)",1,0,0,0,0,0,84.8,stop,186.0
+qwen2.5-coder-7b,DQC_0212,sample1,DQC.US.0212.10738_MGEE-US-2025,error,"ValueError: operands could not be broadcast together with shapes (1201,16) (2,)",1,0,0,0,0,0,84.8,stop,186.0
+qwen2.5-coder-7b,DQC_0212,sample1,DQC.US.0212.10739_GLD-US-2026,error,"ValueError: operands could not be broadcast together with shapes (347,16) (2,)",1,0,0,0,0,0,84.8,stop,186.0
+qwen2.5-coder-7b,DQC_0212,sample1,DQC.US.0212.10739_HTGC_US-2024,error,"ValueError: operands could not be broadcast together with shapes (6593,16) (2,)",0,0,0,0,0,0,84.8,stop,186.0
+qwen2.5-coder-7b,DQC_0212,sample1,DQC.US.0212.10739_UVIX-US-2025,error,"ValueError: operands could not be broadcast together with shapes (898,16) (2,)",1,0,0,0,0,0,84.8,stop,186.0
+qwen2.5-coder-7b,DQC_0212,sample1,rollDQC.US.0212.10736_AEE_US-2024,error,"ValueError: operands could not be broadcast together with shapes (2702,16) (2,)",1,0,0,0,0,0,84.8,stop,186.0
+qwen2.5-coder-7b,DQC_0212,sample2,DQC.US.0212.10737_GLDM-US-2026,ok,,1,0,0,24,0,24,88.2,stop,379.0
+qwen2.5-coder-7b,DQC_0212,sample2,DQC.US.0212.10737_HTGC_US-2024,ok,,0,0,0,14,0,14,88.2,stop,379.0
+qwen2.5-coder-7b,DQC_0212,sample2,DQC.US.0212.10737_UVIX-US-2025,ok,,1,0,0,12,0,12,88.2,stop,379.0
+qwen2.5-coder-7b,DQC_0212,sample2,DQC.US.0212.10738_AEE_US-2024,ok,,0,0,0,14,0,14,88.2,stop,379.0
+qwen2.5-coder-7b,DQC_0212,sample2,DQC.US.0212.10738_CCEC-US-2025,ok,,1,0,0,4,0,4,88.2,stop,379.0
+qwen2.5-coder-7b,DQC_0212,sample2,DQC.US.0212.10738_IMG-US-2025,ok,,1,0,0,10,0,10,88.2,stop,379.0
+qwen2.5-coder-7b,DQC_0212,sample2,DQC.US.0212.10738_IQST-US-2025,ok,,1,0,0,3,0,3,88.2,stop,379.0
+qwen2.5-coder-7b,DQC_0212,sample2,DQC.US.0212.10738_MGEE-US-2025,ok,,1,0,0,6,0,6,88.2,stop,379.0
+qwen2.5-coder-7b,DQC_0212,sample2,DQC.US.0212.10739_GLD-US-2026,ok,,1,0,0,12,0,12,88.2,stop,379.0
+qwen2.5-coder-7b,DQC_0212,sample2,DQC.US.0212.10739_HTGC_US-2024,ok,,0,0,0,14,0,14,88.2,stop,379.0
+qwen2.5-coder-7b,DQC_0212,sample2,DQC.US.0212.10739_UVIX-US-2025,ok,,1,0,0,12,0,12,88.2,stop,379.0
+qwen2.5-coder-7b,DQC_0212,sample2,rollDQC.US.0212.10736_AEE_US-2024,ok,,1,0,0,14,0,14,88.2,stop,379.0
+qwen2.5-coder-7b,DQC_0234,sample1,DQC.US.0234.10928_AUKF33_US-2026,ok,,1,0,1,28,1,27,149.1,stop,440.0
+qwen2.5-coder-7b,DQC_0234,sample1,DQC.US.0234.10928_STRT_US-2026,ok,,1,0,1,13,1,12,149.1,stop,440.0
+qwen2.5-coder-7b,DQC_0234,sample1,DQC.US.0234.10929_AUKF33_US-2026,ok,,1,0,1,28,1,27,149.1,stop,440.0
+qwen2.5-coder-7b,DQC_0234,sample1,DQC.US.0234.10930_CPSS-US-2026,ok,,3,0,0,4,0,4,149.1,stop,440.0
+qwen2.5-coder-7b,DQC_0234,sample2,DQC.US.0234.10928_AUKF33_US-2026,ok,,1,0,1,28,1,27,104.4,stop,442.0
+qwen2.5-coder-7b,DQC_0234,sample2,DQC.US.0234.10928_STRT_US-2026,ok,,1,0,1,13,1,12,104.4,stop,442.0
+qwen2.5-coder-7b,DQC_0234,sample2,DQC.US.0234.10929_AUKF33_US-2026,ok,,1,0,1,28,1,27,104.4,stop,442.0
+qwen2.5-coder-7b,DQC_0234,sample2,DQC.US.0234.10930_CPSS-US-2026,ok,,3,0,0,4,0,4,104.4,stop,442.0
