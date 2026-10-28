@@ -81,3 +81,24 @@ Implications:
 * For the thesis this argues for: E3 reported as exploratory; error-type calibration of injection taken only from
   patterns, not from labels; and, if natural errors stay in scope, a human-verified subset built from document links
   like these.
+
+## 5. Student-verified labels for batch 1 (28 October 2026)
+
+Files: `results/p1_corrections/ai_prefill_batch1_sheet_NOT_HUMAN_GOLD.xlsx` (a second AI pass that pre-filled the blind
+review sheet) and `results/p1_corrections/student_verified_review_batch1.csv` (the same labels after the student checked
+all 20 against the SEC documents and confirmed them). Script: `scripts/p1_student_verified_review.py`.
+
+* Method: verification of AI pre-filled labels by the student, not a blind annotation and not an expert review. The
+  student saw the AI verdicts while checking, so agreement with that pass is anchored.
+* Original number wrong: 9 of 20 (7 legitimate restatements; 2 data-entry/tagging errors: item 15, wrong element
+  FairValueOfDerivative instead of a change in fair value, and item 19, a quarter reported with a full-year period
+  length). Not wrong: 3 (one 10-K/A that only fixed the auditor's signature, two retags with the same value).
+  Unclear: 8.
+* By correction type: zero changes 3 of 3 wrong; other value changes 3 of 6; sign flips 1 of 5; retags 1 of 4; period
+  moves 1 of 2.
+* Agreement with the first, independent AI review on "original wrong": 10 of 20. All 10 differences are between a
+  decisive answer and "unknown"; there is no case where one pass says wrong and the other says not wrong.
+* Implication: the conclusion of section 4 holds with one refinement. Most confirmed corrections are accounting
+  restatements, but tagging errors of the kind data-quality rules target (wrong element, wrong period) do occur.
+  Two AI passes over the same documents disagree on half the items, which supports an expert-annotated subset with
+  two annotators in the thesis.

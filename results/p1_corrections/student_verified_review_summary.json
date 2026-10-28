@@ -1,0 +1,96 @@
+{
+  "items": 20,
+  "label_source": "AI pre-fill (second AI pass) checked by the student against the SEC documents; not blind; not expert",
+  "decision_counts": {
+    "unclear": 8,
+    "legitimate_restatement": 7,
+    "representation_only": 2,
+    "data_entry_error": 2,
+    "no_difference_found": 1
+  },
+  "original_wrong_counts": {
+    "yes": 9,
+    "unknown": 8,
+    "no": 3
+  },
+  "original_wrong_by_correction_type": {
+    "other_value": {
+      "no": 0,
+      "unknown": 3,
+      "yes": 3
+    },
+    "period_move": {
+      "no": 0,
+      "unknown": 1,
+      "yes": 1
+    },
+    "retag": {
+      "no": 2,
+      "unknown": 1,
+      "yes": 1
+    },
+    "sign_flip": {
+      "no": 1,
+      "unknown": 3,
+      "yes": 1
+    },
+    "zero_change": {
+      "no": 0,
+      "unknown": 0,
+      "yes": 3
+    }
+  },
+  "agreement_with_first_ai_review_on_original_wrong": 10,
+  "disagreements": [
+    {
+      "item": 6,
+      "original_wrong": "unknown",
+      "ai_original_fact_confirmed_wrong": "yes"
+    },
+    {
+      "item": 7,
+      "original_wrong": "no",
+      "ai_original_fact_confirmed_wrong": "unknown"
+    },
+    {
+      "item": 9,
+      "original_wrong": "yes",
+      "ai_original_fact_confirmed_wrong": "unknown"
+    },
+    {
+      "item": 12,
+      "original_wrong": "no",
+      "ai_original_fact_confirmed_wrong": "unknown"
+    },
+    {
+      "item": 13,
+      "original_wrong": "no",
+      "ai_original_fact_confirmed_wrong": "unknown"
+    },
+    {
+      "item": 14,
+      "original_wrong": "unknown",
+      "ai_original_fact_confirmed_wrong": "yes"
+    },
+    {
+      "item": 15,
+      "original_wrong": "yes",
+      "ai_original_fact_confirmed_wrong": "unknown"
+    },
+    {
+      "item": 17,
+      "original_wrong": "yes",
+      "ai_original_fact_confirmed_wrong": "unknown"
+    },
+    {
+      "item": 18,
+      "original_wrong": "yes",
+      "ai_original_fact_confirmed_wrong": "unknown"
+    },
+    {
+      "item": 19,
+      "original_wrong": "yes",
+      "ai_original_fact_confirmed_wrong": "unknown"
+    }
+  ]
+}

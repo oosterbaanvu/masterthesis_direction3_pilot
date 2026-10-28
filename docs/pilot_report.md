@@ -17,8 +17,10 @@ This is exploratory evidence for choosing a thesis direction, not a confirmatory
 - **Aanvullende waarde (E4).** AI-regelsets die zelf regels bedenken voegden op 83 varianten 0 tot 6 extra
   vangsten toe boven DQC en statistiek, maar de sets die iets vingen gaven 450-1.000 alerts per correct verslag.
   Volgens de vooraf vastgelegde goedkeuringspoort zou geen enkele AI-regelset worden toegelaten.
-- **Echte fouten (E3).** SEC-correcties zijn vooral boekhoudkundige herwerkingen; geen correctietype heeft
-  geverifieerd bewijs per item. Resultaten hierop zijn verkennend.
+- **Echte fouten (E3).** SEC-correcties zijn vooral boekhoudkundige herwerkingen. Van 20 gerichte correcties was het
+  oorspronkelijke getal in 9 gevallen fout (7 boekhoudkundige herzieningen, 2 tagfouten: verkeerd element en verkeerde
+  periodelengte), in 3 niet fout en in 8 onduidelijk. Deze labels zijn door AI voorgevuld en door de student tegen de
+  SEC-documenten gecontroleerd (niet blind, geen expert). Resultaten hierop blijven verkennend.
 - **AI als beoordelaar.** Qwen3-8B die zelf verdachte cijfers aanwijst, ving 2 van 42 geïnjecteerde fouten
   (maar zag door de promptlimiet slechts 19 ervan) en gaf ruim 6 alerts per correct verslag.
 - **Artefact.** De `dqstress`-tool werkt end-to-end (registreren, stresstest, AI-voorstel, sandbox, poort,
@@ -112,8 +114,10 @@ least 20% of a gap caught) none of the nine AI rule sets would become a candidat
 ### E3 - Correction candidates (unverified)
 
 See `docs/analysis_sec_corrections_evidence.md`. Amendments are dominated by accounting restatements; the
-document-linked AI review confirmed six accounting/classification corrections in 20 targeted items and no typing,
-sign or scale error. On located candidate facts, official DQC flags 1.6% (129 facts, 9 filings), statistical checks
+in 20 targeted items the original number was wrong in 9 (7 accounting restatements, 2 tagging errors: wrong element and
+wrong period length), not wrong in 3 and unclear in 8; no typing, sign or scale error was found. These labels were
+pre-filled by AI and checked by the student against the SEC documents (not blind, not expert;
+`results/p1_corrections/student_verified_review_batch1.csv`). On located candidate facts, official DQC flags 1.6% (129 facts, 9 filings), statistical checks
 0.1-0.6%. AI sets that flag "many" candidates do so because they flag almost everything (92.6% at 1,021 alerts per
 filing). Candidate recall is meaningless without the alert burden next to it.
 
