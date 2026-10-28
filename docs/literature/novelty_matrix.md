@@ -24,7 +24,7 @@ complements [literature_review.md](literature_review.md) and must be re-checked 
    found. Risk: FinAuditing already harvests DQC messages (as labels for a judge, not as rules to reproduce).
 2. **Added detection value beyond an expert rule suite.** None of the rows measures what AI rules or judges
    catch that the existing expert controls miss, at a given false-alarm and review cost.
-3. **Stability and review effort as first-class outcomes.** Reported nowhere beyond AuDQ's reviewer agreement.
+3. **Stability and review effort as first-class outcomes.** Partly done: Alexander et al. (arXiv 2310.01402) ran every set-up five times and compared with a gold-standard suite by one data scientist; AuDQ measures reviewer agreement. Not found: stability of executed rules measured against an independent expert suite, together with alert cost.
 4. **Validity of injected errors against natural corrections in XBRL.** Not found; but the natural labels are
    unverified (see docs/analysis_sec_corrections_evidence.md), so this may only be possible on a verified subset.
 
