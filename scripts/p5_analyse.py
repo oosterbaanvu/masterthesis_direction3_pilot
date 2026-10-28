@@ -44,7 +44,7 @@ def main() -> None:
     frame = pd.DataFrame(rows)
     frame.to_csv(RES / "judge_injected.csv", index=False)
     pd.DataFrame(natural).to_csv(RES / "judge_natural.csv", index=False)
-    summary = frame[frame["operator"] != "clean"].groupby("operator")["detected_strict"].mean().round(2)
+    summary = frame[frame["operator"] != "clean"].assign(detected_strict=lambda d: d["detected_strict"].astype(float)).groupby("operator")["detected_strict"].mean().round(2)
     print(summary.to_string())
     print("flags per clean filing:", frame[frame["operator"] == "clean"]["flags"].mean())
     nat = pd.DataFrame(natural)

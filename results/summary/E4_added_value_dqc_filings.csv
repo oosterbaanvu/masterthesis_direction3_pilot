@@ -8,3 +8,4 @@ ai_qwen3-8b_discover_greedy,83,27,0,0
 ai_qwen3-8b_discover_sample1,83,27,6,4
 ai_qwen3-8b_gapclose_greedy,83,27,0,0
 ai_qwen3-8b_gapclose_sample1,83,27,13,6
+ai_judge_qwen3,42,16,2,1

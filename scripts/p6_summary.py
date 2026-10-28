@@ -35,7 +35,7 @@ def main() -> None:
     judge_path = ROOT / "results/p5_judge/judge_injected.csv"
     if judge_path.exists():
         judge = pd.read_csv(judge_path)
-        judge = judge[judge["operator"] != "clean"]
+        judge = judge[judge["operator"] != "clean"].assign(detected_strict=lambda d: d["detected_strict"].astype(bool))
         e2["ai_judge_qwen3 (6 filings)"] = judge.groupby("operator")["detected_strict"].mean().round(2)
     e2.to_csv(OUT / "E2_catch_rate_dqc_filings.csv")
 

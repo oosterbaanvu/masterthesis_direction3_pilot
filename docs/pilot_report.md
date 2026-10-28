@@ -19,6 +19,8 @@ This is exploratory evidence for choosing a thesis direction, not a confirmatory
   Volgens de vooraf vastgelegde goedkeuringspoort zou geen enkele AI-regelset worden toegelaten.
 - **Echte fouten (E3).** SEC-correcties zijn vooral boekhoudkundige herwerkingen; geen correctietype heeft
   geverifieerd bewijs per item. Resultaten hierop zijn verkennend.
+- **AI als beoordelaar.** Qwen3-8B die zelf verdachte cijfers aanwijst, ving 2 van 42 geïnjecteerde fouten
+  (maar zag door de promptlimiet slechts 19 ervan) en gaf ruim 6 alerts per correct verslag.
 - **Artefact.** De `dqstress`-tool werkt end-to-end (registreren, stresstest, AI-voorstel, sandbox, poort,
   goedkeuring, rapport).
 
@@ -102,6 +104,7 @@ On the same 83 variants, existing controls (official DQC + generic + statistical
 | Qwen3-8B discover (sampled) | 6 | 4 | 1,021 |
 | Qwen2.5-Coder discover (after one repair) | 2 | 1 | 36 |
 | six other sets | 0 | 0 | 0-8 (most crash or are rejected) |
+| AI judge Qwen3-8B (6 filings, 42 variants) | 2 | 1 | 6.2 (cap 10) |
 
 Under the approval policy fixed in advance (`configs/approval_policy.json`: at most 1 alert per correct filing and at
 least 20% of a gap caught) none of the nine AI rule sets would become a candidate.
@@ -116,7 +119,19 @@ filing). Candidate recall is meaningless without the alert burden next to it.
 
 ### AI judge (Qwen3-8B reads a filing and lists up to 10 suspicious facts)
 
-PENDING - filled in when the judge run finishes.
+Qwen3-8B judged 6 of the 12 DQC test filings (clean version plus 7 injected variants each, 48 calls) and 6 corrected
+originals, about 3.5 minutes per filing on 4 CPU threads. To fit the context and the CPU budget the judge sees at most
+120 non-dimensional facts of the two latest periods, so only 19 of the 42 injected errors were visible to it.
+
+| Measure | Result |
+| --- | --- |
+| Injected errors caught | 2 of 42 (2 of the 19 that were visible): one one-digit error, one x1000 error |
+| Added beyond existing controls (same variants) | 1 |
+| Flags per correct filing (cap 10) | 6.2 |
+| Correction candidates flagged | 6.6% of 91 located candidate facts |
+
+The judge raises six alerts on a correct filing while catching almost none of the injected errors; its flags also
+differ in kind from rules (no reusable logic to review). Files: `results/p5_judge/`.
 
 ## 5. Negative results and limitations
 
