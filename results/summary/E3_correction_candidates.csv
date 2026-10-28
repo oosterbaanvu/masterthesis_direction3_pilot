@@ -1,0 +1,16 @@
+,candidate_facts,flagged_share,filings_with_a_flagged_candidate
+generic_schema,2646.0,0.009,0.08
+naive_non_negative,2646.0,0.283,0.82
+stat_sign_rarity,2646.0,0.001,0.02
+stat_magnitude,2646.0,0.002,0.04
+stat_period_jump,2646.0,0.006,0.1
+ai_qwen2.5-coder-7b_discover_greedy,2646.0,0.014,0.1
+ai_qwen2.5-coder-7b_discover_greedy_repair1,2646.0,0.124,0.63
+ai_qwen2.5-coder-7b_discover_sample1,2646.0,0.004,0.06
+ai_qwen2.5-coder-7b_gapclose_greedy,2646.0,0.0,0.0
+ai_qwen2.5-coder-7b_gapclose_sample1,2646.0,0.0,0.0
+ai_qwen3-8b_discover_greedy,2646.0,0.0,0.0
+ai_qwen3-8b_discover_sample1,2646.0,0.926,1.0
+ai_qwen3-8b_gapclose_greedy,2646.0,0.0,0.0
+ai_qwen3-8b_gapclose_sample1,2646.0,0.471,0.91
+official_dqc,129.0,0.016,0.22

@@ -1,0 +1,10 @@
+control,variants,caught_by_existing,caught_by_ai,added_beyond_existing
+ai_qwen2.5-coder-7b_discover_greedy,83,27,0,0
+ai_qwen2.5-coder-7b_discover_greedy_repair1,83,27,2,1
+ai_qwen2.5-coder-7b_discover_sample1,83,27,0,0
+ai_qwen2.5-coder-7b_gapclose_greedy,83,27,0,0
+ai_qwen2.5-coder-7b_gapclose_sample1,83,27,0,0
+ai_qwen3-8b_discover_greedy,83,27,0,0
+ai_qwen3-8b_discover_sample1,83,27,6,4
+ai_qwen3-8b_gapclose_greedy,83,27,0,0
+ai_qwen3-8b_gapclose_sample1,83,27,13,6
