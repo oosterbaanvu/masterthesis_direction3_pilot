@@ -110,7 +110,7 @@ to least likely error. Return [] if nothing looks wrong.
 {rows}"""
 
 
-def judge_prompt(facts: pd.DataFrame, budget: int = 10, max_rows: int = 220) -> tuple[str, pd.DataFrame]:
+def judge_prompt(facts: pd.DataFrame, budget: int = 10, max_rows: int = 120) -> tuple[str, pd.DataFrame]:
     plain = facts[facts["is_numeric"] & facts["value"].notna() & (facts["dimensions"] == "")
                   & facts["unit"].isin(["USD", "shares"])].copy()
     latest = sorted(plain["end"].dropna().unique())[-2:]
