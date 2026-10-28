@@ -57,6 +57,34 @@ def fig_a_increment():
     fig.savefig(OUT / "fig_a_increment.pdf", bbox_inches="tight")
 
 
+def fig_a_mechanism():
+    """Pilot 1: extra recall beyond rules and statistical checks for a x10 error at 5%, per placement mechanism.
+    Source: masterthesis_pilot_final results/thesis_pilot/summary.csv (baseline B, unconstrained), copied to data/."""
+    d = pd.read_csv(OUT / "data/pilot1_mechanism_scale_x10_5pct.csv")
+    methods = [("cdc_original", "CDC", BLUE), ("dboost_numeric_original", "dBoost", ORANGE),
+               ("lucario_original_history", "LUCARIO", "#1baf7a")]
+    mechs = ["ECAR", "EAR", "ENAR"]
+    fig, axes = plt.subplots(1, 2, figsize=(TEXT_W, 2.1), sharey=True)
+    for ax, ds, title in zip(axes, ["credit", "bank"], ["Credit card clients", "Bank marketing"]):
+        w = 0.26
+        for i, (m, name, c) in enumerate(methods):
+            vals = [100 * d.query("dataset == @ds and method == @m and mechanism == @k").mean_incremental_recall.iloc[0]
+                    for k in mechs]
+            xs = [j + (i - 1) * w for j in range(3)]
+            ax.bar(xs, vals, width=w, color=c, edgecolor="white", linewidth=1, label=name)
+            for x, v in zip(xs, vals):
+                if v >= 1:
+                    ax.text(x, v + 0.6, f"{v:.0f}", ha="center", va="bottom", fontsize=7.5, color=INK2)
+        ax.set_xticks(range(3), mechs)
+        ax.grid(axis="x", visible=False)
+        ax.set_title(title, loc="left")
+    axes[0].set_ylabel("Extra changed values found (%)")
+    axes[0].set_ylim(0, 32)
+    axes[1].legend(frameon=False, loc="upper right")
+    fig.tight_layout(w_pad=2)
+    fig.savefig(OUT / "fig_a_mechanism.pdf", bbox_inches="tight")
+
+
 def fig_b_e1_e5():
     strat = pd.read_csv(ROOT / "results/p3_rules/translate_by_stratum.csv")
     stab = pd.read_csv(ROOT / "results/p3_rules/translate_stability.csv")
@@ -209,6 +237,7 @@ def fig_c_qualification():
 
 if __name__ == "__main__":
     fig_a_increment()
+    fig_a_mechanism()
     fig_b_e1_e5()
     fig_b_catch()
     fig_b_alerts()
