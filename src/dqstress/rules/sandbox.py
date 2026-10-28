@@ -36,7 +36,7 @@ result = namespace["check"](facts, lists, concepts)
 flagged = []
 for item in result or []:
     if isinstance(item, dict):
-        flagged.append({"qname": str(item.get("qname")), "context_ref": str(item.get("context_ref"))})
+        flagged.append({"qname": str(item.get("qname")), "context_ref": str(item.get("context_ref")), "rule": str(item.get("rule", ""))})
 json.dump({"flagged": flagged}, open(args["out"], "w"))
 '''
 
@@ -58,7 +58,7 @@ for path in args["facts"]:
     signal.alarm(args["per_file_seconds"])
     try:
         result = namespace["check"](pd.read_parquet(path), lists, concepts)
-        flagged = [{"qname": str(i.get("qname")), "context_ref": str(i.get("context_ref"))}
+        flagged = [{"qname": str(i.get("qname")), "context_ref": str(i.get("context_ref")), "rule": str(i.get("rule", ""))}
                    for i in (result or []) if isinstance(i, dict)]
         results[path] = {"status": "ok", "flagged": flagged}
     except Exception as error:
