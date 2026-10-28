@@ -1,19 +1,19 @@
-purpose,level,facts,generic_schema,naive_non_negative,stat_sign_rarity,stat_magnitude,stat_period_jump
-no_note,L2 sign,7,0.0,0.571,0.0,0.0,0.0
-no_note,L4/L6 changed amount,109,0.009,0.459,0.0,0.0,0.018
-no_note,L4/L6 changed amount (to or from zero),1,0.0,0.0,0.0,0.0,0.0
-no_note,L5 wrong element,26,0.0,0.154,0.0,0.0,0.0
-non_financial,L4/L6 changed amount,220,0.018,0.291,0.005,0.0,0.018
-non_financial,L5 wrong element,20,0.0,0.1,0.0,0.0,0.0
-restatement,L2 sign,8,0.0,0.625,0.0,0.0,0.0
-restatement,L3 scale (power of ten),20,0.0,0.2,0.0,0.0,0.0
-restatement,L4/L6 changed amount,1751,0.008,0.28,0.0,0.001,0.004
-restatement,L4/L6 changed amount (to or from zero),18,0.0,0.167,0.0,0.0,0.0
-restatement,L5 wrong element,58,0.0,0.121,0.017,0.017,0.0
-targeted_fix,L2 sign,3,0.0,0.333,0.0,0.0,0.0
-targeted_fix,L4/L6 changed amount,230,0.0,0.287,0.0,0.0,0.009
-targeted_fix,L4/L6 changed amount (to or from zero),8,0.0,0.0,0.0,0.125,0.0
-targeted_fix,L5 wrong element,17,0.0,0.235,0.0,0.0,0.0
-unclear,L4/L6 changed amount,147,0.027,0.299,0.0,0.014,0.014
-unclear,L4/L6 changed amount (to or from zero),1,0.0,0.0,0.0,0.0,0.0
-unclear,L5 wrong element,2,0.0,0.0,0.0,0.0,0.0
+purpose,level,facts,generic_schema,naive_non_negative,stat_sign_rarity,stat_magnitude,stat_period_jump,ai_qwen2.5-coder-7b_discover_greedy,ai_qwen2.5-coder-7b_discover_greedy_repair1,ai_qwen2.5-coder-7b_discover_sample1,ai_qwen2.5-coder-7b_gapclose_greedy,ai_qwen2.5-coder-7b_gapclose_sample1,ai_qwen3-8b_discover_greedy,ai_qwen3-8b_discover_sample1,ai_qwen3-8b_gapclose_greedy,ai_qwen3-8b_gapclose_sample1,official_dqc
+no_note,L2 sign,7,0.0,0.571,0.0,0.0,0.0,0.0,0.143,0.0,0.0,0.0,0.0,0.714,0.0,0.429,
+no_note,L4/L6 changed amount,109,0.009,0.459,0.0,0.0,0.018,0.037,0.156,0.009,0.0,0.0,0.0,0.826,0.0,0.486,
+no_note,L4/L6 changed amount (to or from zero),1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,
+no_note,L5 wrong element,26,0.0,0.154,0.0,0.0,0.0,0.0,0.0,0.077,0.0,0.0,0.0,0.731,0.0,0.308,
+non_financial,L4/L6 changed amount,220,0.018,0.291,0.005,0.0,0.018,0.009,0.082,0.005,0.0,0.0,0.0,0.955,0.0,0.514,
+non_financial,L5 wrong element,20,0.0,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.8,0.0,0.45,
+restatement,L2 sign,8,0.0,0.625,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.875,0.0,0.375,0.0
+restatement,L3 scale (power of ten),20,0.0,0.2,0.0,0.0,0.0,0.0,0.0,0.1,0.0,0.0,0.0,0.95,0.0,0.5,
+restatement,L4/L6 changed amount,1751,0.008,0.28,0.0,0.001,0.004,0.008,0.136,0.0,0.0,0.0,0.0,0.939,0.0,0.468,0.042
+restatement,L4/L6 changed amount (to or from zero),18,0.0,0.167,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.889,0.0,0.444,0.0
+restatement,L5 wrong element,58,0.0,0.121,0.017,0.017,0.0,0.034,0.069,0.0,0.0,0.0,0.0,0.724,0.0,0.431,0.0
+targeted_fix,L2 sign,3,0.0,0.333,0.0,0.0,0.0,0.0,0.333,0.0,0.0,0.0,0.0,0.667,0.0,0.0,
+targeted_fix,L4/L6 changed amount,230,0.0,0.287,0.0,0.0,0.009,0.03,0.117,0.013,0.0,0.0,0.0,0.943,0.0,0.435,0.018
+targeted_fix,L4/L6 changed amount (to or from zero),8,0.0,0.0,0.0,0.125,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.75,0.0,0.125,0.0
+targeted_fix,L5 wrong element,17,0.0,0.235,0.0,0.0,0.0,0.0,0.118,0.0,0.0,0.0,0.0,0.765,0.0,0.647,0.0
+unclear,L4/L6 changed amount,147,0.027,0.299,0.0,0.014,0.014,0.048,0.129,0.014,0.0,0.0,0.0,0.946,0.0,0.558,0.0
+unclear,L4/L6 changed amount (to or from zero),1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,
+unclear,L5 wrong element,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0

@@ -4,3 +4,13 @@ naive_non_negative,0.82
 stat_sign_rarity,0.018
 stat_magnitude,0.036
 stat_period_jump,0.099
+ai_qwen2.5-coder-7b_discover_greedy,0.099
+ai_qwen2.5-coder-7b_discover_greedy_repair1,0.631
+ai_qwen2.5-coder-7b_discover_sample1,0.063
+ai_qwen2.5-coder-7b_gapclose_greedy,0.0
+ai_qwen2.5-coder-7b_gapclose_sample1,0.0
+ai_qwen3-8b_discover_greedy,0.0
+ai_qwen3-8b_discover_sample1,1.0
+ai_qwen3-8b_gapclose_greedy,0.0
+ai_qwen3-8b_gapclose_sample1,0.91
+official_dqc,0.018
