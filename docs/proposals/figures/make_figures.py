@@ -102,24 +102,39 @@ def fig_b_e1_e5():
 
 
 def fig_b_catch():
-    e2 = pd.read_csv(ROOT / "results/summary/E2_catch_rate_dqc_filings.csv").set_index("operator")
+    import sys
+    sys.path.insert(0, str(ROOT / "src"))
+    from dqstress.splits import split_of
+    stress = ROOT / "results/p2_stress"
+    inj = pd.concat([pd.read_csv(p, low_memory=False) for p in sorted(stress.glob("injected_detection*.csv.gz"))],
+                    ignore_index=True)
+    inj = inj[(inj["applicable"] == True) & (inj["placement"] == "calibrated")]  # noqa: E712
+    inj = inj[inj["adsh"].map(split_of) == "test"]
+    inj = inj[inj["adsh"].isin(set(inj.loc[inj["control"] == "official_dqc", "adsh"]))]
+    stats = ["stat_sign_rarity", "stat_magnitude", "stat_period_jump"]
+
+    def rate(controls):
+        part = inj[inj["control"].isin(controls)]
+        return part.groupby(["adsh", "operator"])["detected_strict"].any().groupby("operator").mean()
+
     order = ["sign_flip", "scale_x1000", "changed_amount", "one_digit", "retag", "period_swap", "drop_fact"]
     names = ["Sign flipped", "Value x1000", "Amount changed", "One digit changed",
              "Wrong element", "Periods swapped", "Fact removed"]
-    panels = [("official_dqc", "Official DQC\nrules"),
-              ("stat_period_jump", "Statistical\nperiod-jump check"),
-              ("naive_non_negative", "Naive rule:\nnever negative"),
-              ("ai_qwen3-8b_gapclose_sample1", "AI rules (Qwen3-8B,\ngap-closing)")]
-    fig, axes = plt.subplots(1, 4, figsize=(TEXT_W, 2.1), sharey=True)
-    for k, (ax, (col, title)) in enumerate(zip(axes, panels)):
-        vals = [e2.loc[o, col] for o in order]
-        hbar(ax, names, vals, fmt="{:.2f}", xmax=1.0, invert=(k == 0))
+    panels = [(rate(stats), "Statistical checks\n(three combined)"),
+              (rate(["official_dqc"]), "Official DQC\nrules"),
+              (rate(stats + ["generic_schema", "official_dqc"]), "All existing\ncontrols together"),
+              (rate(["naive_non_negative"]), "Naive rule:\nnever negative"),
+              (rate(["ai_qwen3-8b_gapclose_sample1"]), "Best AI rule set\n(Qwen3-8B)")]
+    fig, axes = plt.subplots(1, 5, figsize=(TEXT_W, 2.1), sharey=True)
+    for k, (ax, (series, title)) in enumerate(zip(axes, panels)):
+        vals = [float(series.get(o, 0.0)) for o in order]
+        hbar(ax, names, vals, color=ORANGE if k == 4 else BLUE, fmt="{:.2f}", xmax=1.0, invert=(k == 0))
         for t in ax.texts:
             if t.get_text().strip() == "0.00":
                 t.set_text(" 0")
         ax.set_xticks([0, 0.5, 1.0], ["0", "0.5", "1"])
         ax.set_title(title, loc="left", fontsize=7.5)
-    fig.tight_layout(w_pad=0.8)
+    fig.tight_layout(w_pad=0.6)
     fig.savefig(OUT / "fig_b_catch.pdf", bbox_inches="tight")
 
 
