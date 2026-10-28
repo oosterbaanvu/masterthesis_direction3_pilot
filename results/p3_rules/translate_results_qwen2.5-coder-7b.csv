@@ -192,3 +192,28 @@ qwen2.5-coder-7b,DQC_0228,greedy,DQC.US.0228.10921_KALV-US-2025,error,KeyError: 
 qwen2.5-coder-7b,DQC_0228,greedy,DQC.US.0228.10921_SRTS-US-2026,error,KeyError: 'OTHER_AGGREGATE',1,0,0,0,0,0,93.2,stop,266.0
 qwen2.5-coder-7b,DQC_0228,greedy,DQC.US.0228.10921_TSEM-US-2025,error,KeyError: 'OTHER_AGGREGATE',2,0,0,0,0,0,93.2,stop,266.0
 qwen2.5-coder-7b,DQC_0228,greedy,rollDQC.US.0228.10921_ANIP-US-2024,error,KeyError: 'OTHER_AGGREGATE',0,2,0,0,0,0,93.2,stop,266.0
+qwen2.5-coder-7b,DQC_0207,greedy,DQC.US.0207.10722_GLAD_US-2024,ok,,0,2,0,0,0,0,159.8,stop,336.0
+qwen2.5-coder-7b,DQC_0207,greedy,DQC.US.0207.10722_LIEN-10Q_US-2025,ok,,4,0,0,0,0,0,159.8,stop,336.0
+qwen2.5-coder-7b,DQC_0207,greedy,DQC.US.0207.10722_LORDABBETT-10K_US-2025,ok,,7,0,0,0,0,0,159.8,stop,336.0
+qwen2.5-coder-7b,DQC_0207,greedy,DQC.US.0207.10723_LIEN-US-2025,ok,,2,0,0,0,0,0,159.8,stop,336.0
+qwen2.5-coder-7b,DQC_0207,greedy,DQC.US.0207.10723_MRCC_US-2024,ok,,0,1,0,0,0,0,159.8,stop,336.0
+qwen2.5-coder-7b,DQC_0207,greedy,DQC.US.0207.10724_PNNT_US-2024,ok,,2,0,0,0,0,0,159.8,stop,336.0
+qwen2.5-coder-7b,DQC_0207,greedy,DQC.US.0207.10725_SUIG_US-2025,ok,,1,0,0,0,0,0,159.8,stop,336.0
+qwen2.5-coder-7b,DQC_0245,greedy,DQC.US.0245.10947_AFRM-US-2024,error,KeyError: 'STATEMENT_PRES_NETWORKS',0,1,0,0,0,0,87.1,stop,229.0
+qwen2.5-coder-7b,DQC_0245,greedy,DQC.US.0245.10947_ASBP-US-2024,error,KeyError: 'STATEMENT_PRES_NETWORKS',0,3,0,0,0,0,87.1,stop,229.0
+qwen2.5-coder-7b,DQC_0245,greedy,DQC.US.0245.10947_FRT-US-2023,error,KeyError: 'STATEMENT_PRES_NETWORKS',0,3,0,0,0,0,87.1,stop,229.0
+qwen2.5-coder-7b,DQC_0245,greedy,DQC.US.0245.10947_HUIZ-US-2023,error,KeyError: 'STATEMENT_PRES_NETWORKS',0,1,0,0,0,0,87.1,stop,229.0
+qwen2.5-coder-7b,DQC_0245,greedy,DQC.US.0245.10947_MUFG-US-2023,error,KeyError: 'STATEMENT_PRES_NETWORKS',0,1,0,0,0,0,87.1,stop,229.0
+qwen2.5-coder-7b,DQC_0245,greedy,DQC.US.0245.10947_SCNX-US-2024,error,KeyError: 'STATEMENT_PRES_NETWORKS',0,3,0,0,0,0,87.1,stop,229.0
+qwen2.5-coder-7b,DQC_0245,greedy,DQC.US.0245.10947_VS-US-2024,error,KeyError: 'STATEMENT_PRES_NETWORKS',0,1,0,0,0,0,87.1,stop,229.0
+qwen2.5-coder-7b,DQC_0238,greedy,DQC.US.0238.10937_ABVC-US-2025,ok,,0,2,0,2,0,2,78.0,stop,188.0
+qwen2.5-coder-7b,DQC_0238,greedy,DQC.US.0238.10937_CHUC-US-2025,ok,,0,1,0,1,0,1,78.0,stop,188.0
+qwen2.5-coder-7b,DQC_0238,greedy,DQC.US.0238.10937_CIK0001938571-US-2025,ok,,0,1,0,1,0,1,78.0,stop,188.0
+qwen2.5-coder-7b,DQC_0238,greedy,DQC.US.0238.10937_GPS-US-2025,ok,,0,1,0,1,0,1,78.0,stop,188.0
+qwen2.5-coder-7b,DQC_0238,greedy,DQC.US.0238.10937_SDA-US-2025,ok,,0,1,0,1,0,1,78.0,stop,188.0
+qwen2.5-coder-7b,DQC_0234,greedy,DQC.US.0234.10928_AUKF33_US-2026,ok,,1,0,1,3,1,2,176.5,stop,555.0
+qwen2.5-coder-7b,DQC_0234,greedy,DQC.US.0234.10928_STRT_US-2026,ok,,1,0,1,3,1,2,176.5,stop,555.0
+qwen2.5-coder-7b,DQC_0234,greedy,DQC.US.0234.10929_AUKF33_US-2026,ok,,1,0,1,3,1,2,176.5,stop,555.0
+qwen2.5-coder-7b,DQC_0234,greedy,DQC.US.0234.10930_CPSS-US-2026,ok,,3,0,0,0,0,0,176.5,stop,555.0
+qwen2.5-coder-7b,DQC_0241,greedy,DQC.US.0241.10942_VRIAC-US-2025,ok,,4,0,0,0,0,0,64.7,stop,128.0
+qwen2.5-coder-7b,DQC_0241,greedy,DQC.US.0241.10942_VRIAC_US-2026,ok,,4,0,0,0,0,0,64.7,stop,128.0
