@@ -8,7 +8,11 @@ after T. Every score uses only information available at T:
 - sibling rarity (after ExceLint): how unusual the rule's formula pattern is among manual rules of the same table;
 - recency: rules introduced in a later framework release are assumed riskier (added after the first run, which
   showed that table history points the wrong way);
+- length: number of characters of the formula as introduced (added after the LLM run; post hoc);
 - random.
+AUC treats ties as half; precision at k is the expected value when ties at the cut-off are broken at random.
+Confidence intervals bootstrap over tables (positives come in families). auc_within_table uses only
+positive-negative pairs from the same table.
 Evaluation: AUC and precision at k on (a) the full pool, (b) only tables that contain a positive ("which rule in
 this table?"), (c) the LLM sample, with the LLM score next to the baselines when it exists.
 Output: results/eba/baseline_scores.csv, results/eba/evaluation.csv.
@@ -70,23 +74,41 @@ def logistic(x: np.ndarray, y: np.ndarray, steps: int = 3000, lr: float = 0.1, l
 
 
 def auc(score: pd.Series, label: pd.Series) -> float:
+    """Rank-based AUC; ties count as half (average ranks)."""
     ranks = score.rank()
     pos = label == 1
     n1, n0 = pos.sum(), (~pos).sum()
     return float((ranks[pos].sum() - n1 * (n1 + 1) / 2) / (n1 * n0)) if n1 and n0 else float("nan")
 
 
-def auc_ci(score: pd.Series, label: pd.Series, n: int = 1000) -> tuple[float, float]:
+def auc_ci(part: pd.DataFrame, s: str, n: int = 1000) -> tuple[float, float]:
+    """Bootstrap over tables, not rules: positives come in families of near-identical rules per table."""
+    groups = [g for _, g in part.groupby("t1")]
     vals = []
-    idx = np.arange(len(score))
     for _ in range(n):
-        b = RNG.choice(idx, len(idx), replace=True)
-        vals.append(auc(score.iloc[b].reset_index(drop=True), label.iloc[b].reset_index(drop=True)))
+        d = pd.concat([groups[i] for i in RNG.integers(0, len(groups), len(groups))], ignore_index=True)
+        vals.append(auc(d[s], d["label"]))
     return float(np.nanpercentile(vals, 2.5)), float(np.nanpercentile(vals, 97.5))
 
 
+def within_table_auc(part: pd.DataFrame, s: str) -> float:
+    """AUC over positive-negative pairs from the same table only ("which rule in this table?")."""
+    wins = pairs = 0.0
+    for _, g in part.groupby("t1"):
+        p, q = g.loc[g["label"] == 1, s].values, g.loc[g["label"] == 0, s].values
+        if len(p) and len(q):
+            wins += (p[:, None] > q[None, :]).sum() + 0.5 * (p[:, None] == q[None, :]).sum()
+            pairs += len(p) * len(q)
+    return float(wins / pairs) if pairs else float("nan")
+
+
 def precision_at(score: pd.Series, label: pd.Series, k: int) -> float:
-    return float(label.loc[score.sort_values(ascending=False, kind="mergesort").index[:k]].mean())
+    """Expected precision of the top k when ties at the cut-off are broken at random."""
+    k = min(k, len(score))
+    cut = score.sort_values(ascending=False).iloc[k - 1]
+    above, tied = score > cut, score == cut
+    hits = label[above].sum() + (k - above.sum()) * label[tied].mean()
+    return float(hits / k)
 
 
 def main() -> None:
@@ -97,7 +119,7 @@ def main() -> None:
     pool = load_rules()
 
     history = manual.groupby("t1")["before_T"].mean()
-    pool["s_table_history"] = pool["t1"].map(history).fillna(0) + 1e-6 * RNG.random(len(pool))
+    pool["s_table_history"] = pool["t1"].map(history).fillna(0)
 
     xm = features(manual)
     cols = list(xm.columns)
@@ -109,9 +131,9 @@ def main() -> None:
     manual["tpl"] = manual["formula_first"].map(template)
     counts = manual.groupby(["t1", "tpl"]).size()
     pool["tpl"] = pool["formula_first"].map(template)
-    pool["s_sibling_rarity"] = 1 / pool.apply(lambda r: counts.get((r["t1"], r["tpl"]), 1), axis=1) \
-        + 1e-6 * RNG.random(len(pool))
-    pool["s_recency"] = pool["first_order"] + 1e-6 * RNG.random(len(pool))
+    pool["s_sibling_rarity"] = 1 / pool.apply(lambda r: counts.get((r["t1"], r["tpl"]), 1), axis=1)
+    pool["s_recency"] = pool["first_order"].astype(float)
+    pool["s_length"] = pool["formula_first"].astype(str).str.len().astype(float)
     pool["s_random"] = RNG.random(len(pool))
     scores = [c for c in pool.columns if c.startswith("s_")]
     pool[["id", "t1", "label"] + scores].to_csv(OUT / "baseline_scores.csv", index=False)
@@ -126,7 +148,7 @@ def main() -> None:
     if llm_path.exists():
         llm = pd.read_csv(llm_path).dropna(subset=["score"])
         sample = pool.merge(llm[["id", "score", "group"]], on="id")
-        sample["s_llm"] = sample["score"] + 1e-6 * RNG.random(len(sample))
+        sample["s_llm"] = sample["score"]
         sets["llm_sample"] = sample
         sets["llm_sample_same_tables"] = sample[sample["group"] != "negative_other_table"]
         sets["llm_sample_last_3_releases"] = sample[sample["first_order"] >= pool["first_order"].max() - 2]
@@ -134,10 +156,11 @@ def main() -> None:
     for name, part in sets.items():
         part = part.reset_index(drop=True)
         for s in [c for c in part.columns if c.startswith("s_")]:
-            lo, hi = auc_ci(part[s], part["label"], n=300)
+            lo, hi = auc_ci(part, s, n=500)
             rows.append({"set": name, "rules": len(part), "positives": int(part["label"].sum()),
-                         "base_rate": round(part["label"].mean(), 4), "score": s,
+                         "tables": part["t1"].nunique(), "base_rate": round(part["label"].mean(), 4), "score": s,
                          "auc": round(auc(part[s], part["label"]), 3), "auc_lo": round(lo, 3), "auc_hi": round(hi, 3),
+                         "auc_within_table": round(within_table_auc(part, s), 3),
                          "p_at_20": round(precision_at(part[s], part["label"], 20), 2),
                          "p_at_50": round(precision_at(part[s], part["label"], 50), 2)})
     ev = pd.DataFrame(rows)

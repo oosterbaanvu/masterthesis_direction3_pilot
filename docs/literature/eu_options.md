@@ -55,8 +55,11 @@ Files downloaded for inspection are not stored in the repository; URLs are liste
   potentially incorrect", Explanation sheet), 684 a reactivation date and 1,911 are deleted. "Last Change" also
   marks "Correction: business semantics of the rule had been incorrect". Deactivation dates run from 2014 to 2025,
   which allows a split by date (for example rules deactivated after a model's release).
-* Caveat: deactivation can also be caused by IT problems; labels are noisy and imbalanced (about 8%).
+* Caveat: deactivation can also be caused by IT problems; labels are noisy and imbalanced (about 8% of all rules
+  in release 3.5; with a temporal split at 2025-04-29, 97 of 5,537 manual rules, 1.75%).
 * No study was found that tries to detect such faulty regulatory validation rules before they are deactivated.
+* Tested in a half-day mini-pilot (`docs/eba_minipilot.md`): a local 8B LLM scored AUC 0.64 on a balanced sample,
+  below formula length alone (0.71), and at chance within a table (0.53). No usable signal with formula text only.
 
 ## 4. Related EU and Dutch literature
 

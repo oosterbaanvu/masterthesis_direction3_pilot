@@ -1,4 +1,0 @@
-# temporary while the LLM run is in progress; removed when it finishes
-llm_run.log
-llm_scores.csv
-llm_calls.jsonl

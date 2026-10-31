@@ -1,0 +1,171 @@
+id,group,label,t1,score,reason,seconds
+v22561_m,negative_same_table,0,R 13.00.b,8.0,"The target rule references a different range in R 21.00 compared to other similar rules, which may indicate an inconsistency or error.",38.1
+v10734_m,negative_other_table,0,M 20.00,3.0,"The target rule has a simple comparison but lacks context or conditions, making it less likely to be incorrect compared to other rules with more complex dependencies.",23.1
+v11166_m,negative_same_table,0,I 06.05,8.0,The target rule may be incorrect due to potential arithmetic or logical inconsistencies with other rules on the same table.,29.4
+v3101_m,negative_other_table,0,F 19.00.a,8.0,The target rule may be incorrect due to potential arithmetic inconsistencies with other rules on the same table.,20.3
+v11175_m,negative_same_table,0,I 06.07,8.0,The target rule may be incorrect due to potential arithmetic inconsistency with other rules on the same table.,32.2
+v10029_m,negative_other_table,0,C 80.00.a,5.0,The target rule may have an incorrect reference or arithmetic relationship.,22.5
+v5224_m,negative_other_table,0,F 04.04.1,8.0,"The target rule uses a sum over specific columns while other similar rules use xsum and sum with different row ranges, suggesting possible inconsistency or error in the target rule's formula.",40.5
+v4083_m,negative_other_table,0,C 13.00.a,7.0,"The formula uses multiple multiplications and additions, which could lead to errors if the referenced cells are not correctly aligned or if the arithmetic is not properly validated.",37.1
+v10762_m,negative_same_table,0,M 02.00.a,7.0,The target rule may be incorrect due to potential inconsistencies with other rules on the same table.,21.9
+v12463_m,negative_same_table,0,R 01.00,7.0,"The target rule references a different sheet (sNNN) which is not mentioned in other rules on the same table, indicating a possible error.",25.8
+v5412_m,negative_other_table,0,F 04.03.1,7.0,The target rule may have an incorrect arithmetic or comparison due to potential inconsistencies with other rules on the same table.,26.1
+v7535_m,negative_same_table,0,C 08.01.a,7.0,The rule has complex logic with potential incorrect references or arithmetic.,21.3
+v22574_m,negative_same_table,0,R 16.00,7.0,The target rule may have an incorrect formula reference or arithmetic operation.,13.7
+v10620_m,negative_other_table,0,C 69.00.a,8.0,"The target rule follows the same pattern as other rules on the table, suggesting it is likely correct.",20.5
+v22630_m,negative_same_table,0,L 00.03,8.0,"The target rule uses a different table (L 00.03) and a different formula structure compared to other rules on the same table, which may indicate a potential inconsistency or error.",49.7
+v12458_m,positive,1,R 01.00,7.0,"The target rule may have an incorrect reference to R 01.00, r0005, c0090 which is not logically connected to the sum of the other cells.",35.8
+v11192_m,positive,1,I 06.07,8.0,"The target rule uses c0020, c0030, c0040, but other rules on the same table use different combinations, indicating possible inconsistency.",38.6
+v11167_m,negative_same_table,0,I 06.05,8.0,The target rule may be incorrect due to potential arithmetic or logical inconsistencies with other rules on the same table.,28.2
+v5340_m,negative_other_table,0,F 04.01,7.0,The target rule may have incorrect references or arithmetic due to the complexity and lack of clear conditions.,40.7
+v22664_m,positive,1,L 00.03,7.0,The target rule has a complex condition and potential arithmetic issues that may not align with other rules on the same table.,47.9
+v4975_m,positive,1,F 05.01,8.0,"The target rule references different rows and columns than other rules on the same table, suggesting potential inconsistency or error.",25.6
+v16277_m,negative_other_table,0,C 118.00,8.0,"The target rule has a more restrictive condition than the other rule, which may indicate an error in the threshold value.",15.3
+v11987_m,negative_other_table,0,F 19.00.a,8.0,"The target rule's formula appears similar to other rules on the same table, but the row references (r0933) are not consistent with the other rules which use different row numbers (e.g., r0193, r0194, etc.).",58.9
+v8699_m,negative_same_table,0,C 08.01.a,7.0,The formula uses ambiguous references (rNNN) and complex logic that may not align with actual data relationships.,30.3
+v22569_m,positive,1,R 13.00.b,8.0,"The target rule uses a sum across rows and a complex comparison with xsum, which may have incorrect references or logic compared to simpler, correctly structured rules on the same table.",35.9
+v09511_m,negative_other_table,0,F 91.05.a,3.0,"The target rule has a simple comparison but lacks context on the data types or conditions, making it less likely to be incorrect compared to other rules.",21.1
+v22585_m,negative_same_table,0,R 22.01,7.0,The target rule may have an incorrect condition or comparison logic compared to other rules on the same table.,38.5
+v5417_m,negative_other_table,0,F 04.03.1,8.0,The target rule may have an incorrect arithmetic or comparison due to potential inconsistencies with other rules on the same table.,26.3
+v11168_m,negative_same_table,0,I 06.05,8.0,The target rule may be incorrect due to potential arithmetic or logical inconsistencies with other rules on the same table.,28.2
+v22659_m,negative_same_table,0,L 00.03,8.0,The target rule uses a complex sum with conditions that may not align with the structure of other similar rules on the same table.,48.8
+v8677_m,negative_other_table,0,F 18.00.a,5.0,The target rule has a complex formula with potential incorrect references or arithmetic.,21.6
+v11190_m,positive,1,I 06.05,8.0,The target rule may be incorrect due to a potential arithmetic error or misalignment with other rules on the same table.,29.3
+v1509_m,negative_other_table,0,C 52.00.w,7.0,"The target rule compares two rows with a simple inequality, but the other rules involve more complex relationships and sums, suggesting potential inconsistencies or errors in the target rule.",26.9
+v7585_m,positive,1,C 73.00.a,2.0,"The target rule lacks context and conditions, making it hard to assess its correctness.",22.3
+v11173_m,negative_other_table,0,I 06.06,8.0,The target rule is likely incorrect as it contradicts other rules on the same table that use the same comparison logic.,17.9
+v5471_m,negative_other_table,0,F 04.07,8.0,"The target rule uses a sum over a range of columns (c016, c025) in F 04.10, which may not align with other similar rules that use specific column references, suggesting a potential inconsistency or error.",49.2
+v22600_m,negative_same_table,0,L 00.03,5.0,"The formula uses a sum of four rows, but other rules on the same table use more complex conditions and different structures, suggesting potential inconsistencies.",49.2
+v0812_m,negative_other_table,0,F 04.04,8.0,The target rule's formula appears inconsistent with the pattern of other rules on the same table.,18.4
+v7800_m,negative_other_table,0,F 01.01,7.0,"The target rule references a cell in F 13.03.1.b that may not logically relate to the sum in F 01.01, and there's a lack of clear validation context.",34.6
+v22341_m,negative_same_table,0,M 02.00.c,7.0,The target rule may have an incorrect arithmetic formula compared to other rules on the same table.,17.7
+v22667_m,positive,1,L 00.03,7.0,"The target rule uses a different table and row/column references compared to similar rules, which may indicate an inconsistency or error.",48.4
+v11205_m,positive,1,I 06.07,8.0,The target rule is likely incorrect due to duplication with other rules and potential arithmetic inconsistencies.,30.9
+v22275_m,negative_other_table,0,J 05.00.a,5.0,"The target rule has a different structure compared to other rules on the same table, which may indicate a potential error.",19.5
+v7545_m,negative_same_table,0,C 08.01.a,7.0,The target rule has complex logic with potential issues in arithmetic or condition checks.,27.1
+v22555_m,negative_same_table,0,R 13.00.b,8.0,"The target rule references a different column (c0020) compared to other similar rules that use c0010 or c0070, which may indicate an inconsistency or error.",39.0
+v22616_m,negative_same_table,0,L 00.03,7.0,"The target rule uses a different condition in the WHERE clause compared to other similar rules on the same table, which may indicate an inconsistency or error.",51.7
+v09794_m,positive,1,C 08.01.a,7.0,"The target rule compares sums from different tables with a complex formula, which may have incorrect references or arithmetic.",24.3
+v11137_m,positive,1,I 03.01,5.0,The target rule may have an incorrect arithmetic comparison or missing condition compared to other rules on the same table.,18.9
+v6062_m,negative_other_table,0,F 20.02,8.0,"The target rule references multiple rows and columns with a complex sum formula, which may have arithmetic or reference errors compared to simpler rules on the same table.",42.5
+v4502_m,negative_same_table,0,C 73.00.a,3.0,The target rule may have an incorrect range or arithmetic operation.,20.8
+v4822_m,negative_same_table,0,C 08.01.a,3.0,The target rule may be incorrect due to potential inconsistencies with other rules on the same table.,18.8
+v22572_m,positive,1,R 13.00.b,8.0,The target rule uses a complex sum comparison with potentially incorrect references and arithmetic.,29.8
+v09750_m,negative_same_table,0,C 08.01.b,5.0,The target rule compares two rows without considering the context of other sum-based relationships in the table.,27.1
+v12459_m,positive,1,R 01.00,7.0,"The target rule references R 02.00 but uses R 01.00 for the condition, which may not align with the logical structure of the reporting framework.",32.3
+v12328_m,negative_other_table,0,R 04.01.a,8.0,"The target rule uses a different multiplier range (21000000 to 22000000) compared to other similar rules, which may indicate an inconsistency or error.",59.8
+v1309_m,negative_other_table,0,F 01.02,7.0,"The target rule compares values from different rows and columns without clear justification for the relationship, suggesting potential incorrect references or logic.",29.7
+v22338_m,positive,1,M 02.00.a,7.0,The target rule may be incorrect due to potential inconsistencies with other rules on the same table.,21.7
+e8710_e,negative_other_table,0,C 06.02,7.0,The target rule may be incorrect due to potential inconsistencies with other rules on the same table.,20.4
+v1743_m,negative_same_table,0,F 08.01.a,8.0,The target rule may have an incorrect reference or arithmetic comparison.,29.4
+v5048_m,negative_other_table,0,F 12.01.a,8.0,"The target rule follows a similar pattern to other sum rules but lacks a clear condition or context, making it potentially incorrect.",21.9
+v11186_m,positive,1,I 06.03,9.0,"The target rule uses a different set of columns in the sum compared to other rules on the same table, suggesting a possible inconsistency or error.",27.8
+v7521_m,negative_same_table,0,C 08.01.a,7.0,The target rule has complex logic with potential issues in arithmetic or references.,27.0
+v1113_m,negative_other_table,0,F 21.00,8.0,The target rule is likely incorrect as it deviates from the pattern of other rules on the same table.,27.7
+v11188_m,positive,1,I 06.05,8.0,The target rule may be incorrect due to a potential arithmetic error or missing condition compared to other rules on the same table.,30.3
+v1348_m,negative_other_table,0,F 02.00,7.0,"The target rule compares a sum of a range in F 20.03 with a single cell in F 02.00, which is less specific than other rules on the same table that use more detailed formulas.",40.0
+v10813_m,positive,1,M 02.00.a,7.0,"The target rule may have an incorrect reference to 'rNNN' in the sum formula, which is not defined in the provided rules.",26.9
+v22568_m,positive,1,R 13.00.b,8.0,The target rule uses a complex sum comparison that may have incorrect references or arithmetic.,29.5
+v09791_m,positive,1,C 08.01.b,8.0,The target rule may have an incorrect column reference or arithmetic comparison.,23.8
+v3020_m,negative_other_table,0,F 09.01,7.0,"The target rule compares values from different tables and rows, which may not align correctly due to potential misreferences or logical inconsistencies.",24.4
+v22551_m,negative_same_table,0,R 13.00.b,8.0,"The target rule uses a different range for R 16.00 compared to other similar rules, which may indicate an inconsistency or error.",31.3
+v22301_m,negative_other_table,0,J 05.00.a,3.0,"The target rule uses a sum formula, while other rules on the same table use comparison operators, suggesting a possible inconsistency in the logic.",20.1
+v22590_m,negative_same_table,0,R 22.01,8.0,The target rule may have an incorrect condition or comparison logic compared to other related rules.,37.4
+v09789_m,positive,1,C 08.01.b,8.0,The target rule may have an incorrect column reference or arithmetic comparison.,26.3
+v09816_m,negative_other_table,0,C 34.03,5.0,The target rule may have an incorrect arithmetic relationship compared to other rules on the same table.,22.3
+v0988_m,negative_other_table,0,F 20.04,7.0,The target rule's formula may be incorrect due to potential arithmetic or reference errors compared to other rules on the same table.,22.8
+v11211_m,positive,1,I 06.07,8.0,The target rule is likely incorrect due to duplication with another rule that uses the same formula.,34.3
+v09790_m,positive,1,C 08.01.a,7.0,"The target rule compares sums from different tables with a complex formula, which may have incorrect references or arithmetic.",23.5
+v10763_m,positive,1,M 02.00.a,7.0,The target rule may be incorrect due to conflicting definitions of {r0060} and potential arithmetic inconsistencies.,24.2
+v22562_m,negative_same_table,0,R 14.00,8.0,"The target rule uses column references while other rules on the same table use row references, indicating a possible inconsistency.",16.5
+v11164_m,negative_same_table,0,I 06.01,7.0,The target rule may be incorrect due to potential arithmetic or logical inconsistencies with other rules on the same table.,38.3
+v22565_m,negative_same_table,0,R 15.00,7.0,The target rule may have an incorrect logical condition or missing conditions compared to similar rules.,21.1
+v22564_m,positive,1,R 14.00,8.0,"The target rule likely incorrectly assumes a sum of 1 for a range of rows, which is not typical for such reporting fields.",18.9
+v1726_m,negative_other_table,0,F 01.01,7.0,The target rule may have an incorrect reference or arithmetic relationship.,24.7
+v22339_m,positive,1,M 02.00.a,7.0,The target rule may be incorrect due to potential inconsistencies with other rules on the same table.,24.2
+v5279_m,negative_other_table,0,F 18.00.a,7.0,"The target rule references a sum across multiple rows in F 18.00.a and compares it to a sum in F 20.04, which may not align with the logical structure of the other rules on the same table.",34.5
+v22570_m,positive,1,R 13.00.b,8.0,"The target rule uses a sum of multiple rows and columns compared to a sum of different rows and columns, which may not align logically with the other rules that use direct comparisons.",40.9
+v22184_m,negative_other_table,0,J 05.00.b,5.0,The target rule may be incorrect due to potential arithmetic inconsistencies with other rules on the same table.,25.8
+v22583_m,positive,1,R 22.01,7.0,The target rule may have an incorrect condition or comparison logic compared to other rules on the same table.,42.2
+v2857_m,positive,1,F 08.01.a,8.0,"The formula references a range of columns (c010-035) but the other rules on the same table use specific column references, suggesting potential inconsistency or error in the range definition.",43.6
+v22571_m,positive,1,R 13.00.b,8.0,"The target rule uses a sum of two rows (r0050 and r0060) from R 13.00.b, c0020, and compares it to a sum of multiple columns and rows from R 15.00, which may not align with the intended logic due to potential misalignment in the referenced cells.",52.0
+v11182_m,positive,1,I 06.01,8.0,The target rule may have an incorrect arithmetic operation or missing condition compared to other similar rules on the same table.,38.4
+v6058_m,positive,1,F 05.01,7.0,"The target rule uses a complex formula with multiple sums and comparisons, which may have incorrect references or arithmetic.",26.7
+v1513_m,negative_other_table,0,C 52.00.w,7.0,"The target rule compares c040 with c030, but other rules on the same table involve more complex relationships and sums, suggesting potential inconsistencies or errors in the target rule.",28.4
+v11141_m,negative_same_table,0,I 03.01,7.0,The target rule may have an incorrect arithmetic relationship or comparison operator.,15.9
+v09796_m,positive,1,C 08.07,8.0,"The target rule may be incorrect as it assumes the sum of c0030, c0040, and c0050 equals 1, while the other rules impose individual upper bounds of 1 on each, which could conflict with the sum rule.",27.6
+v22581_m,negative_same_table,0,R 22.01,7.0,The target rule may have an incorrect condition or comparison logic compared to other related rules on the same table.,40.6
+v7630_m,positive,1,C 73.00.w,3.0,"The target rule lacks context and conditions, making it hard to assess its correctness.",21.8
+v2858_m,positive,1,F 08.01.a,7.0,"The target rule uses a range of rows (r070-090) and columns (c010-030) which may not align with the intended data aggregation, suggesting a potential incorrect reference.",39.8
+v22548_m,positive,1,R 13.00.a,8.0,The target rule may have an incorrect conditional logic structure compared to other rules on the same table.,32.8
+v22596_m,positive,1,R 22.01,7.0,The target rule may be incorrect due to potential inconsistencies with other rules on the same table.,39.0
+v7428_m,negative_other_table,0,C 13.01,7.0,The target rule's formula may be incorrect due to potential inconsistencies with other rules on the same table.,30.1
+v09368_m,negative_other_table,0,F 90.01,7.0,The target rule may be incorrect due to potential inconsistency with other rules that involve similar relationships.,18.5
+v5167_m,negative_other_table,0,F 04.03.1,8.0,"The target rule references a sum over specific columns in F 04.03.1, but other rules on the same table show different ranges and conditions, suggesting possible inconsistencies or errors in the formula.",32.3
+v11184_m,positive,1,I 06.01,8.0,The target rule may have an incorrect arithmetic reference as it sums more columns than the other rules.,38.8
+v22567_m,positive,1,R 13.00.b,8.0,The target rule uses a complex sum comparison that may have incorrect references or arithmetic.,32.6
+v11979_m,negative_other_table,0,F 19.00.a,7.0,"The target rule uses a different row (r0226) compared to other similar rules on the same table which use rows r0193 to r0197, suggesting a possible inconsistency.",54.8
+v09787_m,positive,1,C 08.01.a,7.0,"The target rule compares sums from different tables with a complex formula, which may have incorrect references or arithmetic.",25.3
+v11213_m,positive,1,I 06.07,8.0,The target rule is likely incorrect due to duplication with another rule that uses the same formula.,33.9
+v11174_m,negative_same_table,0,I 06.07,8.0,The target rule may be incorrect due to potential arithmetic inconsistency with other rules on the same table.,33.2
+v7427_m,negative_other_table,0,C 13.01,8.0,"The target rule's formula includes a long list of columns that may not logically sum to c0350, suggesting a potential arithmetic or reference error.",39.2
+v6055_m,negative_same_table,0,F 05.01,7.0,"The formula references multiple sums from different columns in the same row, which may not align with the intended logic or data structure.",31.9
+v22552_m,negative_same_table,0,R 13.00.b,8.0,"The target rule uses a different range (r0070-0090) compared to other similar rules that use r0010-0060, which may indicate an inconsistency or error.",42.9
+v22588_m,positive,1,R 22.01,8.0,The target rule may be incorrect due to potential overlap or duplication with other rules that already handle similar conditions.,42.8
+v11200_m,positive,1,I 06.07,8.0,Multiple similar rules with slight variations suggest potential inconsistency or error in the target rule.,32.7
+v22650_m,positive,1,L 00.03,7.0,"The target rule uses a complex condition with a comparison to a value that is not explicitly defined in the rule, which may lead to incorrect validation.",54.4
+v7931_m,negative_other_table,0,F 19.00.a,5.0,"The target rule references a range of rows in F 19.00.a that may not align with the actual data structure, leading to potential calculation errors.",28.2
+v1310_m,negative_other_table,0,F 01.02,5.0,The target rule compares values from different tables without clear justification for the relationship.,29.1
+v11209_m,positive,1,I 06.07,8.0,"Multiple similar rules exist with slight variations, indicating potential inconsistency or error in the target rule.",31.3
+v10142_m,negative_other_table,0,C 81.00.w,7.0,The target rule may be incorrect due to potential arithmetic errors or missing conditions compared to other rules on the same table.,28.5
+v12516_m,negative_other_table,0,R 04.00.a,7.0,"The target rule compares r0040 with r0240, while other rules on the same table use similar comparisons between different rows, suggesting a possible inconsistency or error in the target rule.",25.6
+v10768_m,negative_same_table,0,M 02.00.a,7.0,The target rule may have an incorrect arithmetic relationship or missing condition compared to other rules on the same table.,26.1
+v7563_m,negative_other_table,0,C 72.00.a,3.0,"The target rule has a simple comparison but lacks context on the data it applies to, making it hard to assess its correctness without further analysis.",26.7
+v22578_m,negative_same_table,0,R 13.00.a,8.0,"The target rule has a complex condition that may not align with the other rules on the same table, suggesting potential inconsistencies or errors in the logic.",38.9
+v09156_m,negative_other_table,0,Y 05.01,7.0,The target rule may be incorrect as it conflicts with other rules on the same table that use a different combination of rows to sum to r0010.,21.7
+v22550_m,negative_same_table,0,R 13.00.b,8.0,"The target rule uses a sum from R 14.00 while other similar rules use R 16.00 and R 20.00, suggesting a possible inconsistency or error in the reference.",37.9
+v11187_m,positive,1,I 06.03,10.0,"The target rule incorrectly sums columns c0030 to c0080, while other rules sum different ranges, indicating a possible arithmetic error.",29.1
+v09194_m,negative_same_table,0,R 01.00,7.0,The target rule may be incorrect due to potential inconsistencies with other rules on the same table.,18.0
+v09266_m,negative_other_table,0,R 04.00.a,5.0,The target rule may be incorrect due to potential inconsistencies with other similar rules on the same table.,19.3
+v5250_m,negative_other_table,0,F 04.02.1,8.0,The target rule may be incorrect due to potential arithmetic or reference errors compared to other rules on the same table.,49.6
+v0335_m,negative_same_table,0,C 08.01.a,7.0,The target rule may be incorrect due to potential inconsistencies with other rules on the same table.,21.3
+v22649_m,positive,1,L 00.03,7.0,"The target rule uses a complex condition with multiple checks and a sum, which may have logical inconsistencies or incorrect references compared to other rules on the same table.",54.1
+v09345_m,positive,1,C 103.00,8.0,The formula may have an incorrect arithmetic operation or comparison logic.,19.1
+v5237_m,negative_other_table,0,F 04.03.1,8.0,"The target rule references a sum over columns c050, c060, c070, but other rules on the same table reference different column ranges, suggesting possible inconsistency or error in the target rule's column references.",34.8
+v4640_m,negative_same_table,0,C 73.00.w,3.0,The target rule may have an incorrect arithmetic relationship based on the structure of other rules on the same table.,21.4
+v4475_m,negative_other_table,0,C 72.00.a,8.0,"The formula references r180 as the sum of r190-210, which may be incorrect due to potential off-by-one errors or misalignment in row references.",32.5
+v22335_m,negative_same_table,0,M 02.00.a,7.0,The target rule may be incorrect due to potential inconsistencies with other rules on the same table.,20.6
+v0271_m,negative_other_table,0,C 05.01,8.0,The target rule may be incorrect due to potential inconsistencies with other similar rules on the same table.,25.5
+v09795_m,positive,1,C 08.01.a,7.0,"The target rule compares sums from different tables with a complex formula, which may have incorrect references or arithmetic.",23.5
+v22615_m,negative_same_table,0,L 00.03,7.0,"The target rule has a complex condition that may not align with other similar rules on the same table, suggesting a potential error in logic or reference.",50.2
+v5259_m,negative_other_table,0,F 04.02.1,7.0,"The target rule references different tables and rows compared to similar rules, which may indicate an incorrect reference or arithmetic.",49.1
+v22693_m,negative_same_table,0,L 00.03,7.0,"The target rule uses a complex sum with conditions that may not align with the structure of the referenced tables, suggesting potential errors in logic or references.",51.2
+v4075_m,negative_other_table,0,C 13.00.a,7.0,The formula references multiple rows and columns with potential arithmetic errors or incorrect references.,29.7
+v09788_m,positive,1,C 08.01.a,7.0,"The target rule compares sums from different tables with a complex formula, which may have incorrect references or arithmetic.",22.8
+v22658_m,positive,1,L 00.03,7.0,"The target rule uses a different table (L 00.03) and different conditions compared to other rules on the same table, which may indicate a potential inconsistency or error.",48.3
+v12644_m,negative_other_table,0,R 04.01.a,3.0,The target rule may have a logical dependency that is not clearly addressed by other rules on the same table.,44.8
+v22676_m,positive,1,L 00.03,7.0,"The target rule uses a different table (L 00.03) and different conditions compared to other rules on the same table, which may indicate a potential inconsistency or error.",51.5
+v0668_m,negative_other_table,0,C 41.00,5.0,"The rule references a range (r020-100) which is not standard in EBA reporting frameworks, suggesting potential ambiguity or error in the formula.",18.3
+v22573_m,positive,1,R 16.00,8.0,"The target rule likely incorrectly assumes a sum of 1 for a range of rows, which is not typical for such reporting fields.",18.9
+v6192_m,negative_same_table,0,C 103.00,8.0,The rule likely incorrectly uses a comparison operator that does not align with the intended validation logic for LGD.,19.8
+v22342_m,positive,1,M 02.00.c,7.0,The target rule may be incorrect due to a potential arithmetic inconsistency with other rules on the same table.,18.0
+v11183_m,positive,1,I 06.01,8.0,The target rule may have an incorrect arithmetic operation or missing condition compared to other similar rules.,35.7
+v09792_m,positive,1,C 08.01.b,8.0,The target rule may have an incorrect column reference or arithmetic comparison.,25.6
+v22580_m,positive,1,R 15.00,7.0,The target rule may have an incorrect logical relationship between the conditions and the implications.,20.5
+v1741_m,negative_same_table,0,F 08.01.a,7.0,"The target rule references a sum in F 20.06 and compares it to a sum in F 08.01.a, but the structure and references may not align with the logical relationships in other rules on the same table.",40.1
+v09793_m,positive,1,C 08.01.a,7.0,"The target rule compares sums from different tables with a complex formula, which may have incorrect references or arithmetic.",22.9
+v1288_m,negative_other_table,0,F 01.01,5.0,"The target rule compares a sum of a range in F 20.01 with a single cell in F 01.01, which may not align with the structure of the data being reported.",33.8
+v10128_m,negative_other_table,0,C 80.00.w,5.0,The target rule's formula may have an incorrect arithmetic relationship based on other rules on the same table.,24.7
+v09771_m,negative_same_table,0,C 08.07,7.0,The target rule may be incorrect as it does not align with the sum constraint of the other rules.,17.1
+v5448_m,negative_other_table,0,F 04.08,8.0,"The target rule references r181 which is not aligned with the pattern of other rules referencing rows like r182, r183, etc.",29.2
+v10812_m,positive,1,M 02.00.a,8.0,The target rule may be incorrect due to conflicting definitions of {r0060} and {r0070}.,24.2
+v2747_m,negative_other_table,0,F 18.00.c,5.0,The target rule may be incorrect due to potential inconsistencies with other rules on the same table.,18.5
+v10766_m,negative_same_table,0,M 02.00.a,8.0,The target rule may be incorrect due to conflicting definitions of {r0060}.,20.9
+v6057_m,negative_same_table,0,F 05.01,7.0,"The target rule uses a complex formula with multiple sums and comparisons, which may have incorrect references or arithmetic.",26.2
+v11185_m,positive,1,I 06.03,9.0,"The target rule includes c0010 to c0060, while other rules on the same table use different ranges, suggesting a possible inconsistency or error in the formula.",30.7
+v6366_m,negative_other_table,0,C 02.00,5.0,"The target rule has a similar structure to other rules on the same table, but the complexity and number of terms in the formula may indicate potential issues with arithmetic or references.",42.2
+v10759_m,negative_same_table,0,M 02.00.a,8.0,The target rule may be incorrect due to potential inconsistencies with other rules on the same table.,21.8
+v22584_m,negative_same_table,0,R 13.00.b,5.0,The target rule may have an incorrect reference or logic compared to other rules on the same table.,29.8
+v09297_m,negative_other_table,0,R 04.00.a,7.0,The target rule may be incorrect due to potential arithmetic or comparison issues compared to other rules on the same table.,20.1
+v6272_m,negative_same_table,0,C 08.01.b,5.0,"The rule references a range (rNNN) that is not specified, making it ambiguous and potentially incorrect.",17.1
+v11189_m,positive,1,I 06.05,8.0,"The target rule may have an incorrect arithmetic formula by including c0070 but not c0080, which is inconsistent with other rules on the same table.",33.2
