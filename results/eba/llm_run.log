@@ -1,0 +1,3 @@
+/home/user/masterthesis_direction3/scripts/p8_eba_llm.py:63: FutureWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  pos = pool[pool["label"] == 1].groupby("t1", group_keys=False).apply(
+sample: {'negative_other_table': 60, 'positive': 60, 'negative_same_table': 50}
