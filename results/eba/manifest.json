@@ -1,0 +1,12 @@
+{
+  "eba_vr_upto_3.5_2026-09-14.xlsx": {
+    "url": "https://www.eba.europa.eu/sites/default/files/2026-09/b76b9462-6c49-43c0-92a3-57f46fd02211/%28up%20to%203.5%29%20EBA_validation_rules_2026-09-14.xlsx",
+    "bytes": 13048024,
+    "sha256": "cd3b9271bdc9cb1136dad4a40eaab6667fd5bda7cb016f327c6bd34b525b9477"
+  },
+  "eba_vr_4.4_phase1.xlsx": {
+    "url": "https://www.eba.europa.eu/sites/default/files/2026-10/4c299b8b-c5ee-482d-b26d-454be40b129b/VR_4.4.phase1_.xlsx",
+    "bytes": 1166818,
+    "sha256": "38c190fa4c2ff81f22a5bd2ed94f744fc64e4eb9b722676e07f89669d79b1aea"
+  }
+}
