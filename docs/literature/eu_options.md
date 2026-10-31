@@ -70,3 +70,23 @@ Files downloaded for inspection are not stored in the repository; URLs are liste
 * XBRL International blog series "ESEF errors and common pitfalls" (practitioner evidence on ESEF errors, such as
   wrong dates for opening balances and calculation inconsistencies). IRIS ESEF quality report 2023 (practitioner,
   1,426 companies): use only with care.
+
+## 5. Literature around the third direction (search on 31 October 2026)
+
+* Rule-base verification (expert systems): Preece and Shinghal, "Foundation and application of knowledge base
+  verification", International Journal of Intelligent Systems 9(8), 1994; Preece, Shinghal and Batarekh, Knowledge
+  Engineering Review 1992. Static detection of anomalies in rule bases (redundancy, ambivalence/conflict,
+  circularity, deficiency). Anomalies are signals for a person, not proven errors. A natural non-AI baseline.
+* Spreadsheet formula errors: ExceLint (Barowy, Berger, Zorn; OOPSLA 2018, arXiv 1901.11100) finds formulas that
+  break the regular structure of neighbouring formulas; CUSTODES and formula smells (Hermans et al., TU Delft).
+  EBA rules are formulas over table cells, so "deviates from its sibling rules" is a second baseline.
+* LLMs auditing specifications: VeriSpec (arXiv 2610.01847, October 2026) uses an LLM as verifier to find
+  inconsistencies in a natural-language specification (405 rules, 5 validated inconsistencies, no gold standard);
+  LLM-based requirements quality assessment shows useful signals but many false alarms (arXiv 2609.03230);
+  LLM autoformalisation plus an SMT solver for defect identification (VeriMed, preprint).
+* Data quality: Martin et al. (PVLDB 2025) on why discovered constraints are mostly false; LeDQeR filters
+  generated rules. Both concern generated rules, not expert rule sets.
+* EBA rules: no academic study found. Practitioner sources note that checking the consistency of thousands of DPM
+  rules is hard (UBPartner); open-source DPM-XL parser github.com/luukhopman/dpm-xl (not checked).
+* Gap: no work found that evaluates AI or static methods for finding faulty rules in a large regulatory rule set
+  against an official record of rules later found incorrect.
