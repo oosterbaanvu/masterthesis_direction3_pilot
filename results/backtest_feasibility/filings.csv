@@ -1,0 +1,30 @@
+adsh,cik,instance,group,filed,dqc_status,dqc_seconds,ruleset
+0001493152-23-004324,1538495,form10-q_htm.xml,verified_correction,2023-02-10,no_matching_ruleset,,
+0001582961-23-000009,1582961,docn-20221231_htm.xml,verified_correction,2023-02-22,no_matching_ruleset,,
+0001654954-23-002950,917225,sodi_10k_htm.xml,verified_correction,2023-03-15,no_matching_ruleset,,
+0001133311-23-000018,1133311,tzoo-20230331_htm.xml,verified_correction,2023-05-12,no_matching_ruleset,,
+0001683168-23-004734,1756180,nocera_i10ka-123122_htm.xml,verified_correction,2023-07-10,no_matching_ruleset,,
+0001493152-23-024846,895665,form10-q_htm.xml,verified_correction,2023-07-18,ok,128.93328619003296,dqc-us-2023-V31-ruleset
+0000950170-23-042449,926282,adtn-20230630_htm.xml,verified_correction,2023-08-14,ok,122.67835712432861,dqc-us-2023-V31-ruleset
+0001493152-23-038652,1482554,form10-k_htm.xml,never_corrected,2023-10-30,ok (reused),,dqc-us-2023-V31-ruleset
+0001683168-24-000995,725394,dalrada_i10q-123123_htm.xml,verified_correction,2024-02-14,ok,121.70528173446655,dqc-us-2023-V31-ruleset
+0000950170-24-016475,720672,sf-20231231_htm.xml,never_corrected,2024-02-16,ok (reused),,dqc-us-2023-V31-ruleset
+0001711279-24-000005,1711279,krys-20231231_htm.xml,never_corrected,2024-02-26,ok (reused),,dqc-us-2023-V31-ruleset
+0001628280-24-008060,1175454,flt-20231231_htm.xml,never_corrected,2024-02-29,ok (reused),,dqc-us-2023-V31-ruleset
+0001437749-24-007453,1141240,lqmt20231231_10k_htm.xml,verified_correction,2024-03-12,ok,106.10389304161072,dqc-us-2023-V31-ruleset
+0001425287-24-000068,1425287,wkhs-20231231_htm.xml,never_corrected,2024-03-12,ok (reused),,dqc-us-2023-V31-ruleset
+0001493152-24-011128,714256,form10-k_htm.xml,never_corrected,2024-03-25,ok (reused),,dqc-us-2023-V31-ruleset
+0001683168-24-001685,1759186,coeptis_i10k-123123_htm.xml,verified_correction,2024-03-25,ok,105.8671567440033,dqc-us-2023-V31-ruleset
+0001683168-24-001682,1759186,coeptis_i10qa-093023_htm.xml,verified_correction,2024-03-25,error:HTTPError,,dqc-us-2023-V31-ruleset
+0001628280-24-013786,1534120,avtx-20231231_htm.xml,never_corrected,2024-03-29,ok (reused),,dqc-us-2023-V31-ruleset
+0001410578-24-000361,1863990,msai-20231231x10k_htm.xml,never_corrected,2024-03-29,ok (reused),,dqc-us-2023-V31-ruleset
+0001104659-24-047365,1668010,dbgi-20231231x10k_htm.xml,verified_correction,2024-04-15,ok,125.23277401924133,dqc-us-2023-V31-ruleset
+0001213900-24-041746,65596,ea0205618-10k_siebert_htm.xml,never_corrected,2024-05-10,ok (reused),,dqc-us-2023-V31-ruleset
+0001903596-24-000336,1391426,clnv_10q_htm.xml,verified_correction,2024-05-20,ok,130.49192428588867,dqc-us-2024-V31-ruleset
+0001096906-24-001202,1514946,axim_10q_htm.xml,verified_correction,2024-05-20,ok,109.5503466129303,dqc-us-2023-V31-ruleset
+0001683168-24-005634,811222,cardiff_i10q-063024_htm.xml,verified_correction,2024-08-14,ok,137.83511805534363,dqc-us-2024-V31-ruleset
+0000096021-24-000128,96021,syy-20240629_htm.xml,never_corrected,2024-08-28,ok (reused),,dqc-us-2024-V31-ruleset
+0001493152-24-039366,1879848,form10-q_htm.xml,verified_correction,2024-10-03,ok,131.80523085594177,dqc-us-2024-V31-ruleset
+0001870600-25-000029,1870600,dtc-20241231_htm.xml,never_corrected,2025-03-12,ok (reused),,dqc-us-2024-V31-ruleset
+0001410578-25-000335,2015947,sbxc-20241231x10k_htm.xml,never_corrected,2025-03-13,ok (reused),,dqc-us-2024-V31-ruleset
+0001495231-25-000050,1495231,izea-20241231_htm.xml,verified_correction,2025-03-27,error:HTTPError,,dqc-us-2024-V31-ruleset

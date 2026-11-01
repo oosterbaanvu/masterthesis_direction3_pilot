@@ -1,0 +1,46 @@
+{
+  "filings": 29,
+  "filings_by_group": {
+    "verified_correction": 17,
+    "never_corrected": 12
+  },
+  "dqc_status": {
+    "ok (reused)": 12,
+    "ok": 10,
+    "no_matching_ruleset": 5,
+    "error:HTTPError": 2
+  },
+  "filed_range": [
+    "2023-02-10",
+    "2025-03-27"
+  ],
+  "dqc_seconds_median_new_runs": 124.0,
+  "ai_rule_status": {
+    "ok": 22
+  },
+  "alerts": {
+    "ai_not_kept": 1000,
+    "official_dqc": 886,
+    "ai_kept": 10
+  },
+  "alerts_fully_linked_share": 0.983,
+  "dqc_rule_codes_without_release_date": [
+    "0126",
+    "0128"
+  ],
+  "dqc_alerts_not_available_at_filing": 404,
+  "mean_alerts_per_filing": {
+    "ai_kept": 0.45,
+    "ai_not_kept": 45.45,
+    "official_dqc": 40.27
+  },
+  "verified_items": 20,
+  "verified_items_run": 13,
+  "verified_located": 13,
+  "verified_flagged": {
+    "dqc_stress_test": 0,
+    "dqc_time_bound": 0,
+    "ai_kept": 0,
+    "ai_not_kept": 0
+  }
+}
