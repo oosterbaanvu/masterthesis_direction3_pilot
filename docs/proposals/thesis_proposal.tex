@@ -34,6 +34,14 @@ University of Groningen \textbar{} Avanade and Rabobank\\
 2 November 2026
 \end{center}
 
+\section*{Overview}
+
+Imagine a data team at a bank that starts using a new data source, such as the published financial statements of its business clients. Before the data can be used, the team must decide which checks to run on it. A language model can propose dozens of checks within minutes, but the team cannot tell which of them are correct, which only repeat checks it already has, and which would flood it with alerts on data that is fine.
+
+This thesis builds and evaluates a platform that answers these questions before a check goes live. The team registers the data source and its existing checks. The platform inserts typical errors into a safe copy of the data and shows which kinds of error slip through: a map of blind spots. A local language model then proposes checks for exactly those blind spots. The platform keeps only the checks that catch something new without raising too many alerts, and replays several years of historical data to show what each check would have caught and how much review work it would have caused. A person reviews this evidence and decides whether a check may block data, may only warn, or should only be monitored. The approved checks then run as a quality gate in a data pipeline, and every decision is recorded for auditors.
+
+The research behind the platform asks whether checks written by language models can be trusted at all: whether they reproduce rules written by experts, whether they add anything beyond those rules, and whether that still holds on real data over time. To answer these questions against an independent reference, the thesis uses public financial and regulatory data that comes with rules written by expert committees and regulators. No bank data is needed.
+
 \section{Problem and research objective}
 
 Data teams check incoming data before it is used in reports, analyses or other systems. These checks range from simple technical controls, such as required fields and valid codes, to business rules that relate several fields to each other. At Rabobank, this work includes technical validation, business rules, monitoring thresholds and the manual investigation of exceptions \cite{tran}. Banks must also be able to show that such controls exist and work: the Basel Committee's principles for risk data (BCBS 239) and the European Central Bank's 2024 guide treat data quality and its controls as part of sound risk management \cite{bcbs239,ecbrdarr}.
@@ -298,7 +306,7 @@ RQ2 asks whether generated rules can find errors that the existing controls miss
 
 First, the existing controls are fixed. They consist of the official expert rules, basic format checks and inexpensive statistical checks learned from other reports, for example a check for an unusual sign or a sudden jump between periods.
 
-Second, errors are injected into a copy of reports that are not known to contain errors. The error types are based on what goes wrong in practice: a reversed sign, a value that is 1{,}000 times too large because of a wrong unit, a changed digit, a wrong concept or code, swapped reporting periods and a missing value. Where real corrections are available, they determine how large the injected changes are. Running the existing controls on the changed copy shows which error types they catch and which they miss. In the second pilot, for example, the DQC rules caught between 17 and 64\% of most error types, but none of the removed values. Each injected change is recorded at the level of the affected fact or field, and results on injected errors are kept separate from conclusions about real error rates.
+Second, errors are injected into a copy of reports that are not known to contain errors. The error types are based on what goes wrong in practice and on earlier work on realistic error models \cite{taberr}: a reversed sign, a value that is 1{,}000 times too large because of a wrong unit, a changed digit, a wrong concept or code, swapped reporting periods and a missing value. Where real corrections are available, they determine how large the injected changes are. Running the existing controls on the changed copy shows which error types they catch and which they miss. In the second pilot, for example, the DQC rules caught between 17 and 64\% of most error types, but none of the removed values. Each injected change is recorded at the level of the affected fact or field, and results on injected errors are kept separate from conclusions about real error rates.
 
 Third, models generate candidate rules for the error types that the existing controls miss. Candidates are generated on development material and evaluated on companies that were not used during development.
 
