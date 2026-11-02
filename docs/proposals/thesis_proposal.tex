@@ -76,11 +76,11 @@ A follow-up experiment looked at the causes and at individual rules instead of c
 
 The last step tested whether rules can be evaluated on historical data in the order in which it arrived, as a data pipeline would see it. Twenty-nine SEC reports filed between February 2023 and March 2025 were processed in filing order. The official DQC rules and the generated rules from the second pilot were run on each report, and every alert was linked to its report, its rule, the rule version and the date from which the rule existed. This worked for 98\% of the alerts, and the official rules took about two minutes per report. Three results matter for the design. First, 46\% of the DQC alerts came from rules that were published only after the report had been filed, so a test with today's rules overstates what a team could have caught at the time. Second, reports from early 2023 need an older release of the DQC rules. Third, none of the 13 checked corrections was flagged by any rule, expert or generated; most of them were accounting restatements, which validation rules are not designed to catch \cite{feasibility}.
 
-A separate short study tested whether a language model could predict which validation rules of the European Banking Authority would later be switched off as incorrect. It did not produce a reliable signal and was not selected as the thesis direction \cite{pilotreport}.
+A separate short study looked at a different idea. The European Banking Authority (EBA) publishes thousands of validation rules that the supervisory reports of European banks must pass. Sometimes a rule itself turns out to be wrong, and the EBA then switches it off. The study tested whether a language model could have predicted which rules would later be switched off. The model ranked a faulty rule above a correct one in 64\% of the cases, where 50\% would be chance, but simply ranking rules by the length of their formula did better (71\%), and within a single reporting table the model was close to chance (53\%). This direction was therefore not selected \cite{pilotreport}.
 
 \subsection{What the pilot work shows}
 
-Table~\ref{tab:lessons} summarises how the pilot results shape this proposal. Together they suggest that there is something to gain: a small number of generated rules can add detections at a low alert cost. They also show that this gain only becomes visible when rules are judged one by one, relative to the controls that already exist, and when they are tested in a way that matches how they would be used.
+Table~\ref{tab:lessons} summarises how the pilot results shape this proposal. Together they suggest that there is something to gain: a small number of generated rules can add detections at a low alert cost. They also show that this gain only becomes visible when rules are judged one by one, relative to the controls that already exist, and when they are tested in a way that matches how they would be used. So far, the gain has only been shown on injected errors and for a single rule. Whether generated rules also find real errors that the existing controls miss is still open; that is the core of this thesis.
 
 \begin{table}[htbp]
 \centering
@@ -137,7 +137,7 @@ Three effects complicate the evaluation of generated rules. Language models perf
 
 \subsection{Proposed contribution}
 
-Table~\ref{tab:related} summarises the comparison. Systems that generate data-quality rules with language models also exist commercially and have been patented \cite{rehberger,patent}; the contribution of this thesis is therefore not the idea of such a system. The anticipated contribution is an empirical evaluation with four parts: (1) generated rules are scored against independently maintained expert rules, using those rules' own tests and controlling for rules the model may have seen; (2) a method that selects generated rules by what they add beyond the existing expert controls is compared with alternative selection methods at fixed alert budgets; (3) the selected rules are tested on historical data in the order in which it arrived, using reviewed real corrections; and (4) a reviewed set of real errors in financial reports is produced. This claim is provisional and will be reassessed against literature published during the thesis.
+Table~\ref{tab:related} summarises the comparison. Systems that generate data-quality rules with language models also exist commercially and have been patented \cite{rehberger,patent}; the contribution of this thesis is therefore not the idea of such a system. The anticipated contribution is an empirical evaluation with four parts: (1) generated rules are scored against independently maintained expert rules, using those rules' own tests and controlling for rules the model may have seen; (2) a method that selects generated rules by what they add beyond the existing expert controls is compared with alternative selection methods at fixed alert budgets; (3) the selected rules are tested on historical data in the order in which it arrived, using reviewed real corrections; and (4) a reviewed set of real errors in financial reports is produced. In short, the thesis treats data-quality rules the way banks treat risk models: before a rule is trusted, it is tested against an independent reference and on historical data. This claim is provisional and will be reassessed against literature published during the thesis.
 
 \begin{table}[htbp]
 \centering
@@ -197,6 +197,7 @@ GLEIF & Operator of the global register of legal entities & 207 written data-qua
 \end{table}
 
 \subsection{Datasets}
+\label{sec:data}
 
 D1: US company reports and DQC rules. The SEC is the US regulator that receives the reports of listed companies. These reports are filed in XBRL, the eXtensible Business Reporting Language. In XBRL every number is a separate fact with a standard concept name, a reporting date or period, a unit and a level of rounding, for example the concept \texttt{Assets} with a value of 340{,}000{,}000 US dollars on 31 December 2014. A comparison between facts must therefore respect their accounting meaning, not only their values.
 
@@ -208,11 +209,33 @@ D3: US mortgage applications and HMDA edits. Under the Home Mortgage Disclosure 
 
 D4: The GLEIF register of legal entities. The Global Legal Entity Identifier Foundation (GLEIF) maintains the register of Legal Entity Identifiers (LEIs). An LEI identifies a legal entity, such as a company, across countries, and banks use it to identify the parties they deal with. GLEIF publishes 207 data-quality checks, each written as a precondition, a condition and an expected outcome; a check can pass, fail or not apply \cite{gleif}. Check C000020, for example, fails when a legal name is ``n/a'' or consists only of punctuation. GLEIF does not publish code or a result for each record, so a small test suite must be built (Section~\ref{sec:build}). D4 is optional if time is limited.
 
-D5: Reviewed real errors in SEC reports. D5 will be built from SEC reports that were later corrected. A changed number is not necessarily an error that could have been detected in the original report; it may reflect a later accounting restatement or other new information. D5 is therefore planned as a reviewed resource, not as a verified gold standard from the start (Section~\ref{sec:build}).
+D5: Reviewed real errors in SEC reports. Companies sometimes file a corrected version of a report after the original has been published. Comparing the two versions shows which numbers changed. A changed number, however, is not always a data error in the original report. Table~\ref{tab:changes} shows the three main kinds of change; only the first is the kind of error that a validation rule can be expected to catch. In the second pilot, for example, a company's total assets changed from 7{,}170{,}767 to 4{,}670{,}767 US dollars because a receivable had been recorded incorrectly in its accounts. The original report correctly showed the accounts as they stood at the time, so no rule applied to that report could have flagged the number. D5 is a reviewed set in which each changed number is assigned to one of these kinds (Section~\ref{sec:build}).
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}p{3.2cm}LL@{}}
+\toprule
+Kind of change & Example & Can a validation rule detect it in the original report? \\
+\midrule
+Data error & A typing error, a reversed sign, or a number reported for the wrong period or under the wrong concept & Yes, in principle \\
+Accounting restatement & The company later finds that a receivable was recorded incorrectly and revises its accounts & Usually not: the original report matched the accounts at the time \\
+Relabelling only & The same number is moved to a different concept & Usually not an error \\
+\bottomrule
+\end{tabularx}
+\caption{Kinds of change between an original report and its corrected version.}
+\label{tab:changes}
+\end{table}
 
 \subsection{What counts as the correct answer}
 
-To score a rule, a reference is needed that states the correct answer, often called the ground truth. The three research questions need different references (Table~\ref{tab:truth}). For RQ1 the expert rule is the reference: a generated rule is correct when it produces the same messages as the official rule on the official test cases. For RQ2 and RQ3 the expert rules cannot be the reference, because they also miss errors; in the second pilot, all existing controls together detected 27 of 83 injected errors. For these questions it is necessary to know where errors in the data really are.
+To decide whether a rule is good, we need to know what the correct answer is. This reference is often called the ground truth. It differs per research question, because each question asks something different (Table~\ref{tab:truth}).
+
+For RQ1, the question is whether a generated rule behaves like the expert rule, so the expert rule itself is the reference. The DQC publishes, for each rule, test reports together with the exact messages that the rule must produce for them. For a rule that compares total assets with liabilities plus equity, such a test report would contain a balance sheet in which the two totals differ, and the expected output would be the corresponding message. A generated version of the rule is correct when it produces the same messages on the same test reports.
+
+For RQ2, the question is whether a generated rule finds errors that the expert rules miss. The expert rules cannot be the reference here, because they miss errors themselves: in the second pilot, all existing controls together detected 27 of 83 injected errors. Instead, errors are injected into a copy of the data. If, for example, the sign of a company's reported revenue is reversed in the copy, we know exactly which number is wrong and can check which rules flag it.
+
+For RQ3, the question is whether the rules also find real errors. Here the reference is the reviewed set of real corrections (D5), complemented by a random sample of alerts that is checked by hand.
 
 \begin{table}[htbp]
 \centering
@@ -221,25 +244,43 @@ To score a rule, a reference is needed that states the correct answer, often cal
 \toprule
 Question & Reference & Main limitation \\
 \midrule
-RQ1: does the generated rule behave like the expert rule? & Official test cases (D1 to D3); constructed test records (D4) & Shows what the rule should report, not whether the data is wrong \\
+RQ1: does the generated rule behave like the expert rule? & Official test reports with expected messages (D1 to D3); constructed test records (D4) & Shows what the rule should report, not whether the data is wrong \\
 RQ2: what does the generated rule add? & Injected errors with known locations & Exact, but the errors are not real \\
-RQ3: what would the rule have done on real data? & Reviewed corrections (D5) and a reviewed sample of alerts & Small; a report that was never corrected is not proven correct \\
+RQ3: what would the rule have done on real data? & Reviewed corrections (D5) and a hand-checked sample of alerts & Small; a report that was never corrected is not proven correct \\
 \bottomrule
 \end{tabularx}
 \caption{Reference used for each research question.}
 \label{tab:truth}
 \end{table}
 
-Two limits of real corrections shape the design of RQ3. First, a report that was never corrected is not necessarily free of errors, so an alert on such a report is not automatically a false alarm. Alerts on these reports are therefore treated as a measure of review burden, and the true share of false alarms is estimated from a reviewed sample. Second, a correction does not prove that the error was visible in the original report. In a restatement the company revises its accounts, so the original number matched the accounts as they stood at the time. Each reviewed item therefore also records whether the issue could reasonably have been detected with the information in the original report.
+The reference for RQ3 has two limitations. First, a report that was never corrected is not necessarily free of errors. An alert on such a report may point to a real problem that nobody corrected, so it is not automatically a false alarm. Alerts on these reports are therefore treated as a measure of review work, and the share of false alarms is estimated from the hand-checked sample. Second, as Table~\ref{tab:changes} shows, a correction is not always an error that could have been seen in the original report. Each reviewed item therefore records whether the problem was visible in the original report.
 
 \subsection{Reference material built during the project}
 \label{sec:build}
 
-Reviewed real errors (D5). The target is 300 corrected numbers, spread over types of correction and over companies, with extra weight on types that are more often data errors, such as a reversed sign, a factor of 1{,}000 or a shifted reporting period. For each number, a reviewer opens the original and the corrected report and records whether the original number was wrong, the type of correction (tagging or period error, typing error, accounting restatement, not an error, or unclear) and whether the issue was visible in the original report. The author reviews all 300 items without labels suggested by a language model, following a written guide with examples. A second reviewer, preferably a professional with accounting or XBRL experience, reviews the same 100 items independently. Agreement is measured with Cohen's kappa, a standard measure that corrects for agreement by chance \cite{cohen}, and disagreements are reported. If no independent reviewer is available, the study will report the lack of an external gold standard and will not present the author's labels as verified fact.
+Three references do not exist yet and will be built during the project.
 
-Test records for GLEIF (D4). For 40 to 60 checks, three small test records are written per check from the published specification: one that should pass, one that should fail and one to which the check does not apply. A second person reviews them.
+Reviewed real errors (D5). The target is 300 changed numbers, spread over companies and over kinds of change, with extra weight on changes that are more often data errors, such as a reversed sign, a factor of 1{,}000 or a shifted reporting period. For each number, a reviewer opens the original and the corrected report, reads the company's explanation of the correction, and records three things: whether the original number was wrong, which kind of change it is (Table~\ref{tab:changes}), and whether the problem was visible in the original report. The pilot used this procedure for 20 numbers, with labels suggested by a language model and checked by the author. In the thesis, the author labels all 300 numbers without such suggestions, following a written guide with examples. A second reviewer, preferably a professional with accounting or XBRL experience, labels the same 100 numbers independently. Agreement is measured with Cohen's kappa, a standard measure that corrects for agreement by chance \cite{cohen}, and disagreements are reported. If no independent reviewer is available, the study will report the lack of an external gold standard and will not present the author's labels as verified fact.
 
-Reviewed alert sample (RQ3). From the alerts raised on reports that were never corrected, a random sample of 200 is drawn and reviewed with the same guide, to estimate how many of these alerts point to real problems.
+Test records for the GLEIF checks (D4). This reference is needed only for RQ1 on the GLEIF data. GLEIF publishes its checks as text, but no code and no examples of correct outcomes, so there is nothing to compare an AI-written version of a check with. For 40 to 60 checks, we therefore write three small artificial records per check, directly from the published text: one that should pass, one that should fail and one to which the check does not apply. Table~\ref{tab:gleif} shows this for check C000020, which states that the legal name of an active entity may not be a placeholder such as ``n/a''. A second person reviews the records.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}p{1.5cm}p{3.2cm}p{4.2cm}L@{}}
+\toprule
+Record & Registration status & Legal name & Expected outcome of C000020 \\
+\midrule
+1 & Issued & Example Holding B.V. & Pass \\
+2 & Issued & n/a & Fail \\
+3 & Annulled & n/a & Not applicable \\
+\bottomrule
+\end{tabularx}
+\caption{Constructed test records for GLEIF check C000020.}
+\label{tab:gleif}
+\end{table}
+
+Hand-checked alert sample (RQ3). From the alerts raised in the historical test on reports that were never corrected, a random sample of 200 is checked by hand with the same guide. This shows how many of these alerts point to real problems and how many are false alarms.
 
 \section{Experimental design}
 
@@ -247,32 +288,80 @@ Reviewed alert sample (RQ3). From the alerts raised on reports that were never c
 
 For each rule with a reference, a model will write an executable implementation under three input conditions: (A) the written description of the rule and the necessary data structure; (B) the same information plus relevant domain knowledge, such as whether an amount is normally positive, whether it describes a moment or a period, and which amounts add up to which total; and (C) condition B with permission to run the rule on development examples and repair it. The official test outcomes will never be given to the model. Each task will be repeated five times with fixed generation settings to measure variation. The generated messages will be compared with those of the official implementation, reporting the share of expected messages found (recall), the share of produced messages that are correct (precision), exact agreement per test case, the share of code that does not run, and the variation between repeats.
 
-Rules will be split by publication date relative to the release date of each model. This reduces the risk that results reflect memorisation of public rules, although it cannot exclude related knowledge learned earlier. For OLMo, whose training data is public, the training data will also be searched directly for the text of each rule \cite{olmotrace}. In addition, a language model will judge, by reading only, whether each generated rule is equivalent to the expert rule, as in earlier work that judged coverage by reading \cite{schneider}. Comparing this judgement with the execution results shows how often a rule that looks correct does not behave correctly.
+A complication is that the DQC rules are public: their code has been available on GitHub for years. A model that reproduces a rule correctly may therefore have seen that rule during its training, in which case the result measures memory rather than skill. Two checks address this. First, rules are split by publication date. A rule published after a model was released cannot have been part of its training data, so it is the fair test of whether the model can write a rule it has not seen. The second pilot already pointed in this direction: the generated rules produced about 41\% of the expected messages for older rules, against 3\% and 13\% for newer rules. Second, for most models the training data is not public, so it is impossible to check what they have seen. The OLMo models of the Allen Institute for AI are an exception: their training data is published, together with a tool that finds exact matches between a given text and that data \cite{olmo2,olmotrace}. For OLMo, we can therefore check directly whether the text of a DQC rule was part of the training data. This is a small additional check, not a main part of the study.
+
+Finally, a language model will judge, by reading only, whether each generated rule is equivalent to the expert rule, as in earlier work that judged coverage by reading \cite{schneider}. Comparing this judgement with the execution results shows how often a rule that looks correct does not behave correctly.
 
 \subsection{RQ2: Additional detection and rule selection}
 
-The baseline consists of the official expert rules, basic format checks and inexpensive statistical checks learned from other reports, for example for unusual signs or sudden jumps between periods. In a copy of the data, errors will be injected such as sign changes, magnitude changes, altered digits, wrong concepts or codes, swapped reporting periods and omitted values. Each injected change is recorded at the level of the affected fact or field, and where real corrections are available they inform the size of the injected changes. Results on injected errors will be kept separate from conclusions about real error rates.
+RQ2 asks whether generated rules can find errors that the existing controls miss. The experiment has four steps.
 
-Models will then generate candidate rules for the error types that the baseline misses. Candidates are generated on development material and evaluated on unseen companies. Five selection methods will be compared using the same candidate pool, the same observations and the same budget: (1) keep every rule that runs; (2) a generic filter based on validity and alert volume, in the style of LeDQeR \cite{ledqer}; (3) a compact selection that balances coverage and false alarms, inspired by SPADE \cite{spade}; (4) a language model that rates the plausibility of each rule; and (5) an expert-aware selection that keeps only rules detecting errors the baseline misses, while also considering alert volume and repeatability. The fifth method is the main proposed method; its scoring and thresholds will be registered before the final evaluation.
+First, the existing controls are fixed. They consist of the official expert rules, basic format checks and inexpensive statistical checks learned from other reports, for example a check for an unusual sign or a sudden jump between periods.
+
+Second, errors are injected into a copy of reports that are not known to contain errors. The error types are based on what goes wrong in practice: a reversed sign, a value that is 1{,}000 times too large because of a wrong unit, a changed digit, a wrong concept or code, swapped reporting periods and a missing value. Where real corrections are available, they determine how large the injected changes are. Running the existing controls on the changed copy shows which error types they catch and which they miss. In the second pilot, for example, the DQC rules caught between 17 and 64\% of most error types, but none of the removed values. Each injected change is recorded at the level of the affected fact or field, and results on injected errors are kept separate from conclusions about real error rates.
+
+Third, models generate candidate rules for the error types that the existing controls miss. Candidates are generated on development material and evaluated on companies that were not used during development.
+
+Fourth, the candidates are selected. Five selection methods are compared, using the same candidate pool, the same observations and the same budget: (1) keep every rule that runs; (2) a generic filter based on validity and alert volume, in the style of LeDQeR \cite{ledqer}; (3) a compact selection that balances coverage and false alarms, inspired by SPADE \cite{spade}; (4) a language model that rates the plausibility of each rule; and (5) an expert-aware selection that keeps only rules detecting errors that the existing controls miss, while also considering alert volume and repeatability. The fifth method is the main proposed method; its scoring and thresholds will be registered before the final evaluation.
 
 The primary outcome is the number of additional detections at fixed average alert budgets of 0.5, 1 and 2 alerts per report. The budget makes the practical trade-off explicit: a rule that detects ten extra errors but raises 450 alerts per report is of no use to a team that can review one alert per report. Secondary outcomes include recall, precision where clean labels exist, alerts on reports that were never corrected, runtime, the share of generated rules that fail, and stability across repeats. From the same evidence, each selected rule receives a proposed level of action: block (hold the data), warn (let the data pass with an alert) or monitor (record only). The thresholds for these levels are fixed in advance; whether the levels are reliable is tested in RQ3, and a person always takes the final decision.
 
+This procedure also works outside the experiment. When a team onboards a new data source, it does not know which real errors the data contains, and it does not need to. What it needs to know is which kinds of error its current controls cannot see. Error injection answers that question in the same way that a fire drill tests an alarm without waiting for a real fire: the team inserts typical errors into a copy of its own data, sees which kinds slip through, lets a model propose rules for exactly those kinds, and checks how many alerts each proposal raises on the real, unchanged data. The weakness is that an error type that is not on the list is not tested, which is why RQ3 checks the results against real errors.
+
+If the existing controls already catch an error type, generated rules have nothing to add for that type, and the study will report this as a result. The pilots show that this differs per error type. In the first pilot, ordinary rules caught every missing value, wrong data type and invalid code, so there was nothing to add. In the second pilot, subtler errors were often missed: the existing controls detected 27 of 83 injected errors and none of the removed values.
+
 \subsection{RQ3: Testing selected rules on historical data}
 
-A sample of about 2{,}000 SEC reports will be processed in the order in which they were filed, in weekly batches. For each batch, the official rules and the selected generated rules are run and every alert is stored with its report, rule, rule version and availability date. Based on the feasibility check, this takes about two minutes per report for the official rules, or roughly 70 hours of computing time in total. Two forms of historical test will be distinguished, because they answer different questions:
+RQ3 asks how the selected rules would have behaved if they had been in use in the past. The test works like a replay. About 2{,}000 real SEC reports from 2023 to 2026 are processed week by week, in the order in which they were filed, and the expert rules and the selected generated rules are run on each week's reports as if they had been active at that time. Every alert is stored with its report, its rule, the rule version and the date from which the rule existed. Based on the feasibility check, the official rules take about two minutes per report, or roughly 70 hours of computing time in total.
+
+An example shows what this test reveals. Suppose a generated rule states that a company's quarterly revenue cannot be negative. In the replay, it might flag a few reports per year, some of which were later corrected for exactly that number. Such a rule could reasonably be allowed to block data. If it instead flagged dozens of reports per week that were never corrected, it would cost too much review time to block anything, and it should at most warn or be monitored. Only a test on real data over time shows which of these two cases applies.
+
+The replay is run in two forms, because they answer different questions:
 \begin{enumerate}
-\item A historical stress test applies rules developed now to past reports. It shows how a rule behaves on real data from different periods.
-\item A time-bound backtest uses only what was available at the time: the DQC release that was current on each filing date, generated rules selected on earlier batches only, and a model released before the period being replayed. It will therefore start in May 2025, after the release of Qwen3. All DQC releases are public \cite{dqc}; if older releases do not run with the current software, the current rule code will be filtered by release date and this will be reported as a limitation.
+\item Historical stress test. The rules as they exist today are applied to past reports. This shows how a rule behaves on real data from different periods.
+\item Time-bound backtest. Only information that was available at the time is used: the version of the DQC rules that was in force on each filing date, generated rules that were selected using earlier data only, and a model that was released before the replayed period. This shows what a team could really have caught at the time. The difference matters: in the feasibility check, 46\% of today's DQC alerts on reports from 2023 to 2025 came from rules that did not yet exist when those reports were filed. The time-bound form will therefore start in May 2025, after the release of Qwen3. All DQC releases are public \cite{dqc}; if older releases do not run with the current software, the current rule code will be filtered by release date and this will be reported as a limitation.
 \end{enumerate}
-The following configurations will be compared: the expert rules alone; the expert rules plus all generated rules; and the expert rules plus the rules kept by each of the five selection methods. The outcomes are the reviewed real errors from D5 that would have been flagged in the original report, the number of alerts per week on reports that were never corrected, the share of false alarms estimated from the reviewed sample, stability across quarters, and whether a level of action chosen on earlier data still holds on later data. Recent reports have had less time to be corrected, so results will be reported per period.
+
+Several rule sets are compared in the replay: the expert rules alone; the expert rules plus all generated rules; and the expert rules plus the rules kept by each of the five selection methods. For each rule set, five things are measured:
+\begin{enumerate}
+\item Real errors found: how many of the reviewed errors in D5 would have been flagged in the original report.
+\item Review work: how many alerts per week the rule set raises on reports that were never corrected.
+\item False alarms: what share of these alerts is a false alarm, estimated from the hand-checked sample of 200 alerts.
+\item Stability: whether a rule keeps the same behaviour from quarter to quarter.
+\item Level of action: whether a level chosen on earlier data, for example ``block'' based on 2023 and 2024, is still justified by the results in 2025 and 2026.
+\end{enumerate}
+Recent reports have had less time to be corrected, so these results are reported per period.
 
 \subsection{Professional review of the evidence}
 
-Three to five data-quality or accounting professionals will review a limited set of evidence cards produced by the workbench (Section~\ref{sec:artefact}). They will record whether they would accept, reject or revise each rule, at which level of action, and how long the decision took. Their decisions will be compared with the automatic proposals. Reviewer recruitment, ethics approval from the faculty and permission to release derived labels will be arranged before this stage. This part is an extension if reviewers are not available in time.
+The platform (Section~\ref{sec:artefact}) summarises each generated rule on an evidence card: one page that tells a reviewer what the rule does and how it performed in the experiments. Table~\ref{tab:card} shows what such a card contains. The values in the table are invented for illustration and are not results.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}p{4.2cm}L@{}}
+\toprule
+Field & Example content (illustrative only) \\
+\midrule
+Rule in plain words & Quarterly revenue must not be negative, except for the concepts on an exclusion list \\
+Origin & Generated by a local model for the error type ``reversed sign'', with domain knowledge added to its input \\
+Added beyond existing controls & Catches 14 of 20 injected sign errors in revenue that the expert rules miss \\
+Alerts in the historical test & 0.3 per week on reports that were never corrected \\
+Real errors in the historical test & 2 reviewed sign errors flagged before the company corrected them \\
+Stability & Same result in 5 of 5 generations and in every quarter \\
+Proposed level of action & Warn \\
+Decision & Accept, reject or revise, with the reviewer's reason \\
+\bottomrule
+\end{tabularx}
+\caption{Contents of an evidence card. All values are invented for illustration.}
+\label{tab:card}
+\end{table}
+
+Three to five data-quality or accounting professionals, for example consultants at Avanade, will each review about 30 such cards. For each card they record whether they would accept, reject or revise the rule, at which level of action, and how long the decision took. Their decisions are compared with the levels proposed by the method. This shows whether the evidence is understandable and useful to the people who would approve rules in practice. Reviewer recruitment, ethics approval from the faculty and permission to release derived labels will be arranged before this stage. This part is an extension if reviewers are not available in time.
 
 \subsection{Protocol, data splits and statistics}
 
-The data splits, alert budgets, outcome measures and selection thresholds will be written down in a dated protocol before the final evaluation. Development and test material will be separated by company, and by time where relevant, so that rules are never selected and evaluated on reports of the same company. Results will be reported with 95\% confidence intervals obtained by resampling over companies or rules, with paired comparisons where methods run on the same data. All runs will be reported, including failed runs and results that go against the expectations.
+Three measures keep the evaluation fair. First, all choices that could influence the outcome, such as the alert budgets, the selection thresholds and the outcome measures, are written down in a dated protocol before the final evaluation is run. In the pilots, some limits were chosen after the first results had been seen; the protocol prevents this. Second, rules are selected on one group of companies and evaluated on another group and, where relevant, on a later period. A rule that only works because it was tuned to the reports of particular companies will then fail the evaluation. Third, every result is reported with a 95\% confidence interval, a range that shows how certain the number is given the size of the sample, obtained by resampling over companies or rules. Methods that run on the same data are compared pairwise, and all runs are reported, including failed runs and results that go against the expectations.
 
 \section{Models, baselines and reproducibility}
 
@@ -300,7 +389,28 @@ Model versions, generation settings and prompts will be fixed and documented. Al
 \section{Engineering artefact and organisational use}
 \label{sec:artefact}
 
-The engineering deliverable is a reproducible workbench built from the pilot software, together with a small data pipeline that uses its results (Figure~\ref{fig:tool}). A user registers a data source and its existing checks, runs a stress test on a safe copy, lets a model generate candidate rules, executes them in a restricted environment, and receives evidence for each rule. The evidence includes the rule text, the information used to generate it, the execution status, the additional detections, the alert burden in the historical test, the stability across repeats and across periods, and the proposed level of action. A reviewer then accepts, rejects or requests changes, and every decision is stored in an append-only event log. The log is kept separately from the data tables, because older table versions are removed after a retention period, by default seven days \cite{vacuum}.
+The engineering deliverable is a platform for testing data-quality controls before they go live, whether they were written by people or by a language model. It is built from the pilot software and consists of eight components (Table~\ref{tab:components}); Figure~\ref{fig:tool} shows how they work together.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}p{3.3cm}L@{}}
+\toprule
+Component & What it does \\
+\midrule
+Rule register & Stores every rule, expert-written or generated, as versioned code with its origin, the date from which it was available and its level of action. \\
+Stress-test engine & Injects realistic errors into a safe copy of the data and shows, per error type, which existing controls catch it: a map of blind spots. \\
+Rule studio & Lets a local language model propose rules for the blind spots, using domain knowledge, and runs and repairs them in a restricted environment. \\
+Selection & Keeps only rules that add detections beyond the existing controls within the alert budget, and proposes a level of action. \\
+Backtest engine & Replays historical data in time order and reports what each rule would have caught and how many alerts it would have raised. \\
+Quality gate & Runs the approved rules in a data pipeline and publishes each batch, publishes it with warnings, or holds it for review. \\
+Review screen & Shows the blind-spot map and the evidence cards, and records accept, reject or revise decisions. \\
+Audit log & Stores every decision with its evidence in an append-only log, so that it can be shown to an auditor. \\
+\bottomrule
+\end{tabularx}
+\caption{Components of the platform.}
+\label{tab:components}
+\end{table}
 
 \begin{figure}[htbp]
 \centering
@@ -311,20 +421,24 @@ The engineering deliverable is a reproducible workbench built from the pilot sof
 \node[box, right=0.4cm of a] (b) {2. Stress test on\\ a safe copy};
 \node[box, right=0.4cm of b] (c) {3. Model proposes\\ candidate rules};
 \node[box, right=0.4cm of c] (d) {4. Select rules and\\ propose a level};
-\node[box, below=0.75cm of d] (e) {5. Test on\\ historical batches};
+\node[box, below=0.75cm of d] (e) {5. Backtest on\\ historical batches};
 \node[box, left=0.4cm of e] (f) {6. Evidence card;\\ person decides};
 \node[box, left=0.4cm of f] (g) {7. Approved rule\\ enters the gate};
-\node[box, left=0.4cm of g] (h) {8. Decision stored\\ in the event log};
+\node[box, left=0.4cm of g] (h) {8. Decision stored\\ in the audit log};
 \draw[arr] (a) -- (b); \draw[arr] (b) -- (c); \draw[arr] (c) -- (d);
 \draw[arr] (d) -- (e); \draw[arr] (e) -- (f); \draw[arr] (f) -- (g); \draw[arr] (g) -- (h);
 \end{tikzpicture}
-\caption{The workbench. It never adopts a rule by itself and never changes data.}
+\caption{How the platform is used. It never adopts a rule by itself and never changes data.}
 \label{fig:tool}
 \end{figure}
 
-The pipeline demonstrates how approved rules are used. It is built with Apache Spark and Delta Lake, two open-source technologies that are widely used in data platforms \cite{spark,deltalake}. New SEC reports arrive in a staging area, the official rules run through Arelle, the approved generated rules run next, and each batch is then published, published with warnings, or held back for review, according to the levels of the rules that fired. The workbench uses adapters for the rule systems in this study and for ordinary tables, and an interface to replace one approved local model with another. Generated code runs without production credentials, and the tool does not modify data or deploy rules automatically.
+The pipeline is built with Apache Spark and Delta Lake, the open-source technologies on which platforms such as Databricks are built \cite{spark,deltalake}. New reports arrive in a staging area, the official rules run through Arelle, the approved generated rules run next, and each batch is then published, published with warnings, or held back for review, according to the levels of the rules that fired. The audit log is kept separately from the data tables, because older table versions are removed after a retention period, by default seven days \cite{vacuum}. Generated code runs without production credentials, and the platform never adopts a rule or changes data by itself.
 
-For Avanade and Rabobank, the intended use is the evaluation of proposed controls when a data source is onboarded or maintained. A team can see which kinds of error its existing controls miss, review a small number of tested candidate rules, and test any new rule, generated or hand-written, on its own historical data before it goes live. The software would still require internal security approval, data-specific adapters and integration work before production use. The project does not assume access to confidential banking data, and it does not promise measurable operational savings before user testing.
+A typical use would look as follows. A data team at a bank starts using a new external source, for example the published financial statements of its business clients. The team registers the source and its current checks. The stress test shows that reversed signs and values reported in the wrong unit slip through. A local model proposes a handful of rules for these gaps, and the selection keeps two of them. The backtest shows, for each of the two, how many real errors it would have caught in the past two years and how many alerts per week it would have raised. Based on this evidence, the team approves one rule at the ``warn'' level and rejects the other. From then on, the pipeline flags every batch that breaks the approved rule, and the audit log records why the rule was adopted.
+
+This makes the platform useful beyond the thesis. Banks are used to testing risk models on historical data before relying on them \cite{bcbs1996}; the platform applies the same discipline to data-quality controls, for hand-written rules as well as generated ones. For Avanade and Rabobank, it supports the onboarding and maintenance of data sources: a team can see which kinds of error its existing controls miss, review a small number of tested candidate rules, and test any new rule on its own historical data before it goes live. Because it runs with a local open-weight model, it can be tried on internal data without sending that data to an external service. It would still require internal security approval, data-specific adapters and integration work before production use, and the project does not promise measurable operational savings before user testing.
+
+The scientific results of the thesis come from RQ1 to RQ3; the platform is the instrument that produces them and the way in which they become usable. To keep the work manageable, the review screen will be simple, and the pipeline will be demonstrated on SEC data only.
 
 \section{Scope, feasibility and expected outputs}
 
