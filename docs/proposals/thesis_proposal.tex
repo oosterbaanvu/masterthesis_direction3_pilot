@@ -16,6 +16,7 @@
 
 \renewcommand{\arraystretch}{1.2}
 \newcolumntype{L}{>{\raggedright\arraybackslash}X}
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
 \setlength{\parskip}{0.5em}
 \setlength{\parindent}{0pt}
 \setlist{itemsep=2pt,topsep=3pt}
@@ -23,40 +24,44 @@
 \renewcommand{\bottomfraction}{0.8}
 \renewcommand{\textfraction}{0.1}
 \renewcommand{\floatpagefraction}{0.8}
+\urlstyle{same}
 
 \begin{document}
 
 \begin{center}
-{\Large Can AI-generated data validation rules be trusted alongside expert controls?}\\[0.5em]
+{\Large Can AI help keep data validation rules up to date?}\\[0.3em]
+{\large Maintaining and extending expert rules when data standards change}\\[0.5em]
 MSc Artificial Intelligence thesis proposal\\[0.3em]
 Tomash Oosterbaan\\
 University of Groningen \textbar{} Avanade and Rabobank\\
-2 November 2026
+6 November 2026
 \end{center}
 
 \section*{Overview}
 
-Imagine a data team at a bank that starts using a new data source, such as the published financial statements of its business clients. Before the data can be used, the team must decide which checks to run on it. A language model can propose dozens of checks within minutes, but the team cannot tell which of them are correct, which only repeat checks it already has, and which would flood it with alerts on data that is fine.
+Imagine a data team at a bank that checks the reports it must send to its supervisor. The reports follow a standard that changes regularly: new items are added, and old items are renamed or removed. The hundreds of validation rules that check the reports must follow these changes. A rule that is not updated may quietly stop checking the data it was meant to check, or it may reject data that is correct under the new standard. Today, people find and update the affected rules by hand. At the same time, the team keeps discovering kinds of error for which no rule exists yet.
 
-This thesis builds and evaluates a platform that answers these questions before a check goes live. The team registers the data source and its existing checks. The platform inserts typical errors into a safe copy of the data and shows which kinds of error slip through: a map of blind spots. A local language model then proposes checks for exactly those blind spots. The platform keeps only the checks that catch something new without raising too many alerts, and replays several years of historical data to show what each check would have caught and how much review work it would have caused. A person reviews this evidence and decides whether a check may block data, may only warn, or should only be monitored. The approved checks then run as a quality gate in a data pipeline, and every decision is recorded for auditors.
+This thesis builds and evaluates a platform that helps with both tasks and makes every change testable before it goes live. When a new version of a standard is published, a change radar reads the publisher's documentation of the change and lists the rules that are probably affected, with the reason. A local language model proposes an updated version of each affected rule, and the platform tests it on example data. For kinds of error that no rule covers, the platform inserts typical errors into a safe copy of the data, shows which ones slip through, and lets the model propose new rules for exactly those gaps. Every new or changed rule then starts in shadow mode: it runs on incoming data, but its alerts are only recorded. The platform replays several years of historical data to show what the rule would have caught and how many alerts it would have raised. A person reviews this evidence and decides whether the rule may block data, may only warn, or should only be monitored. The approved rules run as a quality gate in a data pipeline, and every decision is recorded for auditors.
 
-The research behind the platform asks whether checks written by language models can be trusted at all: whether they reproduce rules written by experts, whether they add anything beyond those rules, and whether that still holds on real data over time. To answer these questions against an independent reference, the thesis uses public financial and regulatory data that comes with rules written by expert committees and regulators. No bank data is needed.
+The research behind the platform asks whether these steps can be trusted: whether a model finds and updates the right rules when a standard changes, whether new rules add anything beyond the existing ones, and whether that still holds on real data over time. To answer these questions against an independent reference, the thesis uses public rule sets with a published version history. An industry committee publishes a version of its rules for each yearly version of the US accounting taxonomy, and the European Banking Authority publishes its validation rules for each release of its reporting framework. The experts' own updates are the correct answers. No bank data is needed.
 
 \section{Problem and research objective}
 
 Data teams check incoming data before it is used in reports, analyses or other systems. These checks range from simple technical controls, such as required fields and valid codes, to business rules that relate several fields to each other. At Rabobank, this work includes technical validation, business rules, monitoring thresholds and the manual investigation of exceptions \cite{tran}. Banks must also be able to show that such controls exist and work: the Basel Committee's principles for risk data (BCBS 239) and the European Central Bank's 2024 guide treat data quality and its controls as part of sound risk management \cite{bcbs239,ecbrdarr}.
 
-Most of these controls are validation rules. A validation rule is a condition that every record must meet, for example ``total assets must equal total liabilities plus equity'' in a balance sheet. When a record does not meet the condition, the rule raises an alert, and a person investigates whether the data is wrong. Writing good rules requires knowledge of the data and of the business, and maintaining them takes time.
+Most of these controls are validation rules. A validation rule is a condition that every record must meet, for example ``total assets must equal total liabilities plus equity'' in a balance sheet. When a record does not meet the condition, the rule raises an alert, and a person investigates whether the data is wrong. Writing good rules requires knowledge of the data and of the business.
 
-A language model can write candidate validation rules from a description of the data within seconds, and data-quality tools have started to offer this \cite{rehberger}. Some of these rules are useful. Others apply a wrong business assumption, repeat a control that already exists, or raise alerts on records that are correct. A rule such as ``the loan amount must be below five times the income'' may look reasonable, but it is not a valid data-quality rule unless the business has such a policy. In addition, the same model can write different code when asked the same question twice \cite{ouyang}, and rules that are discovered automatically from data often turn out to be false \cite{martin}.
+Validation rules are also not written once. They refer to the items of a reporting standard, and these standards change. The US GAAP taxonomy, the dictionary of concepts in which US companies report their financial statements, is published every year by the Financial Accounting Standards Board (FASB), together with files that list which concepts are deprecated and which concepts replace them \cite{fasb}. The XBRL US Data Quality Committee (DQC) therefore keeps a separate version of its rules for each taxonomy year \cite{dqc}, and the European Banking Authority (EBA) publishes a new set of validation rules with each release of its reporting framework, with a label for every rule that states what changed \cite{eba}. In the pilot work for this thesis, the DQC changed the logic of 62 rule parts and added 56 new ones in three yearly updates, and the EBA changed the formula of 1{,}094 rules at least once between releases (Section~\ref{sec:pilotb}). A rule that is not updated can stop checking the data it was meant to check, because it looks for a concept that is no longer reported, or it can raise alerts on data that is correct under the new version. The internship assignment at Avanade asks how AI can be used to improve data quality and to reduce the rejection of data \cite{avanade}. Keeping rules in step with the standard is one place where these two goals meet.
 
-For a team that already maintains many checks, three questions therefore matter. Does a generated rule do what it is supposed to do? Does it catch errors that the existing controls miss, and how many extra alerts does that cost? And would the rule have behaved well on past data, so that the team can decide whether it may stop data automatically, may only warn, or should only be monitored?
+Language models can also write new candidate rules from a description of the data within seconds, and data-quality tools have started to offer this \cite{rehberger}. Some of these rules are useful. Others apply a wrong business assumption, repeat a control that already exists, or raise alerts on records that are correct. A rule such as ``the loan amount must be below five times the income'' may look reasonable, but it is not a valid data-quality rule unless the business has such a policy. In addition, the same model can write different code when asked the same question twice \cite{ouyang}, and rules that are discovered automatically from data often turn out to be false \cite{martin}.
 
-This thesis studies these three questions. It measures how correctly and consistently language models implement documented expert rules, how much they add beyond independent expert controls, which method best selects a small set of useful rules, and how the selected rules behave when they are run on historical data in the order in which that data arrived. The study uses public datasets and publicly documented rules; no Rabobank data is required. A software workbench will implement the procedure, and a small data pipeline will show how its results can be used in practice.
+For a team that maintains many checks, three questions therefore matter. When the standard changes, which rules must change, and how? Does a new rule catch errors that the existing controls miss, and how many extra alerts does that cost? And would a new or changed rule have behaved well on past data, so that the team can decide whether it may stop data automatically, may only warn, or should only be monitored?
+
+This thesis studies these three questions. It measures how well language models find and update the rules that a new version of a standard affects, compared with the experts' own updates and with simple methods that do not use AI; how much generated rules add beyond independent expert controls, and which method best selects a small set of them; and how new and changed rules behave when they are run on historical data in the order in which that data arrived. The study uses public datasets and publicly documented rules; no Rabobank data is required. A software platform will implement the procedure, and a small data pipeline will show how its results can be used in practice.
 
 \section{Pilot work and change of research direction}
 
-The direction of this thesis follows from two pilot studies carried out in September and October 2026 \cite{pilotreport} and a feasibility check carried out in November 2026 \cite{feasibility}. Both pilots used controlled error injection: values were changed on purpose in a copy of real data, and every change was recorded. Because the location of each error is known, it is possible to count which errors a control finds, which it misses and how many alerts it raises on data that was not changed. The feasibility check instead ran rules on real reports without changing them. The figures below are internal pilot results, not independently published findings.
+The direction of this thesis follows from three pilot studies, a short side study and a feasibility check, carried out between September and November 2026 \cite{pilotreport,feasibility,pilotb}. Section~\ref{sec:built} lists what was built in each of them. The first two pilots used controlled error injection: values were changed on purpose in a copy of real data, and every change was recorded. Because the location of each error is known, it is possible to count which errors a control finds, which it misses and how many alerts it raises on data that was not changed. The feasibility check and the third pilot instead used real reports and real rule versions without changing them. The figures below are internal pilot results, not independently published findings.
 
 \subsection{First pilot: choosing an error detector}
 
@@ -72,7 +77,7 @@ The first pilot was not continued for four reasons. First, the mechanism changed
 
 \subsection{Second pilot: rules written by language models}
 
-The second pilot used financial reports that US listed companies file with the Securities and Exchange Commission (SEC). The Data Quality Committee (DQC) of XBRL US, an industry body, publishes validation rules for these reports together with their code and official test cases \cite{dqc}. Two small open-weight language models, Qwen2.5-Coder-7B and Qwen3-8B \cite{qwen25coder,qwen3}, wrote rules in three ways: from the written description of a DQC rule, from an example report, and for types of error that the existing controls missed.
+The second pilot used financial reports that US listed companies file with the Securities and Exchange Commission (SEC). The DQC publishes validation rules for these reports together with their code and official test cases \cite{dqc}. Two small open-weight language models, Qwen2.5-Coder-7B and Qwen3-8B \cite{qwen25coder,qwen3}, wrote rules in three ways: from the written description of a DQC rule, from an example report, and for types of error that the existing controls missed.
 
 Three results stand out. First, reproducing the behaviour of the official rules was unreliable. For rules published before the models were released, the generated rules produced about 41\% of the messages that the official test cases expect; for rules published afterwards, only 3\% and 13\% for the two models. Generating the same rule again often gave a very different result. Second, the generated rule sets were too noisy to use as a whole. The existing controls detected 27 of 83 injected errors; the best generated rule set detected six further errors, but raised on average 458 alerts per report that had never been corrected, against 1.8 for the DQC rules. Third, real corrections proved hard to use as ground truth. Of 20 numbers that companies had later corrected, only 9 were clearly wrong in the original report, and 7 of these were accounting restatements rather than data errors.
 
@@ -80,15 +85,56 @@ Three results stand out. First, reproducing the behaviour of the official rules 
 
 A follow-up experiment looked at the causes and at individual rules instead of complete rule sets. When the model received the official code of nine rules it had failed to reproduce, it fixed three. Most of the remaining failures came from missing domain knowledge, such as information that is only available in the XBRL dictionary of reporting concepts, rather than from missing documentation. When individual generated rules were selected only if they detected errors that the existing controls missed, within a limit of one alert per report, one rule remained. It detected three additional injected errors at about 0.2 alerts per report. A generic filter that ignored the existing controls needed about twice as many alerts for the same gain. This is a small exploratory result and does not establish that the method is better. It does show that useful rules can be hidden inside noisy rule sets, and that selecting them relative to the existing controls is worth testing with stronger models, more data and a proper held-out evaluation.
 
-\subsection{Feasibility check: testing rules on historical data}
+\subsection{Side study and feasibility check}
 
-The last step tested whether rules can be evaluated on historical data in the order in which it arrived, as a data pipeline would see it. Twenty-nine SEC reports filed between February 2023 and March 2025 were processed in filing order. The official DQC rules and the generated rules from the second pilot were run on each report, and every alert was linked to its report, its rule, the rule version and the date from which the rule existed. This worked for 98\% of the alerts, and the official rules took about two minutes per report. Three results matter for the design. First, 46\% of the DQC alerts came from rules that were published only after the report had been filed, so a test with today's rules overstates what a team could have caught at the time. Second, reports from early 2023 need an older release of the DQC rules. Third, none of the 13 checked corrections was flagged by any rule, expert or generated; most of them were accounting restatements, which validation rules are not designed to catch \cite{feasibility}.
+A short side study looked at the EBA's validation rules for the supervisory reports of European banks. Sometimes a rule itself turns out to be wrong, and the EBA then switches it off. The study tested whether a language model could have predicted which rules would later be switched off. The model ranked a faulty rule above a correct one in 64\% of the cases, where 50\% would be chance, but simply ranking rules by the length of their formula did better (71\%), and within a single reporting table the model was close to chance (53\%). This direction was therefore not selected \cite{pilotreport}. The table of all EBA rules across releases that was built for this study is, however, the basis of the EBA part of the third pilot.
 
-A separate short study looked at a different idea. The European Banking Authority (EBA) publishes thousands of validation rules that the supervisory reports of European banks must pass. Sometimes a rule itself turns out to be wrong, and the EBA then switches it off. The study tested whether a language model could have predicted which rules would later be switched off. The model ranked a faulty rule above a correct one in 64\% of the cases, where 50\% would be chance, but simply ranking rules by the length of their formula did better (71\%), and within a single reporting table the model was close to chance (53\%). This direction was therefore not selected \cite{pilotreport}.
+The feasibility check tested whether rules can be evaluated on historical data in the order in which it arrived, as a data pipeline would see it. Twenty-nine SEC reports filed between February 2023 and March 2025 were processed in filing order. The official DQC rules and the generated rules from the second pilot were run on each report, and every alert was linked to its report, its rule, the rule version and the date from which the rule existed. This worked for 98\% of the alerts, and the official rules took about two minutes per report. Three results matter for the design. First, 46\% of the DQC alerts came from rules that were published only after the report had been filed, so a test with today's rules overstates what a team could have caught at the time. Second, reports from early 2023 need an older release of the DQC rules. Third, none of the 13 checked corrections was flagged by any rule, expert or generated; most of them were accounting restatements, which validation rules are not designed to catch \cite{feasibility}.
+
+\subsection{Why the research direction changed again}
+
+Three observations led to a second change of direction in November 2026. First, generating new data-quality rules with language models has become a crowded research direction (Section~\ref{sec:related}), and such systems are also offered commercially \cite{rehberger,patent}. Second, the second pilot showed that the main weakness of generated rules was missing domain knowledge. When a standard changes, much of that knowledge is written down: the publisher states which concepts are deprecated and what replaces them. Third, the feasibility check showed how much the rule set itself changes over time: almost half of today's alerts on reports from 2023 to 2025 came from rules that did not exist when the reports were filed. Real rule sets are maintained continuously, and their published version histories make it possible to measure whether AI can help with this maintenance against the experts' own updates. Rule generation and selection remain part of the thesis (RQ2), but the first question is now whether AI can help keep the existing expert rules up to date.
+
+\subsection{Third pilot: updating rules when the standard changes}
+\label{sec:pilotb}
+
+The third pilot tested whether this direction has enough material, whether the causes of rule changes are documented, and whether the task is within reach of a small local model \cite{pilotb}. The current release of the DQC rules contains a version of every rule for each taxonomy year from 2023 to 2026. Comparing each rule part between consecutive years, after removing comments and formatting, gave 62 changes in the logic of a rule and 56 new rule parts over three yearly updates; another 170 changes only concerned bookkeeping, such as a renamed internal variable. The EBA rule workbook, which covers the releases up to 3.5, gave 1{,}406 changed formulas in 1{,}094 rules; 266 of these only changed the notation of row and column codes.
+
+Reading a sample showed where the changes come from. Of 12 DQC changes, 7 to 9 followed from the taxonomy, depending on how changes of scope are counted, and three fixed a mistake in the rule itself. An example of the first kind is the 2026 replacement of the concept \texttt{BalanceSheetLocationAxis} by \texttt{StatementOfFinancialPositionLocationBalanceAxis}. Of 10 EBA changes, five followed from changed report templates, three were corrections and two only changed the notation. For the DQC, the cause is documented in a form that a program can read: 28 of the 62 logic changes remove a concept that the taxonomy files list as deprecated or removed, and in the 2026 update this was 20 of 28.
+
+A simple change radar, which uses no AI, flagged every rule file that mentions a concept listed as deprecated or removed in the new taxonomy year. In the 2026 update it flagged 15 files, 10 of which the committee had indeed changed, and it found 10 of the 17 changed files. Over all three updates, 55\% of the flagged files were changed and 40\% of the changed files were flagged. The radar does not yet look at the shared files in which many rules keep their lists of concepts, so it can miss changes that start there. A flagged rule that the committee did not change is also not necessarily a false alarm: the committee sometimes changed a rule only when a deprecated concept was removed from the taxonomy, years after it was deprecated.
+
+Finally, 16 changes that the taxonomy files explain were used to test updates. The model received the old rule and short change notes generated from the taxonomy files, for example ``BalanceSheetLocationAxis: deprecated in 2026; replaced by StatementOfFinancialPositionLocationBalanceAxis'', and had to return the updated rule. Leaving the rule unchanged was never correct. Replacing each deprecated concept by its named replacement, without AI, produced exactly the official update in 10 of 16 cases. XXLLMRESULT
+
+The pilot shows that the material exists: real rule changes with documented causes, from two independent publishers, with dates. It also shows that simple methods already solve part of the task, so the thesis must measure what AI adds beyond them rather than against doing nothing.
+
+\subsection{What was built}
+\label{sec:built}
+
+Each pilot produced working software, and most of it is reused in the thesis. Table~\ref{tab:built} lists what was built, including the parts of pilots that were not continued. All code, results and reports are kept in two project repositories with their full history \cite{repo1,repo2}.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}P{2.6cm}LL@{}}
+\toprule
+Pilot & What was built & What is reused \\
+\midrule
+First pilot (September; not continued) & Error injection for tables with three error mechanisms and four error types; rule-based and statistical controls; adapters for seven error detectors; an evaluation under a review budget; a command-line prototype that registers a source, injects errors into a copy and recommends a detector. In total 990 scenarios, 43 automated tests and an independent recalculation of the reported numbers. & Measuring added value against the existing controls under an alert budget; the injection design. \\
+Second pilot (October) & Download and parsing of SEC reports and the SEC Financial Statement Data Sets; detection of later corrections by comparing original and amended reports; error injection at the level of single XBRL facts; a runner for the official DQC rules with Arelle; local language models on an ordinary laptop; rule generation with execution in a restricted environment and repair; scoring against the official test cases; a rule register with versions and origin. & Almost all of it: register, injection, DQC runner, local models and scoring. \\
+Follow-up (October) & Rule-by-rule qualification of generated rules; a test with the official rule code as input; a check that development and test companies do not overlap. & Selection relative to the existing controls (RQ2). \\
+Side study (October; not continued) & A table of all EBA validation rules across releases, with their deactivation history; simple baselines and a language-model auditor. & The EBA rule table (RQ1). \\
+Feasibility check (November) & A replay engine that runs rules on reports in filing order and links every alert to its report, rule, rule version and availability date. & The basis of the historical test (RQ3). \\
+Third pilot (November) & A corpus of rule changes (DQC per taxonomy year, EBA per release) with a classification of each change; a reader for the FASB change files; the simple change radar; an update test with a local model and two baselines. & The first version of the benchmark of rule changes (RQ1). \\
+\bottomrule
+\end{tabularx}
+\caption{Software built in the pilot work and its use in the thesis.}
+\label{tab:built}
+\end{table}
 
 \subsection{What the pilot work shows}
 
-Table~\ref{tab:lessons} summarises how the pilot results shape this proposal. Together they suggest that there is something to gain: a small number of generated rules can add detections at a low alert cost. They also show that this gain only becomes visible when rules are judged one by one, relative to the controls that already exist, and when they are tested in a way that matches how they would be used. So far, the gain has only been shown on injected errors and for a single rule. Whether generated rules also find real errors that the existing controls miss is still open; that is the core of this thesis.
+Table~\ref{tab:lessons} summarises how the pilot results shape this proposal. Together they suggest that there is something to gain, both in maintaining existing rules and in adding a few new ones. They also show that the gain only becomes visible when rules are judged one by one, relative to the controls and simple methods that already exist, and when they are tested in a way that matches how they would be used. Whether AI also helps with the rule changes that simple methods cannot handle, and whether new rules find real errors that the existing controls miss, is still open; that is the core of this thesis.
 
 \begin{table}[htbp]
 \centering
@@ -97,12 +143,13 @@ Table~\ref{tab:lessons} summarises how the pilot results shape this proposal. To
 \toprule
 Pilot result & Consequence for this thesis \\
 \midrule
-Simple rules already caught all format and code errors; extra detectors mainly added alerts. & Every method is compared with the existing controls, and alerts are always reported next to detections (RQ2). \\
-Generated rules reproduced older official rules much better than newer ones. & Rules are split by publication date relative to the model's release date (RQ1). \\
-Most failures came from missing domain knowledge, not missing documentation. & One experimental condition adds domain knowledge to the model's input (RQ1). \\
-Whole generated rule sets were too noisy, but one selected rule added detections at 0.2 alerts per report. & Selecting rules relative to the existing controls is the main proposed method (RQ2). \\
+Most DQC logic changes in 2026 followed documented taxonomy changes, and a simple radar found 10 of 17 changed files. & Finding and updating affected rules is the first research question; the simple radar is the baseline to beat (RQ1). \\
+Replacing deprecated concepts by their named successors already solved 10 of 16 updates. & AI is judged on what it adds beyond simple methods; the benchmark reports both (RQ1). \\
+Generated rules reproduced older official rules much better than newer ones. & Rule versions are split by publication date relative to the model's release date (RQ1). \\
+Most failures came from missing domain knowledge, not missing documentation. & One condition adds the relevant part of the new standard to the model's input (RQ1). \\
+Whole generated rule sets were too noisy, but one selected rule added detections at 0.2 alerts per report. & Selecting rules relative to the existing controls is the main method for new rules (RQ2). \\
 Most real corrections were accounting restatements, and none of the 13 checked corrections was flagged. & A larger, carefully reviewed set of real errors is built, weighted towards likely data errors (RQ3). \\
-Almost half of today's alerts came from rules that did not yet exist at filing time. & The historical test distinguishes rules available at the time from rules developed later (RQ3). \\
+Almost half of today's alerts came from rules that did not yet exist at filing time. & The historical test uses the rule versions that were available at the time (RQ3). \\
 \bottomrule
 \end{tabularx}
 \caption{Pilot results and their consequences for the proposed research.}
@@ -110,8 +157,9 @@ Almost half of today's alerts came from rules that did not yet exist at filing t
 \end{table}
 
 \section{Related research and proposed contribution}
+\label{sec:related}
 
-This section describes five lines of earlier work. For each line it explains what the studies do, how they judge their results, and what they leave open for this thesis. Table~\ref{tab:related} at the end of the section compares the most relevant studies.
+This section describes six lines of earlier work. For each line it explains what the studies do, how they judge their results, and what they leave open for this thesis. Table~\ref{tab:related} at the end of the section compares the most relevant studies.
 
 \subsection{Detecting errors and the cost of reviewing alerts}
 
@@ -125,19 +173,23 @@ LeDQeR asks a model to generate candidate rules for Great Expectations, an open-
 
 Two master's theses address the same task. Schneider guides the model with templates that fix the shape of a rule and compares the output with five to ten expert ``golden rules'' per dataset, judging by hand whether each golden rule is covered \cite{schneider}. Siyam compares several commercial models and prompting strategies for generating data-quality rules \cite{siyam}.
 
-These studies establish that rule generation, filtering and human review with language models are existing research directions. They judge the generated rules against labelled benchmark errors, human ratings or a small set of reference rules. None of them compares generated rules with a large, independently maintained rule set using that rule set's own executable tests, and none asks what a generated rule adds beyond the controls that are already running.
+These studies establish that rule generation, filtering and human review with language models are existing research directions. They judge the generated rules against labelled benchmark errors, human ratings or a small set of reference rules. None of them compares generated rules with a large, independently maintained rule set using that rule set's own executable tests, none asks what a generated rule adds beyond the controls that are already running, and none considers how rules must change when the data standard changes.
 
 \subsection{Selecting a small set of useful checks}
 
-Generating many candidate checks is easy; choosing the few that are worth keeping is harder. SPADE addresses this for applications built on language models. It derives many automatic checks on the model's output from the changes developers made to their prompts, and then selects a small subset that still catches the failures developers have labelled, while keeping the share of false failures below a chosen limit \cite{spade}. Auto-Validate learns patterns for text columns, such as the format of a date or a product code, from a large collection of tables, and chooses patterns that keep the expected number of false alarms low \cite{autovalidate}. LeDQeR's last filter removes a generated rule when another generated rule already covers it \cite{ledqer}.
+Generating many candidate checks is easy; choosing the few that are worth keeping is harder. SPADE addresses this for applications built on language models. It derives many automatic checks on the model's output from the changes developers made to their prompts, and then selects a small subset that still catches the failures developers have labelled, while keeping the share of false failures below a chosen limit \cite{spade}. Auto-Validate learns patterns for text columns, such as the format of a date or a product code, from a large collection of tables, and chooses patterns that keep the expected number of false alarms low \cite{autovalidate}. LeDQeR's last filter removes a generated rule when another generated rule already covers it \cite{ledqer}. These methods judge candidates on their own or against each other. None of them selects relative to an existing set of expert controls, so they may keep checks that only repeat what those controls already catch.
 
-These methods judge candidates on their own or against each other. None of them selects relative to an existing set of expert controls, so they may keep checks that only repeat what those controls already catch. This is the gap that the main method of this thesis addresses.
+\subsection{Updating code and constraints when their environment changes}
+
+Software must be updated when the libraries it depends on change, and this problem has its own benchmarks. CodeUpdateArena tests whether language models can solve programming tasks that require an updated version of a library function. The updates are synthetic, so that no model can have seen them, and the authors report that adding the documentation of the update to the prompt did not enable the open models they tested to use the change \cite{codeupdatearena}. GitChameleon 2.0 tests whether generated code works with a specified version of a library, using executable tests, and reports success rates of about half for strong commercial models \cite{gitchameleon}. SWE-bench turned real changes in software projects into a benchmark: each task is a real issue, together with the change that resolved it and the tests that check it \cite{swebench}. In data management, Volkovs et al.\ studied continuous data cleaning, in which both the data and the integrity constraints change over time and a system proposes repairs to either \cite{volkovs}.
+
+These studies show that keeping code in step with a changing environment is hard for language models and that real version histories make good benchmarks. None of them uses the version history of a real set of data-quality rules, in which both the cause of each change (the new version of the standard) and the experts' answer (the updated rule) are published.
 
 \subsection{Checking recurring data and testing on history}
 
 Many data sources deliver new data in recurring batches. Redyuk et al.\ learn from statistics of earlier batches what a normal batch looks like and flag new batches that deviate \cite{redyuk}. Auto-Validate-by-History, developed at Microsoft, uses the history of earlier runs of a recurring pipeline to choose quality constraints with a target false-alarm rate, and was evaluated on about 2{,}000 production pipelines \cite{avh}. Both use history to build and test statistical checks; neither tests rules written by language models against expert rules.
 
-Modern data platforms, often called lakehouses, store data as files and add database features such as versioned tables \cite{lakehouse,deltalake}. In such platforms, new data can first be written to a separate area, checked, and only then published. Tagliabue and Greco argue that AI agents should change a data platform only through such isolated and checked steps \cite{tagliabue}. Benchmarks show why care is needed: in ELT-Bench, the best AI agent at the time of publication built only 11.3\% of the required data models correctly \cite{eltbench}. In banking, testing a model on past data before trusting it, known as backtesting, has long been standard practice for risk models \cite{bcbs1996}. We did not find work that backtests generated data-quality rules in this way, or that uses such a test to decide whether a rule may stop data.
+Modern data platforms, often called lakehouses, store data as files and add database features such as versioned tables \cite{lakehouse,deltalake}. In such platforms, new data can first be written to a separate area, checked, and only then published. Tagliabue and Greco argue that AI agents should change a data platform only through such isolated and checked steps \cite{tagliabue}. Benchmarks show why care is needed: in ELT-Bench, the best AI agent at the time of publication built only 11.3\% of the required data models correctly \cite{eltbench}. In banking, testing a model on past data before trusting it, known as backtesting, has long been standard practice for risk models \cite{bcbs1996}. We did not find work that backtests generated or updated data-quality rules in this way, or that uses such a test to decide whether a rule may stop data.
 
 \subsection{Evaluating code written by language models}
 
@@ -145,23 +197,24 @@ Three effects complicate the evaluation of generated rules. Language models perf
 
 \subsection{Proposed contribution}
 
-Table~\ref{tab:related} summarises the comparison. Systems that generate data-quality rules with language models also exist commercially and have been patented \cite{rehberger,patent}; the contribution of this thesis is therefore not the idea of such a system. The anticipated contribution is an empirical evaluation with four parts: (1) generated rules are scored against independently maintained expert rules, using those rules' own tests and controlling for rules the model may have seen; (2) a method that selects generated rules by what they add beyond the existing expert controls is compared with alternative selection methods at fixed alert budgets; (3) the selected rules are tested on historical data in the order in which it arrived, using reviewed real corrections; and (4) a reviewed set of real errors in financial reports is produced. In short, the thesis treats data-quality rules the way banks treat risk models: before a rule is trusted, it is tested against an independent reference and on historical data. This claim is provisional and will be reassessed against literature published during the thesis.
+Table~\ref{tab:related} summarises the comparison. Systems that generate data-quality rules with language models also exist commercially and have been patented \cite{rehberger,patent}; the contribution of this thesis is therefore not the idea of such a system. The anticipated contribution is an empirical evaluation with four parts: (1) a public benchmark of real changes to expert data-quality rules, built from the version histories of the DQC and EBA rules, with the documented cause of each change, on which AI and simple methods for finding and updating affected rules are compared, controlling for rules the model may have seen; (2) a method that selects generated rules by what they add beyond the existing expert controls, compared with alternative selection methods at fixed alert budgets; (3) a test of new and updated rules on historical data in the order in which it arrived, in which every rule starts in shadow mode and is promoted step by step, using reviewed real corrections; and (4) a reviewed set of real errors in financial reports. In short, the thesis treats data-quality rules the way banks treat risk models: before a new or changed rule is trusted, it is tested against an independent reference and on historical data. This claim is provisional and will be reassessed against literature published during the thesis.
 
 \begin{table}[htbp]
 \centering
 \footnotesize
-\begin{tabularx}{\textwidth}{@{}p{2.6cm}LLp{1.9cm}p{1.6cm}@{}}
+\begin{tabularx}{\textwidth}{@{}P{2.3cm}LLP{1.5cm}P{1.5cm}P{1.2cm}@{}}
 \toprule
-Study & What it does & How results are judged & Accounts for existing expert controls & Tested on history \\
+Study & What it does & How results are judged & Accounts for existing expert controls & Updates rules when the standard changes & Tested on history \\
 \midrule
-Alexander et al.\ \cite{alexander} & Generates data tests & One suite by one data scientist; five repeats & No & No \\
-Akella et al.\ \cite{akella} & Generates rules and code with retrieved knowledge & Benchmark data; rule cards & No & No \\
-LeDQeR \cite{ledqer} & Generates and filters rules & Labelled benchmark errors & No & No \\
-AuDQ \cite{audq} & Agents discover rules; provenance & Human ratings & No & No \\
-Schneider \cite{schneider} & Template-guided generation & 5 to 10 expert rules per dataset, judged by hand & No & No \\
-SPADE \cite{spade} & Selects checks on LLM output & Labelled failures; false-failure limit & No & No \\
-Auto-Validate-by-History \cite{avh} & Learns statistical constraints & Past pipeline runs & No & Yes \\
-This proposal & Generates, selects and backtests rules & Official expert tests; injected errors; reviewed real corrections & Yes & Yes \\
+Alexander et al.\ \cite{alexander} & Generates data tests & One suite by one data scientist; five repeats & No & No & No \\
+Akella et al.\ \cite{akella} & Generates rules and code with retrieved knowledge & Benchmark data; rule cards & No & No & No \\
+LeDQeR \cite{ledqer} & Generates and filters rules & Labelled benchmark errors & No & No & No \\
+AuDQ \cite{audq} & Agents discover rules; provenance & Human ratings & No & No & No \\
+Schneider \cite{schneider} & Template-guided generation & 5 to 10 expert rules per dataset, judged by hand & No & No & No \\
+SPADE \cite{spade} & Selects checks on LLM output & Labelled failures; false-failure limit & No & No & No \\
+Auto-Validate-by-History \cite{avh} & Learns statistical constraints & Past pipeline runs & No & No & Yes \\
+Code\-Update\-Arena \cite{codeupdatearena} & Updates code for library changes & Programming tasks on synthetic updates & Not applicable & Synthetic changes & No \\
+This proposal & Finds and updates affected rules; generates, selects and backtests rules & Experts' own updates and tests; injected errors; reviewed real corrections & Yes & Yes & Yes \\
 \bottomrule
 \end{tabularx}
 \caption{Comparison with the most relevant earlier work, as far as reported in the cited sources.}
@@ -171,58 +224,59 @@ This proposal & Generates, selects and backtests rules & Official expert tests; 
 \section{Research questions}
 \label{sec:rq}
 
-Main research question: \emph{Under what conditions can validation rules generated by open-weight language models reproduce expert-defined checks, provide additional error detection beyond existing expert controls within a practical alert budget, and be used safely in a data pipeline?}
+Main research question: \emph{Can open-weight language models help a data team keep its validation rules up to date and extend them, and what evidence is needed before a new or changed rule may block data, only warn, or only be monitored?}
 
 \begin{description}[leftmargin=0pt,labelsep=0.5em]
-\item[RQ1.] How accurately and consistently can language models implement documented expert rules, and what is the effect of adding domain knowledge and of letting the model test its rule on development examples?
-\item[RQ2.] How much additional error detection do generated rules provide beyond the existing controls, how do five selection methods compare at fixed alert budgets, and can the evidence from this selection decide whether a rule should block data, only warn, or only be monitored?
-\item[RQ3.] When the selected rules are run on historical financial reports in the order in which they were filed, how many reviewed real errors do they detect, how many alerts do they raise, how stable are they over time, and does the chosen level of action still hold on later data?
+\item[RQ1.] When a data standard publishes a new version, how well can language models identify the expert rules that must change and produce the updated rules, compared with the experts' own updates and with simple methods that do not use AI?
+\item[RQ2.] How much additional error detection do generated rules provide beyond the existing controls, how do five selection methods compare at fixed alert budgets, and which level of action does the evidence from this selection support?
+\item[RQ3.] When new and updated rules are run on historical reports in the order in which they were filed, how many reviewed real errors do they detect, how many alerts do they raise, and does a policy that starts every rule in shadow mode and promotes it step by step choose levels of action that still hold on later data?
 \end{description}
 
-RQ1 tests whether a model can reproduce what experts already wrote; it follows from the reproduction and failure results of the second pilot. RQ2 tests whether generated rules can add something that the experts did not write; it follows from the follow-up experiment, in which one selected rule added detections at a low alert cost. RQ3 tests whether those results still hold on real data over time; it follows from the feasibility check.
+RQ1 tests whether a model can maintain what experts already wrote; it follows from the third pilot. RQ2 tests whether generated rules can add something that the experts did not write; it follows from the follow-up experiment, in which one selected rule added detections at a low alert cost. RQ3 tests whether the results of RQ1 and RQ2 still hold on real data over time; it follows from the feasibility check.
 
 \section{Data sources and reference material}
 
 \subsection{What ``independent expert rules'' means}
 
-Each public dataset in this study comes with validation rules that were written and published by an organisation outside this project. These organisations maintain the rules for real reporting, document them, and in most cases also publish code or test cases that show what each rule should report (Table~\ref{tab:orgs}). Because neither the author nor the language models wrote these rules, they can serve as an independent reference: a generated rule can be compared with them, and they form the existing controls against which any additional value is measured.
+Each public dataset in this study comes with validation rules that were written and published by an organisation outside this project. These organisations maintain the rules for real reporting, document them, and in most cases also publish code or test cases that show what each rule should report (Table~\ref{tab:orgs}). Because neither the author nor the language models wrote these rules, they can serve as an independent reference: a generated or updated rule can be compared with them, and they form the existing controls against which any additional value is measured. For RQ1, a second property matters: the rules are published in versions, so that each change from one version to the next, and its cause, can be studied.
 
 \begin{table}[htbp]
 \centering
 \small
-\begin{tabularx}{\textwidth}{@{}p{3.5cm}LL@{}}
+\begin{tabularx}{\textwidth}{@{}P{3.5cm}LL@{}}
 \toprule
 Organisation & Who they are & What they publish \\
 \midrule
-XBRL US Data Quality Committee (DQC) & Industry committee for US digital financial reporting & About 200 rules for SEC reports, with code and official test cases \cite{dqc} \\
+XBRL US Data Quality Committee (DQC) & Industry committee for US digital financial reporting & About 200 rules for SEC reports, with code and official test cases, in a separate version for each taxonomy year \cite{dqc} \\
+Financial Accounting Standards Board (FASB) & US accounting standard setter & The US GAAP taxonomy every year, with files that list deprecated concepts and their replacements \cite{fasb} \\
+European Banking Authority (EBA) & EU banking authority & Validation rules for the supervisory reports of European banks for each reporting release, with a label that states what changed \cite{eba}, and a description of the report templates \cite{ebadpm} \\
 XBRL International & International standards body for XBRL & Data-quality rules for European company reports, with test cases and expected results \cite{esefdqr,dqrconf} \\
-FFIEC and CFPB & US financial regulatory bodies & ``Edits'' for mortgage reporting, with open-source validation software and tests \cite{hmda,hmdaplatform} \\
-GLEIF & Operator of the global register of legal entities & 207 written data-quality checks, without code \cite{gleif} \\
+FFIEC and CFPB & US financial regulatory bodies & ``Edits'' for mortgage reporting, with yearly filing instructions and open-source validation software \cite{hmda,hmdaplatform} \\
 \bottomrule
 \end{tabularx}
-\caption{Organisations that wrote the expert rules used in this study.}
+\caption{Organisations that wrote the expert rules and standards used in this study.}
 \label{tab:orgs}
 \end{table}
 
 \subsection{Datasets}
 \label{sec:data}
 
-D1: US company reports and DQC rules. The SEC is the US regulator that receives the reports of listed companies. These reports are filed in XBRL, the eXtensible Business Reporting Language. In XBRL every number is a separate fact with a standard concept name, a reporting date or period, a unit and a level of rounding, for example the concept \texttt{Assets} with a value of 340{,}000{,}000 US dollars on 31 December 2014. A comparison between facts must therefore respect their accounting meaning, not only their values.
+D1: US company reports, the DQC rules and their versions. The SEC is the US regulator that receives the reports of listed companies. These reports are filed in XBRL, the eXtensible Business Reporting Language. In XBRL every number is a separate fact with a standard concept name, a reporting date or period, a unit and a level of rounding, for example the concept \texttt{Assets} with a value of 340{,}000{,}000 US dollars on 31 December 2014. A comparison between facts must therefore respect their accounting meaning, not only their values.
 
-Rule DQC\_0004, for example, checks that assets equal liabilities plus equity, and its documentation gives the message ``Assets with a value of 340,000,000 is not equal to the total of Liabilities and Equity with a value of 350,000,000'' \cite{dqc}. The DQC rules are written in the rule language XULE and run with the open-source XBRL processor Arelle \cite{dqc,arelle}. Of these rules, 153 have official test cases; 38 were first released after 29 April 2025, the release date of Qwen3, which makes it possible to test rules that a model released before that date cannot have seen. The SEC Financial Statement Data Sets show which reports were later amended: from 2023 to mid-2025, 1{,}294 of 68{,}875 reports were followed by a corrected version \cite{fsds}. D1 is the main dataset, because it has the most complete reference and the pilot software already runs on it.
+Rule DQC\_0004, for example, checks that assets equal liabilities plus equity, and its documentation gives the message ``Assets with a value of 340,000,000 is not equal to the total of Liabilities and Equity with a value of 350,000,000'' \cite{dqc}. The DQC rules are written in the rule language XULE and run with the open-source XBRL processor Arelle \cite{dqc,arelle}. Of these rules, 153 have official test cases; 38 were first released after 29 April 2025, the release date of Qwen3. The current release keeps a version of every rule for each taxonomy year from 2023 to 2026, and earlier releases cover earlier years \cite{dqc}. Together with the FASB change files \cite{fasb}, this gives, for each yearly update, the old rule, the documented change of the standard and the experts' new rule. The SEC Financial Statement Data Sets show which reports were later amended: from 2023 to mid-2025, 1{,}294 of 68{,}875 reports were followed by a corrected version \cite{fsds}. D1 is the main dataset, because it has the most complete reference and the pilot software already runs on it.
 
-D2: European company reports and the ESEF rules. ESEF, the European Single Electronic Format, is the format in which issuers listed on EU regulated markets publish their annual financial reports \cite{esma}. Consolidated statements prepared under International Financial Reporting Standards (IFRS) are tagged in this format with Inline XBRL. XBRL International publishes data-quality rules for these reports that are derived from the DQC rules \cite{esefdqr}. Of the 25 rules in the current set, 22 have official test reports, and an official file lists the expected results of the rules on 1{,}739 real European reports from 2022 \cite{dqrconf}. D2 tests whether results from the US setting also hold under different accounting standards and for different companies.
+D2: The EBA validation rules and their releases. The EBA publishes the validation rules that the supervisory reports of European banks must pass. Its rule workbook lists every rule in every release, with its formula and a ``last change'' label such as ``Change'', ``Severity'' or ``Rename/Split table'' \cite{eba}. Rule formulas refer to cells in report templates by table, row and column codes, so many changes follow from changed templates; the templates of each release are described in the EBA's data point model \cite{ebadpm}. The EBA does not publish executable test cases, so an updated rule is compared with the EBA's own new formula after the notation has been normalised, and a sample is checked by hand. D2 tests whether the results for the DQC also hold for a regulator's rule set in a different domain, and it is the dataset closest to the reporting work of a bank.
 
-D3: US mortgage applications and HMDA edits. Under the Home Mortgage Disclosure Act (HMDA), US lenders above certain size thresholds report data on the mortgage applications they receive. The regulators publish ``edits'', validation rules described in plain language, of four kinds: syntax edits check the file format, validity edits check that fields contain allowed values, quality edits flag unusual values that the lender must confirm, and macro quality edits look at a file as a whole \cite{hmda}. Quality edit Q604, for example, checks that the reported county exists in the census list for the reporting year. The regulator's own validation software is open source and contains 318 edit codes and 330 test files \cite{hmdaplatform}. The public loan data has been modified for privacy and has already passed the filing controls, so only suitable fields and controlled error injection will be used. D3 tests a source that is closer to the ordinary tables in a bank's data platform.
+D3: European company reports and the ESEF rules. ESEF, the European Single Electronic Format, is the format in which issuers listed on EU regulated markets publish their annual financial reports \cite{esma}. Consolidated statements prepared under International Financial Reporting Standards (IFRS) are tagged in this format with Inline XBRL. XBRL International publishes data-quality rules for these reports that are derived from the DQC rules \cite{esefdqr}. Of the 25 rules in the current set, 22 have official test reports, and an official file lists the expected results of the rules on 1{,}739 real European reports from 2022 \cite{dqrconf}. The DQC repository also contains its own versions of rules for IFRS and ESEF reports \cite{dqc}. D3 is used in two ways: as a replication of RQ2 and RQ3 under different accounting standards, and as a second kind of maintenance task, in which a rule written for the US taxonomy must be adapted to the IFRS taxonomy, with the published IFRS or ESEF version as the correct answer.
 
-D4: The GLEIF register of legal entities. The Global Legal Entity Identifier Foundation (GLEIF) maintains the register of Legal Entity Identifiers (LEIs). An LEI identifies a legal entity, such as a company, across countries, and banks use it to identify the parties they deal with. GLEIF publishes 207 data-quality checks, each written as a precondition, a condition and an expected outcome; a check can pass, fail or not apply \cite{gleif}. Check C000020, for example, fails when a legal name is ``n/a'' or consists only of punctuation. GLEIF does not publish code or a result for each record, so a small test suite must be built (Section~\ref{sec:build}). D4 is optional if time is limited.
+D4: US mortgage applications and HMDA edits (optional). Under the Home Mortgage Disclosure Act (HMDA), US lenders above certain size thresholds report data on the mortgage applications they receive. The regulators publish ``edits'', validation rules described in plain language, in yearly filing instructions \cite{hmda}. Quality edit Q604, for example, checks that the reported county exists in the census list for the reporting year. The regulator's own validation software is open source and contains 318 edit codes and 330 test files \cite{hmdaplatform}. The public loan data has been modified for privacy and has already passed the filing controls, so only suitable fields and controlled error injection will be used. D4 tests RQ2 on a source that is closer to the ordinary tables in a bank's data platform, and is used only if time permits.
 
 D5: Reviewed real errors in SEC reports. Companies sometimes file a corrected version of a report after the original has been published. Comparing the two versions shows which numbers changed. A changed number, however, is not always a data error in the original report. Table~\ref{tab:changes} shows the three main kinds of change; only the first is the kind of error that a validation rule can be expected to catch. In the second pilot, for example, a company's total assets changed from 7{,}170{,}767 to 4{,}670{,}767 US dollars because a receivable had been recorded incorrectly in its accounts. The original report correctly showed the accounts as they stood at the time, so no rule applied to that report could have flagged the number. D5 is a reviewed set in which each changed number is assigned to one of these kinds (Section~\ref{sec:build}).
 
 \begin{table}[htbp]
 \centering
 \small
-\begin{tabularx}{\textwidth}{@{}p{3.2cm}LL@{}}
+\begin{tabularx}{\textwidth}{@{}P{3.2cm}LL@{}}
 \toprule
 Kind of change & Example & Can a validation rule detect it in the original report? \\
 \midrule
@@ -239,7 +293,7 @@ Relabelling only & The same number is moved to a different concept & Usually not
 
 To decide whether a rule is good, we need to know what the correct answer is. This reference is often called the ground truth. It differs per research question, because each question asks something different (Table~\ref{tab:truth}).
 
-For RQ1, the question is whether a generated rule behaves like the expert rule, so the expert rule itself is the reference. The DQC publishes, for each rule, test reports together with the exact messages that the rule must produce for them. For a rule that compares total assets with liabilities plus equity, such a test report would contain a balance sheet in which the two totals differ, and the expected output would be the corresponding message. A generated version of the rule is correct when it produces the same messages on the same test reports.
+For RQ1, the question is whether a model finds and updates the rules that the experts changed, so the experts' new version is the reference. When the DQC moved from the 2025 to the 2026 taxonomy, for example, it changed a set of rules and left the others alone. The rules it changed are the correct answer for the radar, and the new version of each changed rule is the correct answer for the update. Where official test cases exist for the new version, an updated rule is also run on them.
 
 For RQ2, the question is whether a generated rule finds errors that the expert rules miss. The expert rules cannot be the reference here, because they miss errors themselves: in the second pilot, all existing controls together detected 27 of 83 injected errors. Instead, errors are injected into a copy of the data. If, for example, the sign of a company's reported revenue is reversed in the copy, we know exactly which number is wrong and can check which rules flag it.
 
@@ -248,11 +302,11 @@ For RQ3, the question is whether the rules also find real errors. Here the refer
 \begin{table}[htbp]
 \centering
 \small
-\begin{tabularx}{\textwidth}{@{}p{3.6cm}LL@{}}
+\begin{tabularx}{\textwidth}{@{}P{3.6cm}LL@{}}
 \toprule
 Question & Reference & Main limitation \\
 \midrule
-RQ1: does the generated rule behave like the expert rule? & Official test reports with expected messages (D1 to D3); constructed test records (D4) & Shows what the rule should report, not whether the data is wrong \\
+RQ1: does the model find and update the right rules? & The rules the experts changed, their new versions and, where available, their test cases (D1 to D3) & The experts' version is one correct answer among possibly several, and experts sometimes update a rule late \\
 RQ2: what does the generated rule add? & Injected errors with known locations & Exact, but the errors are not real \\
 RQ3: what would the rule have done on real data? & Reviewed corrections (D5) and a hand-checked sample of alerts & Small; a report that was never corrected is not proven correct \\
 \bottomrule
@@ -261,44 +315,30 @@ RQ3: what would the rule have done on real data? & Reviewed corrections (D5) and
 \label{tab:truth}
 \end{table}
 
-The reference for RQ3 has two limitations. First, a report that was never corrected is not necessarily free of errors. An alert on such a report may point to a real problem that nobody corrected, so it is not automatically a false alarm. Alerts on these reports are therefore treated as a measure of review work, and the share of false alarms is estimated from the hand-checked sample. Second, as Table~\ref{tab:changes} shows, a correction is not always an error that could have been seen in the original report. Each reviewed item therefore records whether the problem was visible in the original report.
+Each reference has limitations. For RQ1, a model may propose an update that differs from the experts' version but is equally correct, so updates that are not identical are run on test cases where possible and a sample is judged by hand. A rule that the experts did not change may still have needed a change, as the third pilot showed, so flagged rules that were not changed are also checked in a sample. For RQ3, a report that was never corrected is not necessarily free of errors. An alert on such a report may point to a real problem that nobody corrected, so it is not automatically a false alarm. Alerts on these reports are therefore treated as a measure of review work, and the share of false alarms is estimated from the hand-checked sample. In addition, as Table~\ref{tab:changes} shows, a correction is not always an error that could have been seen in the original report, so each reviewed item records whether the problem was visible in the original report.
 
 \subsection{Reference material built during the project}
 \label{sec:build}
 
 Three references do not exist yet and will be built during the project.
 
+Benchmark of rule changes (RQ1). For every change from one version of a standard to the next, the benchmark stores the old rule, the documented change of the standard, the experts' new rule, the test cases where available, the publication date, and the kind of change: caused by the standard, a correction of the rule, or bookkeeping only. The third pilot built a first version for the DQC years 2023 to 2026 and the EBA releases up to 3.5. In the thesis it is extended to earlier DQC years and later EBA releases, and the kind of change is checked by hand for every item; a second person checks a sample. The benchmark will be published, so that other methods can be compared on the same tasks, as SWE-bench is used for changes to software \cite{swebench}.
+
 Reviewed real errors (D5). The target is 300 changed numbers, spread over companies and over kinds of change, with extra weight on changes that are more often data errors, such as a reversed sign, a factor of 1{,}000 or a shifted reporting period. For each number, a reviewer opens the original and the corrected report, reads the company's explanation of the correction, and records three things: whether the original number was wrong, which kind of change it is (Table~\ref{tab:changes}), and whether the problem was visible in the original report. The pilot used this procedure for 20 numbers, with labels suggested by a language model and checked by the author. In the thesis, the author labels all 300 numbers without such suggestions, following a written guide with examples. A second reviewer, preferably a professional with accounting or XBRL experience, labels the same 100 numbers independently. Agreement is measured with Cohen's kappa, a standard measure that corrects for agreement by chance \cite{cohen}, and disagreements are reported. If no independent reviewer is available, the study will report the lack of an external gold standard and will not present the author's labels as verified fact.
-
-Test records for the GLEIF checks (D4). This reference is needed only for RQ1 on the GLEIF data. GLEIF publishes its checks as text, but no code and no examples of correct outcomes, so there is nothing to compare an AI-written version of a check with. For 40 to 60 checks, we therefore write three small artificial records per check, directly from the published text: one that should pass, one that should fail and one to which the check does not apply. Table~\ref{tab:gleif} shows this for check C000020, which states that the legal name of an active entity may not be a placeholder such as ``n/a''. A second person reviews the records.
-
-\begin{table}[htbp]
-\centering
-\small
-\begin{tabularx}{\textwidth}{@{}p{1.5cm}p{3.2cm}p{4.2cm}L@{}}
-\toprule
-Record & Registration status & Legal name & Expected outcome of C000020 \\
-\midrule
-1 & Issued & Example Holding B.V. & Pass \\
-2 & Issued & n/a & Fail \\
-3 & Annulled & n/a & Not applicable \\
-\bottomrule
-\end{tabularx}
-\caption{Constructed test records for GLEIF check C000020.}
-\label{tab:gleif}
-\end{table}
 
 Hand-checked alert sample (RQ3). From the alerts raised in the historical test on reports that were never corrected, a random sample of 200 is checked by hand with the same guide. This shows how many of these alerts point to real problems and how many are false alarms.
 
 \section{Experimental design}
 
-\subsection{RQ1: Reproducing expert rules}
+\subsection{RQ1: Finding and updating affected rules}
 
-For each rule with a reference, a model will write an executable implementation under three input conditions: (A) the written description of the rule and the necessary data structure; (B) the same information plus relevant domain knowledge, such as whether an amount is normally positive, whether it describes a moment or a period, and which amounts add up to which total; and (C) condition B with permission to run the rule on development examples and repair it. The official test outcomes will never be given to the model. Each task will be repeated five times with fixed generation settings to measure variation. The generated messages will be compared with those of the official implementation, reporting the share of expected messages found (recall), the share of produced messages that are correct (precision), exact agreement per test case, the share of code that does not run, and the variation between repeats.
+RQ1 consists of two tasks, which are carried out for every version change in the benchmark: from one DQC taxonomy year to the next, from one EBA release to the next, and, in D3, from a US rule to its IFRS counterpart.
 
-A complication is that the DQC rules are public: their code has been available on GitHub for years. A model that reproduces a rule correctly may therefore have seen that rule during its training, in which case the result measures memory rather than skill. Two checks address this. First, rules are split by publication date. A rule published after a model was released cannot have been part of its training data, so it is the fair test of whether the model can write a rule it has not seen. The second pilot already pointed in this direction: the generated rules produced about 41\% of the expected messages for older rules, against 3\% and 13\% for newer rules. Second, for most models the training data is not public, so it is impossible to check what they have seen. The OLMo models of the Allen Institute for AI are an exception: their training data is published, together with a tool that finds exact matches between a given text and that data \cite{olmo2,olmotrace}. For OLMo, we can therefore check directly whether the text of a DQC rule was part of the training data. This is a small additional check, not a main part of the study.
+Finding the affected rules. The input is the old rule set and the publisher's documentation of the new version: for the DQC, the FASB change files and the new taxonomy; for the EBA, the description of the new templates. The output is a list of rules that must change, each with a reason. Three methods are compared: (1) the simple radar of the third pilot, extended to the shared files in which rules keep lists of concepts; (2) a language model that reads each rule together with the relevant part of the change documentation and decides whether and why it must change; and (3) the model applied only to the rules that the simple radar flags or that use a changed concept indirectly. The measures are precision and recall against the rules the experts changed, and the number of rules a person would have to read to find a given share of the changes.
 
-Finally, a language model will judge, by reading only, whether each generated rule is equivalent to the expert rule, as in earlier work that judged coverage by reading \cite{schneider}. Comparing this judgement with the execution results shows how often a rule that looks correct does not behave correctly.
+Updating a rule. For every rule the experts changed, a model writes the updated rule under three input conditions: (A) the old rule and change notes derived from the documentation, as in the third pilot; (B) the same input plus the relevant part of the new standard, such as the definition of a new concept and its place in the taxonomy; and (C) condition B with permission to run the rule on example reports and repair it. Two simple methods serve as baselines: leaving the rule unchanged, and replacing every deprecated concept by its named successor. The measures are exact agreement with the experts' version after formatting and comments are removed, the result on the official test cases of the new version where they exist, and, for a sample of updates that differ from the experts' version, a judgement by hand of whether the update is also correct. Each task is repeated five times with fixed generation settings, and the results are reported separately for changes caused by the standard and for corrections of the rule itself.
+
+A complication is that the DQC rules are public: their code has been available on GitHub for years. A model that produces the correct update may therefore have seen the new version during its training, in which case the result measures memory rather than skill. Three checks address this. First, version changes are split by publication date: a change published after a model was released cannot have been part of its training data. The second pilot showed why this matters: the generated rules produced about 41\% of the expected messages for older rules, against 3\% and 13\% for newer rules. Second, for the OLMo models of the Allen Institute for AI, whose training data is published, a tool that finds exact matches between a given text and that data makes it possible to check directly whether a rule version was seen \cite{olmo2,olmotrace}. Third, if a new taxonomy year or a new EBA release is published during the thesis, the radar and the update methods are run on it before the experts' updated rules appear, and their output is stored with a date. No model can have seen these answers, which makes this the strictest test. Because the timing of such a release is not under the control of the project, this third check is an extension.
 
 \subsection{RQ2: Additional detection and rule selection}
 
@@ -314,48 +354,42 @@ Fourth, the candidates are selected. Five selection methods are compared, using 
 
 The primary outcome is the number of additional detections at fixed average alert budgets of 0.5, 1 and 2 alerts per report. The budget makes the practical trade-off explicit: a rule that detects ten extra errors but raises 450 alerts per report is of no use to a team that can review one alert per report. Secondary outcomes include recall, precision where clean labels exist, alerts on reports that were never corrected, runtime, the share of generated rules that fail, and stability across repeats. From the same evidence, each selected rule receives a proposed level of action: block (hold the data), warn (let the data pass with an alert) or monitor (record only). The thresholds for these levels are fixed in advance; whether the levels are reliable is tested in RQ3, and a person always takes the final decision.
 
-This procedure also works outside the experiment. When a team onboards a new data source, it does not know which real errors the data contains, and it does not need to. What it needs to know is which kinds of error its current controls cannot see. Error injection answers that question in the same way that a fire drill tests an alarm without waiting for a real fire: the team inserts typical errors into a copy of its own data, sees which kinds slip through, lets a model propose rules for exactly those kinds, and checks how many alerts each proposal raises on the real, unchanged data. The weakness is that an error type that is not on the list is not tested, which is why RQ3 checks the results against real errors.
+This procedure also works outside the experiment. When a team onboards a new data source, it does not know which real errors the data contains, and it does not need to. What it needs to know is which kinds of error its current controls cannot see. Error injection answers that question in the same way that a fire drill tests an alarm without waiting for a real fire. If the existing controls already catch an error type, generated rules have nothing to add for that type, and the study will report this as a result. The pilots show that this differs per error type: in the first pilot, ordinary rules caught every missing value, wrong data type and invalid code, while in the second pilot the existing controls detected 27 of 83 injected errors and none of the removed values.
 
-If the existing controls already catch an error type, generated rules have nothing to add for that type, and the study will report this as a result. The pilots show that this differs per error type. In the first pilot, ordinary rules caught every missing value, wrong data type and invalid code, so there was nothing to add. In the second pilot, subtler errors were often missed: the existing controls detected 27 of 83 injected errors and none of the removed values.
+\subsection{RQ3: Testing new and updated rules on historical data}
 
-\subsection{RQ3: Testing selected rules on historical data}
-
-RQ3 asks how the selected rules would have behaved if they had been in use in the past. The test works like a replay. About 2{,}000 real SEC reports from 2023 to 2026 are processed week by week, in the order in which they were filed, and the expert rules and the selected generated rules are run on each week's reports as if they had been active at that time. Every alert is stored with its report, its rule, the rule version and the date from which the rule existed. Based on the feasibility check, the official rules take about two minutes per report, or roughly 70 hours of computing time in total.
+RQ3 asks how new and updated rules would have behaved if they had been in use in the past. The test works like a replay. About 2{,}000 real SEC reports from 2023 to 2026 are processed week by week, in the order in which they were filed, and the rules are run on each week's reports as if they had been active at that time. Every alert is stored with its report, its rule, the rule version and the date from which the rule existed. Based on the feasibility check, the official rules take about two minutes per report, or roughly 70 hours of computing time in total.
 
 An example shows what this test reveals. Suppose a generated rule states that a company's quarterly revenue cannot be negative. In the replay, it might flag a few reports per year, some of which were later corrected for exactly that number. Such a rule could reasonably be allowed to block data. If it instead flagged dozens of reports per week that were never corrected, it would cost too much review time to block anything, and it should at most warn or be monitored. Only a test on real data over time shows which of these two cases applies.
 
-The replay is run in two forms, because they answer different questions:
-\begin{enumerate}
-\item Historical stress test. The rules as they exist today are applied to past reports. This shows how a rule behaves on real data from different periods.
-\item Time-bound backtest. Only information that was available at the time is used: the version of the DQC rules that was in force on each filing date, generated rules that were selected using earlier data only, and a model that was released before the replayed period. This shows what a team could really have caught at the time. The difference matters: in the feasibility check, 46\% of today's DQC alerts on reports from 2023 to 2025 came from rules that did not yet exist when those reports were filed. The time-bound form will therefore start in May 2025, after the release of Qwen3. All DQC releases are public \cite{dqc}; if older releases do not run with the current software, the current rule code will be filtered by release date and this will be reported as a limitation.
-\end{enumerate}
+The replay is run in two forms, because they answer different questions. The historical stress test applies the rules as they exist today to past reports, and shows how a rule behaves on real data from different periods. The time-bound backtest uses only information that was available at the time: the version of the DQC rules that was in force on each filing date, generated rules that were selected using earlier data only, and a model that was released before the replayed period. This shows what a team could really have caught at the time. The difference matters: in the feasibility check, 46\% of today's DQC alerts on reports from 2023 to 2025 came from rules that did not yet exist when those reports were filed. All DQC releases are public \cite{dqc}; if older releases do not run with the current software, the current rule code will be filtered by release date and this will be reported as a limitation.
 
-Several rule sets are compared in the replay: the expert rules alone; the expert rules plus all generated rules; and the expert rules plus the rules kept by each of the five selection methods. For each rule set, five things are measured:
-\begin{enumerate}
-\item Real errors found: how many of the reviewed errors in D5 would have been flagged in the original report.
-\item Review work: how many alerts per week the rule set raises on reports that were never corrected.
-\item False alarms: what share of these alerts is a false alarm, estimated from the hand-checked sample of 200 alerts.
-\item Stability: whether a rule keeps the same behaviour from quarter to quarter.
-\item Level of action: whether a level chosen on earlier data, for example ``block'' based on 2023 and 2024, is still justified by the results in 2025 and 2026.
-\end{enumerate}
-Recent reports have had less time to be corrected, so these results are reported per period.
+Three questions are answered with the replay.
+
+Shadow mode and promotion. In practice, a team would not let a new rule block data on its first day. The platform therefore starts every new or updated rule in shadow mode, in which it runs but its alerts are only recorded. A rule is promoted to monitor, then warn, and finally block once it has run on enough data with a low alert rate and, where available, has flagged reviewed errors; it is demoted when its alert rate rises. The replay compares this policy with adopting every selected rule directly at its proposed level. For each approach it measures how many reviewed real errors (D5) would have been flagged, how many alerts per week it raises on reports that were never corrected, what share of these alerts is a false alarm according to the hand-checked sample, and how often a promoted rule later had to be demoted. The promotion thresholds are fixed in the protocol before the final evaluation.
+
+The cost of not updating rules. For each taxonomy year, the reports of that year are checked once with the rules of the previous year, once with the experts' updated rules and once with the updates proposed by the model. The differences in alerts and in detected errors show what an outdated rule costs in missed checks and in rejected correct data, and how much of this the model's updates recover. This connects RQ1 to the practical goal of reducing the rejection of data. If old rule versions cannot be run on newer reports, only the changed rules are compared.
+
+Stability over time. For every rule, the replay shows whether it keeps the same behaviour from quarter to quarter, and whether a level chosen on earlier data, for example ``block'' based on 2023 and 2024, is still justified by the results in 2025 and 2026. Recent reports have had less time to be corrected, so these results are reported per period.
+
+As an extension, the platform will also run in a live mode during the last months of the thesis. Each week, newly filed SEC reports are checked with the expert rules and the selected rules, and the alerts are stored with a date before anyone knows which reports will be corrected. A few months later, the corrections filed since then show which alerts pointed to real errors. The number of corrections in such a short period will be small, so this test is reported as a case study rather than as a precise estimate.
 
 \subsection{Professional review of the evidence}
 
-The platform (Section~\ref{sec:artefact}) summarises each generated rule on an evidence card: one page that tells a reviewer what the rule does and how it performed in the experiments. Table~\ref{tab:card} shows what such a card contains. The values in the table are invented for illustration and are not results.
+The platform (Section~\ref{sec:artefact}) summarises each new or updated rule on an evidence card: one page that tells a reviewer what the rule does, what changed, and how it performed in the experiments. Table~\ref{tab:card} shows what such a card contains. The values in the table are invented for illustration and are not results.
 
 \begin{table}[htbp]
 \centering
 \small
-\begin{tabularx}{\textwidth}{@{}p{4.2cm}L@{}}
+\begin{tabularx}{\textwidth}{@{}P{4.2cm}L@{}}
 \toprule
 Field & Example content (illustrative only) \\
 \midrule
 Rule in plain words & Quarterly revenue must not be negative, except for the concepts on an exclusion list \\
-Origin & Generated by a local model for the error type ``reversed sign'', with domain knowledge added to its input \\
+Origin & Updated by a local model for the 2026 taxonomy; one concept on the exclusion list was replaced by its successor \\
+Change compared with the previous version & One line changed; shown side by side with the old version \\
 Added beyond existing controls & Catches 14 of 20 injected sign errors in revenue that the expert rules miss \\
-Alerts in the historical test & 0.3 per week on reports that were never corrected \\
-Real errors in the historical test & 2 reviewed sign errors flagged before the company corrected them \\
+Shadow mode and historical test & 0.3 alerts per week on reports that were never corrected; 2 reviewed sign errors flagged before the company corrected them \\
 Stability & Same result in 5 of 5 generations and in every quarter \\
 Proposed level of action & Warn \\
 Decision & Accept, reject or revise, with the reviewer's reason \\
@@ -369,16 +403,16 @@ Three to five data-quality or accounting professionals, for example consultants 
 
 \subsection{Protocol, data splits and statistics}
 
-Three measures keep the evaluation fair. First, all choices that could influence the outcome, such as the alert budgets, the selection thresholds and the outcome measures, are written down in a dated protocol before the final evaluation is run. In the pilots, some limits were chosen after the first results had been seen; the protocol prevents this. Second, rules are selected on one group of companies and evaluated on another group and, where relevant, on a later period. A rule that only works because it was tuned to the reports of particular companies will then fail the evaluation. Third, every result is reported with a 95\% confidence interval, a range that shows how certain the number is given the size of the sample, obtained by resampling over companies or rules. Methods that run on the same data are compared pairwise, and all runs are reported, including failed runs and results that go against the expectations.
+Three measures keep the evaluation fair. First, all choices that could influence the outcome, such as the alert budgets, the selection and promotion thresholds and the outcome measures, are written down in a dated protocol before the final evaluation is run. In the pilots, some limits were chosen after the first results had been seen; the protocol prevents this. Second, methods are developed on one part of the data and evaluated on another: rule selection on one group of companies and evaluation on another group and, where relevant, a later period; rule updates on older version changes and evaluation on newer ones. A method that only works because it was tuned to particular companies or years will then fail the evaluation. Third, every result is reported with a 95\% confidence interval, a range that shows how certain the number is given the size of the sample, obtained by resampling over companies or rules. Methods that run on the same data are compared pairwise, and all runs are reported, including failed runs and results that go against the expectations.
 
 \section{Models, baselines and reproducibility}
 
-The project will use open-weight language models that can be run on controlled infrastructure (Table~\ref{tab:models}). Such models can be downloaded and run locally, so no data has to be sent to an external service, the exact model version can be stored, and the release date is known, which the contamination analysis requires. The larger experiments will run on the university's computing cluster Hábrók, where software runs in Apptainer containers \cite{habrok}; the small models remain usable on an ordinary computer. Self-hosting avoids a mandatory external inference service, although computing and maintenance still have costs.
+The project will use open-weight language models that can be run on controlled infrastructure (Table~\ref{tab:models}). Such models can be downloaded and run locally, so no data has to be sent to an external service, the exact model version can be stored, and the release date is known, which the contamination analysis requires. The larger experiments will run on the university's computing cluster Hábrók, where software runs in Apptainer containers \cite{habrok}; the small models remain usable on an ordinary computer, as in the pilots. Self-hosting avoids a mandatory external inference service, although computing and maintenance still have costs.
 
 \begin{table}[htbp]
 \centering
 \small
-\begin{tabularx}{\textwidth}{@{}p{4.3cm}p{2.1cm}L@{}}
+\begin{tabularx}{\textwidth}{@{}P{4.3cm}P{2.1cm}L@{}}
 \toprule
 Model & Released & Role \\
 \midrule
@@ -392,27 +426,30 @@ OLMo 2 7B and 32B \cite{olmo2} & 2024--2025 & Public training data, which allows
 \label{tab:models}
 \end{table}
 
-Model versions, generation settings and prompts will be fixed and documented. All selection methods see the same generated candidate rules and the same development labels; only the use of the existing expert controls differs. This prevents a stronger generator or extra test knowledge from being mistaken for a better selection method. As a secondary baseline, a language model will also inspect reports directly and point out suspicious facts, without producing reusable rules. This makes the difference between one-time model judgements and reusable, executable checks explicit.
+Model versions, generation settings and prompts will be fixed and documented. Every AI method is compared with a method that uses no AI: for finding affected rules, the simple radar; for updating rules, replacing deprecated concepts by their successors; for new rules, the existing expert controls and inexpensive statistical checks. All selection methods see the same generated candidate rules and the same development labels; only the use of the existing expert controls differs. This prevents a stronger generator or extra test knowledge from being mistaken for a better selection method. As a secondary baseline, a language model will also inspect reports directly and point out suspicious facts, without producing reusable rules. This makes the difference between one-time model judgements and reusable, executable checks explicit.
 
 \section{Engineering artefact and organisational use}
 \label{sec:artefact}
 
-The engineering deliverable is a platform for testing data-quality controls before they go live, whether they were written by people or by a language model. It is built from the pilot software and consists of eight components (Table~\ref{tab:components}); Figure~\ref{fig:tool} shows how they work together.
+The engineering deliverable is a platform for maintaining and testing data-quality rules before they go live, whether they were written by people or by a language model. It is built from the pilot software (Table~\ref{tab:built}) and consists of eleven components (Table~\ref{tab:components}); Figure~\ref{fig:tool} shows how they work together.
 
 \begin{table}[htbp]
 \centering
 \small
-\begin{tabularx}{\textwidth}{@{}p{3.3cm}L@{}}
+\begin{tabularx}{\textwidth}{@{}P{3.3cm}L@{}}
 \toprule
 Component & What it does \\
 \midrule
-Rule register & Stores every rule, expert-written or generated, as versioned code with its origin, the date from which it was available and its level of action. \\
+Rule register & Stores every rule, expert-written or generated, as versioned code with its origin, the version of the standard it was written for, the date from which it was available and its level of action. \\
+Change radar & Reads the documentation of a new version of a standard and lists the rules that are probably affected, with the reason. \\
+Update assistant & Lets a local language model propose an updated rule, shows the difference with the old version, and runs both on example data. \\
 Stress-test engine & Injects realistic errors into a safe copy of the data and shows, per error type, which existing controls catch it: a map of blind spots. \\
-Rule studio & Lets a local language model propose rules for the blind spots, using domain knowledge, and runs and repairs them in a restricted environment. \\
+Rule studio & Lets a local language model propose rules for the blind spots, and runs and repairs them in a restricted environment. \\
 Selection & Keeps only rules that add detections beyond the existing controls within the alert budget, and proposes a level of action. \\
-Backtest engine & Replays historical data in time order and reports what each rule would have caught and how many alerts it would have raised. \\
+Backtest engine & Replays historical data in time order and reports what each rule, or each version of a rule, would have caught and how many alerts it would have raised. \\
+Shadow mode and promotion & Runs new and changed rules without effect, and proposes promotion or demotion between monitor, warn and block based on the evidence collected. \\
 Quality gate & Runs the approved rules in a data pipeline and publishes each batch, publishes it with warnings, or holds it for review. \\
-Review screen & Shows the blind-spot map and the evidence cards, and records accept, reject or revise decisions. \\
+Review screen & Shows the radar, the proposed changes, the blind-spot map and the evidence cards, and records accept, reject or revise decisions. \\
 Audit log & Stores every decision with its evidence in an append-only log, so that it can be shown to an auditor. \\
 \bottomrule
 \end{tabularx}
@@ -423,47 +460,51 @@ Audit log & Stores every decision with its evidence in an append-only log, so th
 \begin{figure}[htbp]
 \centering
 \begin{tikzpicture}[
-  box/.style={draw, rounded corners=2pt, align=center, font=\footnotesize, minimum height=1.1cm, text width=2.5cm},
+  box/.style={draw, rounded corners=2pt, align=center, font=\footnotesize, minimum height=1.1cm, text width=2.6cm},
   arr/.style={-{Stealth[length=2mm]}}]
-\node[box] (a) {1. Register data\\ and existing rules};
-\node[box, right=0.4cm of a] (b) {2. Stress test on\\ a safe copy};
-\node[box, right=0.4cm of b] (c) {3. Model proposes\\ candidate rules};
-\node[box, right=0.4cm of c] (d) {4. Select rules and\\ propose a level};
-\node[box, below=0.75cm of d] (e) {5. Backtest on\\ historical batches};
-\node[box, left=0.4cm of e] (f) {6. Evidence card;\\ person decides};
-\node[box, left=0.4cm of f] (g) {7. Approved rule\\ enters the gate};
-\node[box, left=0.4cm of g] (h) {8. Decision stored\\ in the audit log};
-\draw[arr] (a) -- (b); \draw[arr] (b) -- (c); \draw[arr] (c) -- (d);
-\draw[arr] (d) -- (e); \draw[arr] (e) -- (f); \draw[arr] (f) -- (g); \draw[arr] (g) -- (h);
+\node[box] (a1) {1a. New version of\\ the standard};
+\node[box, right=0.45cm of a1] (a2) {2a. Radar lists\\ affected rules};
+\node[box, right=0.45cm of a2] (a3) {3a. Model proposes\\ updated rules};
+\node[box, below=0.45cm of a1] (b1) {1b. New data source\\ or existing rules};
+\node[box, right=0.45cm of b1] (b2) {2b. Stress test\\ finds blind spots};
+\node[box, right=0.45cm of b2] (b3) {3b. Model proposes\\ new rules};
+\node[box, right=0.45cm of a3, yshift=-0.78cm] (c) {4. Test and select;\\ propose a level};
+\node[box, below=1.3cm of c] (d) {5. Backtest on\\ historical data};
+\node[box, left=0.45cm of d] (e) {6. Evidence card;\\ person decides};
+\node[box, left=0.45cm of e] (f) {7. Shadow mode,\\ then promotion};
+\node[box, left=0.45cm of f] (g) {8. Quality gate\\ and audit log};
+\draw[arr] (a1) -- (a2); \draw[arr] (a2) -- (a3); \draw[arr] (a3) -- (c);
+\draw[arr] (b1) -- (b2); \draw[arr] (b2) -- (b3); \draw[arr] (b3) -- (c);
+\draw[arr] (c) -- (d); \draw[arr] (d) -- (e); \draw[arr] (e) -- (f); \draw[arr] (f) -- (g);
 \end{tikzpicture}
 \caption{How the platform is used. It never adopts a rule by itself and never changes data.}
 \label{fig:tool}
 \end{figure}
 
-The pipeline is built with Apache Spark and Delta Lake, the open-source technologies on which platforms such as Databricks are built \cite{spark,deltalake}. New reports arrive in a staging area, the official rules run through Arelle, the approved generated rules run next, and each batch is then published, published with warnings, or held back for review, according to the levels of the rules that fired. The audit log is kept separately from the data tables, because older table versions are removed after a retention period, by default seven days \cite{vacuum}. Generated code runs without production credentials, and the platform never adopts a rule or changes data by itself.
+The pipeline is built with Apache Spark and Delta Lake, the open-source technologies on which platforms such as Databricks are built \cite{spark,deltalake}. New reports arrive in a staging area, the official rules run through Arelle, the approved generated and updated rules run next, and each batch is then published, published with warnings, or held back for review, according to the levels of the rules that fired. Rules in shadow mode run on the same batches, but their alerts are only stored. The audit log is kept separately from the data tables, because older table versions are removed after a retention period, by default seven days \cite{vacuum}. Generated code runs without production credentials, and the platform never adopts a rule or changes data by itself.
 
-A typical use would look as follows. A data team at a bank starts using a new external source, for example the published financial statements of its business clients. The team registers the source and its current checks. The stress test shows that reversed signs and values reported in the wrong unit slip through. A local model proposes a handful of rules for these gaps, and the selection keeps two of them. The backtest shows, for each of the two, how many real errors it would have caught in the past two years and how many alerts per week it would have raised. Based on this evidence, the team approves one rule at the ``warn'' level and rejects the other. From then on, the pipeline flags every batch that breaks the approved rule, and the audit log records why the rule was adopted.
+A typical use would look as follows; the numbers in this example are illustrative. A supervisor publishes a new version of a reporting standard in which several items are renamed and one is removed. The radar lists the 15 rules that use these items, with the reason for each. The model proposes an update for each of them, and the tests on example reports show that 12 behave as expected; a person corrects the other three. In the same month, a stress test on the team's data shows that reversed signs on amounts that may legitimately be negative, and single mistyped digits, slip through the existing checks. The model proposes a handful of rules for these gaps, and the selection keeps two. All new and changed rules start in shadow mode. The backtest and the first weeks in shadow mode show, for each rule, how many alerts it raises and which real errors it would have caught. The team promotes the updated rules and one new rule to ``warn'', and rejects the other new rule. The audit log records why each decision was taken.
 
-This makes the platform useful beyond the thesis. Banks are used to testing risk models on historical data before relying on them \cite{bcbs1996}; the platform applies the same discipline to data-quality controls, for hand-written rules as well as generated ones. For Avanade and Rabobank, it supports the onboarding and maintenance of data sources: a team can see which kinds of error its existing controls miss, review a small number of tested candidate rules, and test any new rule on its own historical data before it goes live. Because it runs with a local open-weight model, it can be tried on internal data without sending that data to an external service. It would still require internal security approval, data-specific adapters and integration work before production use, and the project does not promise measurable operational savings before user testing.
+This makes the platform useful beyond the thesis. Banks are used to testing risk models on historical data before relying on them \cite{bcbs1996}; the platform applies the same discipline to data-quality rules, for hand-written rules as well as generated or updated ones. For Avanade and Rabobank, it supports two recurring tasks: updating rule sets when a reporting standard changes, and onboarding new data sources. In both, a team reviews a small number of tested proposals instead of searching and writing by hand, and every new or changed rule is tested on historical data and in shadow mode before it can stop data. Because it runs with a local open-weight model, it can be tried on internal data without sending that data to an external service. It would still require internal security approval, data-specific adapters and integration work before production use, and the project does not promise measurable operational savings before user testing.
 
 The scientific results of the thesis come from RQ1 to RQ3; the platform is the instrument that produces them and the way in which they become usable. To keep the work manageable, the review screen will be simple, and the pipeline will be demonstrated on SEC data only.
 
 \section{Scope, feasibility and expected outputs}
 
-The project runs for nine months (Table~\ref{tab:plan}). At the end of month 3, progress will be reviewed. The minimum scientific scope is the SEC/DQC evaluation for all three research questions, at least two model families, a controlled comparison of the selection methods, and an independently reviewed subset of real errors. HMDA is the preferred second domain, ESEF a related financial-reporting replication, and GLEIF an extension if time and reviewer capacity permit. If the programme becomes too large, GLEIF, then HMDA, then the depth of the ESEF analysis, and then the number of models will be reduced before the held-out evaluation is compromised.
+The project runs for nine months (Table~\ref{tab:plan}). At the end of month 3, progress will be reviewed. The minimum scientific scope is RQ1 on the DQC and EBA rules, RQ2 and RQ3 on the SEC data, at least two model families, a controlled comparison of the selection methods, and an independently reviewed subset of real errors. The ESEF data (D3) is the preferred extension, HMDA (D4) is optional, and the live mode and the test on a newly published standard are extensions. If the programme becomes too large, HMDA, then the live mode, then the depth of the ESEF analysis, and then the number of models will be reduced before the held-out evaluation is compromised.
 
 \begin{table}[htbp]
 \centering
 \small
-\begin{tabularx}{\textwidth}{@{}p{1.6cm}L@{}}
+\begin{tabularx}{\textwidth}{@{}P{1.6cm}L@{}}
 \toprule
 Months & Work \\
 \midrule
-1 & Protocol, literature update, ethics request, cluster access, review guide, rule register and historical test engine \\
-2--3 & RQ1 and RQ2 on SEC/DQC; GLEIF test records; start of the D5 reviews; progress review at the end of month 3 \\
-4 & RQ1 and RQ2 on HMDA and ESEF; data pipeline with the quality gate \\
-5--6 & RQ3 historical tests; completion of D5 and the reviewed alert sample; evidence cards and professional review \\
-7 & Analysis across datasets; robustness checks; demonstration to Avanade and Rabobank \\
+1 & Protocol, literature update, ethics request, cluster access, review guide; benchmark of rule changes for DQC and EBA; rule register \\
+2--3 & RQ1 on DQC and EBA (radar and updates); start of the D5 reviews; progress review at the end of month 3 \\
+4 & RQ2 on SEC data; ESEF adaptation and replication; data pipeline with quality gate and shadow mode \\
+5--6 & RQ3 historical tests, including promotion and outdated rules; completion of D5 and the reviewed alert sample; evidence cards and professional review; start of the live mode \\
+7 & Analysis across datasets; robustness checks; publication of the benchmark; demonstration to Avanade and Rabobank \\
 8--9 & Writing, documentation and contingency \\
 \bottomrule
 \end{tabularx}
@@ -478,10 +519,13 @@ Months & Work \\
 \toprule
 Risk & Response \\
 \midrule
+Simple methods already solve most rule updates & Report where the boundary lies; AI is evaluated on the remaining updates, which tells a team where AI is worth using. \\
+The experts' update is not the only correct one & Run updates on test cases where possible and judge a sample of differing updates by hand. \\
 Generated rules add little, even with larger models & The thesis is a measurement; a clear negative result with its causes is informative. \\
 Few reviewed real errors were visible in the original report & Weight D5 towards correction types that are more often data errors; report RQ3 with uncertainty intervals. \\
 Reports that were never corrected are treated as correct & Use their alerts as a measure of review burden only; estimate false alarms from the reviewed sample. \\
-The historical test uses information from the future & Store availability dates for every rule and model; run the time-bound form only after the model's release. \\
+The historical test uses information from the future & Store availability dates for every rule, rule version and model; run the time-bound form only after the model's release. \\
+No new version of a standard appears during the thesis & The prospective test is an extension; the historical version changes remain the main evaluation. \\
 Building the pipeline takes time from the research & Keep the pipeline small and limited to SEC data; the scientific results come from RQ1 to RQ3. \\
 Reviewers are not available in time & Request ethics approval in month one; report the limitation if no independent review is possible. \\
 \bottomrule
@@ -490,7 +534,7 @@ Reviewers are not available in time & Request ethics approval in month one; repo
 \label{tab:risks}
 \end{table}
 
-The expected outputs are a thesis that reports both successful and unsuccessful results, a reproducible experimental benchmark and selection procedure, a reviewed set of real errors subject to permissions, and a tested workbench and pipeline with documentation. An outcome in which generated rules do not provide reliable additional detections remains informative, provided that the controls, test data and limitations are reported transparently.
+The expected outputs are a thesis that reports both successful and unsuccessful results, a public benchmark of real rule changes, a reproducible selection and promotion procedure, a reviewed set of real errors subject to permissions, and a tested platform and pipeline with documentation. An outcome in which AI does not help with rule maintenance, or in which generated rules do not provide reliable additional detections, remains informative, provided that the baselines, test data and limitations are reported transparently.
 
 \begin{thebibliography}{99}
 \small
@@ -503,6 +547,16 @@ The expected outputs are a thesis that reports both successful and unsuccessful 
 
 \bibitem{ecbrdarr} European Central Bank. Guide on effective risk data aggregation and risk reporting. May 2024. \url{https://doi.org/10.2866/081671}.
 
+\bibitem{fasb} Financial Accounting Standards Board. US GAAP Financial Reporting Taxonomy, releases 2023 to 2026, including the deprecated-concepts files. \url{https://xbrl.fasb.org/us-gaap/}.
+
+\bibitem{dqc} XBRL US Data Quality Committee. DQC US rules, documentation and reference tests, version 31. Official repository, accessed November 2026. \url{https://github.com/DataQualityCommittee/dqc_us_rules}.
+
+\bibitem{eba} European Banking Authority. Validation rules, rule workbooks for the reporting framework releases up to 3.5, including change labels and deactivation history. \url{https://www.eba.europa.eu/risk-and-data-analysis/reporting/reporting-frameworks/validation-rules-packages}.
+
+\bibitem{ebadpm} European Banking Authority. DPM data dictionary. \url{https://www.eba.europa.eu/risk-and-data-analysis/reporting/dpm-data-dictionary}.
+
+\bibitem{avanade} Avanade. Graduation internship Data \& AI, Big Data / Data platform: assignment description, 2026. Unpublished.
+
 \bibitem{rehberger} T. Rehberger, T. H\"utter, L. Ehrlinger, and W. W\"o{\ss}. Evaluating data quality tools: measurement capabilities and LLM integration. arXiv:2604.09163, 2026.
 
 \bibitem{ouyang} S. Ouyang, J. M. Zhang, M. Harman, and M. Wang. An empirical study of the non-determinism of ChatGPT in code generation. ACM Transactions on Software Engineering and Methodology, 34(2), 2025. \url{https://doi.org/10.1145/3697010}.
@@ -512,6 +566,12 @@ The expected outputs are a thesis that reports both successful and unsuccessful 
 \bibitem{pilotreport} T. Oosterbaan. Data-quality controls with and without AI: what two pilot studies showed. Project working report, masterthesis\_direction3\_pilot, October 2026. Unpublished; numerical results reported by the author.
 
 \bibitem{feasibility} T. Oosterbaan. Backtest feasibility check. Project working report, masterthesis\_direction3\_pilot, docs/backtest\_feasibility.md, November 2026. Unpublished.
+
+\bibitem{pilotb} T. Oosterbaan. Pilot B: rule maintenance when a data standard changes. Project working report, masterthesis\_direction3\_pilot, docs/pilot\_b\_rule\_maintenance.md, November 2026. Unpublished.
+
+\bibitem{repo1} T. Oosterbaan. First pilot: code, configurations and results. Repository masterthesis\_pilot\_final, 2026. Private.
+
+\bibitem{repo2} T. Oosterbaan. Second and third pilot, side study and feasibility check: code and results. Repository masterthesis\_direction3\_pilot, 2026. Private.
 
 \bibitem{cdc} S. J\"ager and F. Biessmann. From data imputation to data cleaning: automated cleaning of tabular data improves downstream predictive performance. AISTATS, PMLR 238:3394--3402, 2024.
 
@@ -528,8 +588,6 @@ The expected outputs are a thesis that reports both successful and unsuccessful 
 \bibitem{uci-wine} P. Cortez, A. Cerdeira, F. Almeida, T. Matos, and J. Reis. Wine quality. UCI Machine Learning Repository, 2009. \url{https://doi.org/10.24432/C56S3T}.
 
 \bibitem{raha} M. Mahdavi et al. Raha: a configuration-free error detection system. SIGMOD, 865--882, 2019. \url{https://doi.org/10.1145/3299869.3324956}.
-
-\bibitem{dqc} XBRL US Data Quality Committee. DQC US rules, documentation and reference tests, version 31. Official repository, accessed November 2026. \url{https://github.com/DataQualityCommittee/dqc_us_rules}.
 
 \bibitem{qwen25coder} B. Hui et al. Qwen2.5-Coder technical report. arXiv:2409.12186, 2024.
 
@@ -550,6 +608,14 @@ The expected outputs are a thesis that reports both successful and unsuccessful 
 \bibitem{spade} S. Shankar et al. SPADE: synthesizing data quality assertions for large language model pipelines. Proceedings of the VLDB Endowment, 17(12), 2024. \url{https://doi.org/10.14778/3685800.3685835}.
 
 \bibitem{autovalidate} J. Song and Y. He. Auto-Validate: unsupervised data validation using data-domain patterns inferred from data lakes. SIGMOD, 2021. \url{https://doi.org/10.1145/3448016.3457250}.
+
+\bibitem{codeupdatearena} Z. L. Liu, S. Pandit, X. Ye, E. Choi, and G. Durrett. CodeUpdateArena: benchmarking knowledge editing on API updates. arXiv:2407.06249, 2024.
+
+\bibitem{gitchameleon} D. Misra, N. Islah, V. May, B. Rauby, Z. Wang, J. Gehring, A. Orvieto, M. Chaudhary, E. B. Muller, I. Rish, S. E. Kahou, and M. Caccia. GitChameleon 2.0: evaluating AI code generation against Python library version incompatibilities. arXiv:2507.12367, 2025.
+
+\bibitem{swebench} C. E. Jimenez, J. Yang, A. Wettig, S. Yao, K. Pei, O. Press, and K. Narasimhan. SWE-bench: can language models resolve real-world GitHub issues? ICLR, 2024. arXiv:2310.06770.
+
+\bibitem{volkovs} M. Volkovs, F. Chiang, J. Szlichta, and R. J. Miller. Continuous data cleaning. ICDE, 244--255, 2014. \url{https://doi.org/10.1109/ICDE.2014.6816655}.
 
 \bibitem{redyuk} S. Redyuk, Z. Kaoudi, V. Markl, and S. Schelter. Automating data quality validation for dynamic data ingestion. EDBT, 2021.
 
@@ -588,8 +654,6 @@ The expected outputs are a thesis that reports both successful and unsuccessful 
 \bibitem{hmda} FFIEC and CFPB. 2026 HMDA Filing Instructions Guide. \url{https://ffiec.cfpb.gov/documentation/fig/2026/overview}.
 
 \bibitem{hmdaplatform} Consumer Financial Protection Bureau. HMDA Platform, open-source filing and validation software. \url{https://github.com/cfpb/hmda-platform}.
-
-\bibitem{gleif} Global Legal Entity Identifier Foundation. Data quality checks and Data Quality Rule Setting, version 3.5. \url{https://www.gleif.org/en/lei-data/gleif-data-quality-management/data-quality-checks}.
 
 \bibitem{cohen} J. Cohen. A coefficient of agreement for nominal scales. Educational and Psychological Measurement, 20(1):37--46, 1960.
 

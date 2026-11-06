@@ -1,0 +1,12 @@
+cases: 16 {('2023', '2024'): 1, ('2024', '2025'): 4, ('2025', '2026'): 11}
+llama_context: n_ctx_per_seq (12288) < n_ctx_train (131072) -- the full capacity of the model will not be utilized
+DQC_0046.xule|US.0046.7480|2023-2024 {'no_change_exact': False, 'no_change_similarity': 0.983, 'find_replace_exact': False, 'find_replace_similarity': 0.983, 'llm_exact': False, 'llm_similarity': 0.983} 87s
+/home/user/masterthesis_direction3/scripts/p12_rule_update_llm.py:139: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  pd.concat([previous, pd.DataFrame([row])], ignore_index=True).to_csv(results_path, index=False)
+DQC_0004.xule|US.0004.9286|2024-2025 {'no_change_exact': False, 'no_change_similarity': 0.983, 'find_replace_exact': False, 'find_replace_similarity': 0.983, 'llm_exact': True, 'llm_similarity': 1.0} 154s
+/home/user/masterthesis_direction3/scripts/p12_rule_update_llm.py:139: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  pd.concat([previous, pd.DataFrame([row])], ignore_index=True).to_csv(results_path, index=False)
+DQC_0071.xule|US.0071.7646|2024-2025 {'no_change_exact': False, 'no_change_similarity': 0.958, 'find_replace_exact': False, 'find_replace_similarity': 0.958, 'llm_exact': True, 'llm_similarity': 1.0} 183s
+/home/user/masterthesis_direction3/scripts/p12_rule_update_llm.py:139: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  pd.concat([previous, pd.DataFrame([row])], ignore_index=True).to_csv(results_path, index=False)
+DQC_0161.xule|US.0161.10083|2024-2025 {'no_change_exact': False, 'no_change_similarity': 0.968, 'find_replace_exact': False, 'find_replace_similarity': 0.968, 'llm_exact': True, 'llm_similarity': 1.0} 193s

@@ -1,0 +1,83 @@
+{
+  "dqc_assertion_pairs_by_kind": {
+    "2023->2024": {
+      "unchanged": 331,
+      "added": 34,
+      "logic": 14,
+      "message_only": 6,
+      "removed": 2,
+      "boilerplate": 1
+    },
+    "2024->2025": {
+      "unchanged": 203,
+      "boilerplate": 156,
+      "logic": 20,
+      "added": 6,
+      "removed": 6,
+      "message_only": 1
+    },
+    "2025->2026": {
+      "unchanged": 340,
+      "logic": 28,
+      "added": 16,
+      "boilerplate": 13,
+      "message_only": 3,
+      "removed": 2
+    }
+  },
+  "dqc_rule_files_with_logic_change": {
+    "2023->2024": 11,
+    "2024->2025": 18,
+    "2025->2026": 15
+  },
+  "dqc_preamble_changed": {
+    "2023->2024": 3,
+    "2024->2025": 3,
+    "2025->2026": 1
+  },
+  "dqc_helper_files_changed": {
+    "2023->2024": [
+      "constant-us-gaap.xule",
+      "constant.xule",
+      "namespace.xule"
+    ],
+    "2024->2025": [
+      "constant-us-gaap.xule",
+      "constant.xule",
+      "namespace.xule"
+    ],
+    "2025->2026": [
+      "constant-us-gaap.xule",
+      "constant.xule"
+    ]
+  },
+  "eba_labelled_changes_by_kind": {
+    "notation": 21462,
+    "change": 9367,
+    "reexpressed": 1864,
+    "severity": 1368,
+    "xbrl_correction": 757,
+    "change+notation": 578,
+    "table_structure": 518,
+    "change+severity": 177,
+    "notation+severity": 40,
+    "table_structure+change": 27,
+    "other": 24,
+    "reexpressed+change": 22,
+    "reexpressed+severity": 4,
+    "change+notation+severity": 2,
+    "severity+xbrl_correction": 1
+  },
+  "eba_change_rows_with_different_formula": 1406,
+  "eba_change_rules": 2225,
+  "eba_change_by_type": {
+    "Manual": 7250,
+    "Sign": 1645,
+    "Allowed values for metric": 390,
+    "Hierarchy": 301,
+    "Unique identifier": 134,
+    "Nonexistence check": 119,
+    "Existence check": 91,
+    "Identity": 82
+  }
+}

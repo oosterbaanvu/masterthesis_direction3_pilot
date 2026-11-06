@@ -1,0 +1,5 @@
+case,from,to,seconds,no_change_exact,no_change_similarity,no_change_added_token_recall,no_change_stale,find_replace_exact,find_replace_similarity,find_replace_added_token_recall,find_replace_stale,llm_exact,llm_similarity,llm_added_token_recall,llm_stale
+DQC_0046.xule|US.0046.7480|2023-2024,2023,2024,86.9,False,0.983,0.0,3,False,0.983,0.0,3,False,0.983,0.0,3
+DQC_0004.xule|US.0004.9286|2024-2025,2024,2025,153.7,False,0.983,,1,False,0.983,,1,True,1.0,,0
+DQC_0071.xule|US.0071.7646|2024-2025,2024,2025,183.1,False,0.958,,1,False,0.958,,1,True,1.0,,0
+DQC_0161.xule|US.0161.10083|2024-2025,2024,2025,192.7,False,0.968,,1,False,0.968,,1,True,1.0,,0

@@ -1,0 +1,2161 @@
+rule_file,assertion,from,to,kind,old_code,new_code,notes,stale_concepts,find_replace
+DQC_0046.xule,US.0046.7480,2023,2024,logic,"assert US.0046.7480 satisfied
+
+$rule_id = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+EffectOfExchangeRateOnCashAndCashEquivalentsDiscontinuedOperations 
+in 
+navigate summation-item descendants 
+from NetCashProvidedByUsedInDiscontinuedOperations returns set (target-name)
+
+message
+""The element NetCashProvidedByUsedInDiscontinuedOperations (Net Cash Provided by (Used in) Discontinued Operations) does not include EffectOfExchangeRateOnCashAndCashEquivalentsDiscontinuedOperations (Effect of Exchange Rate on Cash and Cash Equivalents, Discontinued Operations) as defined in the US GAAP Taxonomy.
+
+However, in the companies extension taxonomy NetCashProvidedByUsedInDiscontinuedOperations includes EffectOfExchangeRateOnCashAndCashEquivalentsDiscontinuedOperations as a summation-child. Consider using either CashAndCashEquivalentsPeriodIncreaseDecrease or CashPeriodIncreaseDecrease,  instead of NetCashProvidedByUsedInDiscontinuedOperations.
+
+
+Rule Element Id:{$rule_id}
+Rule version: {$ruleVersion}""
+
+severity error
+effectiveDate $effective_dates[$rule_id]
+
+","assert US.0046.7480 satisfied
+
+$rule_id = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+
+EffectOfExchangeRateOnCashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsDisposalGroupIncludingDiscontinuedOperations 
+in 
+navigate summation-item descendants 
+from NetCashProvidedByUsedInDiscontinuedOperations returns set (target-name)
+
+message
+""The element NetCashProvidedByUsedInDiscontinuedOperations (Net Cash Provided by (Used in) Discontinued Operations) does not include EffectOfExchangeRateOnCashAndCashEquivalentsDiscontinuedOperations (Effect of Exchange Rate on Cash and Cash Equivalents, Discontinued Operations) as defined in the US GAAP Taxonomy.
+
+However, in the companies extension taxonomy NetCashProvidedByUsedInDiscontinuedOperations includes EffectOfExchangeRateOnCashAndCashEquivalentsDiscontinuedOperations as a summation-child. Consider using CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsPeriodIncreaseDecreaseIncludingExchangeRateEffect  instead of NetCashProvidedByUsedInDiscontinuedOperations.
+
+
+Rule Element Id:{$rule_id}
+Rule version: {$ruleVersion}""
+
+severity error
+effectiveDate $effective_dates[$rule_id]
+
+","- CashAndCashEquivalentsPeriodIncreaseDecrease: deprecated in 2024; no replacement concept is named
+- CashPeriodIncreaseDecrease: deprecated in 2024; no replacement concept is named
+- EffectOfExchangeRateOnCashAndCashEquivalentsDiscontinuedOperations: deprecated in 2024; no replacement concept is named",CashAndCashEquivalentsPeriodIncreaseDecrease;CashPeriodIncreaseDecrease;EffectOfExchangeRateOnCashAndCashEquivalentsDiscontinuedOperations,"assert US.0046.7480 satisfied
+
+$rule_id = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+EffectOfExchangeRateOnCashAndCashEquivalentsDiscontinuedOperations 
+in 
+navigate summation-item descendants 
+from NetCashProvidedByUsedInDiscontinuedOperations returns set (target-name)
+
+message
+""The element NetCashProvidedByUsedInDiscontinuedOperations (Net Cash Provided by (Used in) Discontinued Operations) does not include EffectOfExchangeRateOnCashAndCashEquivalentsDiscontinuedOperations (Effect of Exchange Rate on Cash and Cash Equivalents, Discontinued Operations) as defined in the US GAAP Taxonomy.
+
+However, in the companies extension taxonomy NetCashProvidedByUsedInDiscontinuedOperations includes EffectOfExchangeRateOnCashAndCashEquivalentsDiscontinuedOperations as a summation-child. Consider using either CashAndCashEquivalentsPeriodIncreaseDecrease or CashPeriodIncreaseDecrease,  instead of NetCashProvidedByUsedInDiscontinuedOperations.
+
+
+Rule Element Id:{$rule_id}
+Rule version: {$ruleVersion}""
+
+severity error
+effectiveDate $effective_dates[$rule_id]
+
+"
+DQC_0004.xule,US.0004.9286,2024,2025,logic,"assert US.0004.9286 satisfied
+
+$rule_id = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+
+$base = first-value({nonils @CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsPeriodIncreaseDecreaseExcludingExchangeRateEffect}, {nonils @CashAndCashEquivalentsPeriodIncreaseDecreaseExcludingExchangeRateEffect});
+
+$agg = {nonils @NetCashProvidedByUsedInOperatingActivities}#a1 <+> {nonils @NetCashProvidedByUsedInInvestingActivities}#a2 <+> {nonils @NetCashProvidedByUsedInFinancingActivities}#a3;
+$decimal_tolerance_factor = 2;
+
+$component_facts = list({@concept in list(NetCashProvidedByUsedInOperatingActivities,NetCashProvidedByUsedInInvestingActivities,NetCashProvidedByUsedInFinancingActivities)})
+
+$min_decimals = min(list(for $z in $component_facts
+				if $z == none 
+					skip
+				else
+					$z.decimals));
+
+if $base == none
+	skip
+else
+	tolerance_for_decimals_comp($base, $agg, $min_decimals, $decimal_tolerance_factor)
+
+message
+
+""{$base.concept.label.text} with a value of {$base} is not equal to the combined total of {$a1.concept.label.text}, {$a2.concept.label.text} and {$a3.concept.label.text} ( {$a1} + {$a2} + {$a3} ) with a value of {$agg}. 
+
+These values should be equal.
+The properties of this {$base.concept} fact are:
+Period :{$base.period}
+Dimensions :  {$base.dimensions.join(', ','=')}
+Unit : {$base.unit}
+Decimals of {$base.concept.label.text} : {$base.decimals}
+Decimals of {$a1.concept.label.text} : {$a1.decimals}
+Decimals of {$a2.concept.label.text} : {$a2.decimals}
+Decimals of {$a3.concept.label.text} : {$a3.decimals}
+
+Rule Element Id:{$rule_id}
+Rule version: {$ruleVersion}""
+
+severity error
+rule-focus $base
+effectiveDate $effective_dates[$rule_id]
+
+
+","assert US.0004.9286 satisfied
+
+$rule_id = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+$base = first-value({nonils @CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsPeriodIncreaseDecreaseExcludingExchangeRateEffect});
+
+$agg = {nonils @NetCashProvidedByUsedInOperatingActivities}#a1 <+> {nonils @NetCashProvidedByUsedInInvestingActivities}#a2 <+> {nonils @NetCashProvidedByUsedInFinancingActivities}#a3;
+$decimal_tolerance_factor = 2;
+
+$component_facts = list({@concept in list(NetCashProvidedByUsedInOperatingActivities,NetCashProvidedByUsedInInvestingActivities,NetCashProvidedByUsedInFinancingActivities)})
+
+$min_decimals = min(list(for $z in $component_facts
+				if $z == none 
+					skip
+				else
+					$z.decimals));
+
+if $base == none
+	skip
+else
+	tolerance_for_decimals_comp($base, $agg, $min_decimals, $decimal_tolerance_factor)
+
+message
+
+""{$base.concept.label.text} with a value of {$base} is not equal to the combined total of {$a1.concept.label.text}, {$a2.concept.label.text} and {$a3.concept.label.text} ( {$a1} + {$a2} + {$a3} ) with a value of {$agg}. 
+
+These values should be equal.
+The properties of this {$base.concept} fact are:
+Period :{$base.period}
+Dimensions :  {$base.dimensions.join(', ','=')}
+Unit : {$base.unit}
+Decimals of {$base.concept.label.text} : {$base.decimals}
+Decimals of {$a1.concept.label.text} : {$a1.decimals}
+Decimals of {$a2.concept.label.text} : {$a2.decimals}
+Decimals of {$a3.concept.label.text} : {$a3.decimals}
+
+Rule Element Id:{$rule_id}
+Rule version: {$ruleVersion}""
+
+severity error
+rule-focus $base
+
+effectiveDate $effective_dates[$rule_id]
+
+
+",- CashAndCashEquivalentsPeriodIncreaseDecreaseExcludingExchangeRateEffect: removed from the taxonomy in 2025; no replacement concept is named,CashAndCashEquivalentsPeriodIncreaseDecreaseExcludingExchangeRateEffect,"assert US.0004.9286 satisfied
+
+$rule_id = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+
+$base = first-value({nonils @CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsPeriodIncreaseDecreaseExcludingExchangeRateEffect}, {nonils @CashAndCashEquivalentsPeriodIncreaseDecreaseExcludingExchangeRateEffect});
+
+$agg = {nonils @NetCashProvidedByUsedInOperatingActivities}#a1 <+> {nonils @NetCashProvidedByUsedInInvestingActivities}#a2 <+> {nonils @NetCashProvidedByUsedInFinancingActivities}#a3;
+$decimal_tolerance_factor = 2;
+
+$component_facts = list({@concept in list(NetCashProvidedByUsedInOperatingActivities,NetCashProvidedByUsedInInvestingActivities,NetCashProvidedByUsedInFinancingActivities)})
+
+$min_decimals = min(list(for $z in $component_facts
+				if $z == none 
+					skip
+				else
+					$z.decimals));
+
+if $base == none
+	skip
+else
+	tolerance_for_decimals_comp($base, $agg, $min_decimals, $decimal_tolerance_factor)
+
+message
+
+""{$base.concept.label.text} with a value of {$base} is not equal to the combined total of {$a1.concept.label.text}, {$a2.concept.label.text} and {$a3.concept.label.text} ( {$a1} + {$a2} + {$a3} ) with a value of {$agg}. 
+
+These values should be equal.
+The properties of this {$base.concept} fact are:
+Period :{$base.period}
+Dimensions :  {$base.dimensions.join(', ','=')}
+Unit : {$base.unit}
+Decimals of {$base.concept.label.text} : {$base.decimals}
+Decimals of {$a1.concept.label.text} : {$a1.decimals}
+Decimals of {$a2.concept.label.text} : {$a2.decimals}
+Decimals of {$a3.concept.label.text} : {$a3.decimals}
+
+Rule Element Id:{$rule_id}
+Rule version: {$ruleVersion}""
+
+severity error
+rule-focus $base
+effectiveDate $effective_dates[$rule_id]
+
+
+"
+DQC_0071.xule,US.0071.7646,2024,2025,logic,"assert US.0071.7646 satisfied
+
+$rule_id = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+$valid_line_items = set(RevenueFromContractWithCustomerIncludingAssessedTax, RevenueFromContractWithCustomerExcludingAssessedTax, CostOfGoodsAndServicesSold);
+$all_cubes = filter taxonomy().cubes where $item.drs-role.description.contains('- Statement ');
+
+for $x in $all_cubes
+	if $x.dimensions().concept().name.contains(InitialApplicationPeriodCumulativeEffectTransitionAxis)
+		skip
+	else
+		if $x.dimensions().concept().name.contains(srt:ProductOrServiceAxis)
+			if count($x.primary-concepts.name.to-set.intersect($valid_line_items)) > 0
+				if count(navigate dimensions descendants from srt:ProductsAndServicesDomain drs-role $x.drs-role cube $x.cube-concept()) == 1
+					$count_values =count(list({@@concept in list(RevenueFromContractWithCustomerIncludingAssessedTax, RevenueFromContractWithCustomerExcludingAssessedTax, CostOfGoodsAndServicesSold) @cube = $x @srt:ProductOrServiceAxis = *}#Revenue));
+				
+					$count_values == 1 and (not exists({@srt:ProductOrServiceAxis = none}))
+				else
+					skip
+			else
+				skip
+		else
+			skip
+
+
+message
+""The filing has  reported a value for the element {$Revenue.concept} with a value of {$Revenue} using the ProductOrServiceAxis in the role {$x.drs-role.description} on the table {$x.cube-concept()}. However, the only member used to disaggregate the total for {$Revenue.concept} was the member {$Revenue.dimension(srt:ProductOrServiceAxis)}. If only one member is used on this axis then the filer should either:
+
+1. Retag the filing using the element TypeOfRevenueExtensibleList/TypeOfCostGoodOrServiceExtensibleList with a value of {$Revenue.dimension(srt:ProductOrServiceAxis)} and the member {$Revenue.dimension(srt:ProductOrServiceAxis)} should be removed from the value as it represents the aggregate value of {$Revenue.concept}.
+ 
+2. Tag the aggregate value of {$Revenue.concept} with a value of {$Revenue} without the product of service axis. This rule will not generate an error if the aggregate value of {$Revenue.concept} is reported.
+
+The properties of this {$Revenue.concept} fact are:
+Period :{$Revenue.period}
+Dimensions : {$Revenue.dimensions.join(', ','=')}
+Unit : {$Revenue.unit}
+
+Rule Element Id:{$rule_id}
+Rule version: {$ruleVersion}
+""
+
+SEVERITY error
+
+effectiveDate $effective_dates[$rule_id]
+
+
+","assert US.0071.7646 satisfied
+
+$rule_id = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+$valid_line_items = set(RevenueFromContractWithCustomerIncludingAssessedTax, RevenueFromContractWithCustomerExcludingAssessedTax, CostOfGoodsAndServicesSold);
+$all_cubes = filter taxonomy().cubes where $item.drs-role.description.contains('- Statement ');
+
+for $x in $all_cubes
+		if $x.dimensions().concept().name.contains(srt:ProductOrServiceAxis)
+			if count($x.primary-concepts.name.to-set.intersect($valid_line_items)) > 0
+				if count(navigate dimensions descendants from srt:ProductsAndServicesDomain drs-role $x.drs-role cube $x.cube-concept()) == 1
+					$count_values =count(list({@@concept in list(RevenueFromContractWithCustomerIncludingAssessedTax, RevenueFromContractWithCustomerExcludingAssessedTax, CostOfGoodsAndServicesSold) @cube = $x @srt:ProductOrServiceAxis = *}#Revenue));
+				
+					$count_values == 1 and (not exists({@srt:ProductOrServiceAxis = none}))
+				else
+					skip
+			else
+				skip
+		else
+			skip
+
+
+message
+""The filing has  reported a value for the element {$Revenue.concept} with a value of {$Revenue} using the ProductOrServiceAxis in the role {$x.drs-role.description} on the table {$x.cube-concept()}. However, the only member used to disaggregate the total for {$Revenue.concept} was the member {$Revenue.dimension(srt:ProductOrServiceAxis)}. If only one member is used on this axis then the filer should either:
+
+1. Retag the filing using the element TypeOfRevenueExtensibleList/TypeOfCostGoodOrServiceExtensibleList with a value of {$Revenue.dimension(srt:ProductOrServiceAxis)} and the member {$Revenue.dimension(srt:ProductOrServiceAxis)} should be removed from the value as it represents the aggregate value of {$Revenue.concept}.
+ 
+2. Tag the aggregate value of {$Revenue.concept} with a value of {$Revenue} without the product of service axis. This rule will not generate an error if the aggregate value of {$Revenue.concept} is reported.
+
+The properties of this {$Revenue.concept} fact are:
+Period :{$Revenue.period}
+Dimensions : {$Revenue.dimensions.join(', ','=')}
+Unit : {$Revenue.unit}
+
+Rule Element Id:{$rule_id}
+Rule version: {$ruleVersion}
+""
+
+SEVERITY error
+rule-focus $Revenue
+effectiveDate $effective_dates[$rule_id]
+
+
+",- InitialApplicationPeriodCumulativeEffectTransitionAxis: removed from the taxonomy in 2025; no replacement concept is named,InitialApplicationPeriodCumulativeEffectTransitionAxis,"assert US.0071.7646 satisfied
+
+$rule_id = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+$valid_line_items = set(RevenueFromContractWithCustomerIncludingAssessedTax, RevenueFromContractWithCustomerExcludingAssessedTax, CostOfGoodsAndServicesSold);
+$all_cubes = filter taxonomy().cubes where $item.drs-role.description.contains('- Statement ');
+
+for $x in $all_cubes
+	if $x.dimensions().concept().name.contains(InitialApplicationPeriodCumulativeEffectTransitionAxis)
+		skip
+	else
+		if $x.dimensions().concept().name.contains(srt:ProductOrServiceAxis)
+			if count($x.primary-concepts.name.to-set.intersect($valid_line_items)) > 0
+				if count(navigate dimensions descendants from srt:ProductsAndServicesDomain drs-role $x.drs-role cube $x.cube-concept()) == 1
+					$count_values =count(list({@@concept in list(RevenueFromContractWithCustomerIncludingAssessedTax, RevenueFromContractWithCustomerExcludingAssessedTax, CostOfGoodsAndServicesSold) @cube = $x @srt:ProductOrServiceAxis = *}#Revenue));
+				
+					$count_values == 1 and (not exists({@srt:ProductOrServiceAxis = none}))
+				else
+					skip
+			else
+				skip
+		else
+			skip
+
+
+message
+""The filing has  reported a value for the element {$Revenue.concept} with a value of {$Revenue} using the ProductOrServiceAxis in the role {$x.drs-role.description} on the table {$x.cube-concept()}. However, the only member used to disaggregate the total for {$Revenue.concept} was the member {$Revenue.dimension(srt:ProductOrServiceAxis)}. If only one member is used on this axis then the filer should either:
+
+1. Retag the filing using the element TypeOfRevenueExtensibleList/TypeOfCostGoodOrServiceExtensibleList with a value of {$Revenue.dimension(srt:ProductOrServiceAxis)} and the member {$Revenue.dimension(srt:ProductOrServiceAxis)} should be removed from the value as it represents the aggregate value of {$Revenue.concept}.
+ 
+2. Tag the aggregate value of {$Revenue.concept} with a value of {$Revenue} without the product of service axis. This rule will not generate an error if the aggregate value of {$Revenue.concept} is reported.
+
+The properties of this {$Revenue.concept} fact are:
+Period :{$Revenue.period}
+Dimensions : {$Revenue.dimensions.join(', ','=')}
+Unit : {$Revenue.unit}
+
+Rule Element Id:{$rule_id}
+Rule version: {$ruleVersion}
+""
+
+SEVERITY error
+
+effectiveDate $effective_dates[$rule_id]
+
+
+"
+DQC_0161.xule,US.0161.10083,2024,2025,logic,"ASSERT US.0161.10083 satisfied
+
+$rule_id = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+
+$EBPReports = set('11-K','11-K/A','11-KT').contains([covered @concept.local-name ='DocumentType']);
+
+if $EBPReports
+    skip
+else
+    $axisExtensibleEnumDict = dict(
+                                    list(RetirementPlanFundingStatusAxis, ""DefinedBenefitPlanFundingStatusExtensibleList""),
+                                    list(InvestmentTypeAxis, ""InvestmentTypeExtensibleEnumeration""),
+                                    list(RetirementPlanTaxStatusAxis,""DefinedBenefitPlanTaxStatusExtensibleList or DefinedContributionPlanTaxStatusExtensibleList"" )
+                                    )
+
+    $all_cubes = filter taxonomy().cubes;
+
+    for $cube in $all_cubes
+        if $cube.dimensions().concept().name.contains(InitialApplicationPeriodCumulativeEffectTransitionAxis)
+            skip
+        else
+            for $dim in $axisExtensibleEnumDict.keys
+                if $cube.dimensions().concept().name.contains($dim)
+                        $domain = navigate dimensions dimension-domain descendants from $dim drs-role $cube.drs-role returns set target-name;
+                        if count(navigate dimensions descendants from $domain drs-role $cube.drs-role cube $cube.cube-concept()) == 1
+                            $count_values = count(list({@cube = $cube @$dim = *}#PrimaryConcept));
+                        
+                            $count_values == 1 and (not exists({@cube = $cube @$dim = none}))
+                        else
+                            skip
+                else
+                        skip
+
+
+message
+""The filing has  reported a value for the element {$PrimaryConcept.concept} with a value of {$PrimaryConcept} using the axis {$dim} in the role {$cube.drs-role.description} on the table {$cube.cube-concept()}. However, the only member used to disaggregate the total for {$PrimaryConcept.concept} was the member {$PrimaryConcept.dimension($dim)}. If only one member is used on this axis then the filer should either:
+
+1. Retag the filing using the element {$axisExtensibleEnumDict[$dim]} with a value of {$PrimaryConcept.dimension($dim)}.  The member {$PrimaryConcept.dimension($dim)} should be removed from the value as it represents the aggregate value of {$PrimaryConcept.concept}.
+ 
+2. Tag the aggregate value of {$PrimaryConcept.concept} with a value of {$PrimaryConcept} without the {$dim} axis. This rule will not generate an error if the aggregate value of {$PrimaryConcept.concept} is reported.
+
+The properties of this {$PrimaryConcept.concept} fact are:
+Period :{$PrimaryConcept.period}
+Dimensions : {$PrimaryConcept.dimensions.join(', ','=')}
+Unit : {$PrimaryConcept.unit}
+
+Rule Element Id:{$rule_id}
+Rule version: {$ruleVersion}
+""
+
+SEVERITY error
+
+effectiveDate $effective_dates[$rule_id]","ASSERT US.0161.10083 satisfied
+
+$rule_id = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+$EBPReports = set('11-K','11-K/A','11-KT').contains([covered @concept.local-name ='DocumentType']);
+
+if $EBPReports
+    skip
+else
+    $axisExtensibleEnumDict = dict(
+                                    list(RetirementPlanFundingStatusAxis, ""DefinedBenefitPlanFundingStatusExtensibleList""),
+                                    list(InvestmentTypeAxis, ""InvestmentTypeExtensibleEnumeration""),
+                                    list(RetirementPlanTaxStatusAxis,""DefinedBenefitPlanTaxStatusExtensibleList or DefinedContributionPlanTaxStatusExtensibleList"" )
+                                    )
+
+    $all_cubes = filter taxonomy().cubes;
+
+    for $cube in $all_cubes
+            for $dim in $axisExtensibleEnumDict.keys
+                if $cube.dimensions().concept().name.contains($dim)
+                        $domain = navigate dimensions dimension-domain descendants from $dim drs-role $cube.drs-role returns set target-name;
+                        if count(navigate dimensions descendants from $domain drs-role $cube.drs-role cube $cube.cube-concept()) == 1
+                            $count_values = count(list({@cube = $cube @$dim = *}#PrimaryConcept));
+                        
+                            $count_values == 1 and (not exists({@cube = $cube @$dim = none}))
+                        else
+                            skip
+                else
+                        skip
+
+
+message
+""The filing has  reported a value for the element {$PrimaryConcept.concept} with a value of {$PrimaryConcept} using the axis {$dim} in the role {$cube.drs-role.description} on the table {$cube.cube-concept()}. However, the only member used to disaggregate the total for {$PrimaryConcept.concept} was the member {$PrimaryConcept.dimension($dim)}. If only one member is used on this axis then the filer should either:
+
+1. Retag the filing using the element {$axisExtensibleEnumDict[$dim]} with a value of {$PrimaryConcept.dimension($dim)}.  The member {$PrimaryConcept.dimension($dim)} should be removed from the value as it represents the aggregate value of {$PrimaryConcept.concept}.
+ 
+2. Tag the aggregate value of {$PrimaryConcept.concept} with a value of {$PrimaryConcept} without the {$dim} axis. This rule will not generate an error if the aggregate value of {$PrimaryConcept.concept} is reported.
+
+The properties of this {$PrimaryConcept.concept} fact are:
+Period :{$PrimaryConcept.period}
+Dimensions : {$PrimaryConcept.dimensions.join(', ','=')}
+Unit : {$PrimaryConcept.unit}
+
+Rule Element Id:{$rule_id}
+Rule version: {$ruleVersion}
+""
+
+SEVERITY error
+
+effectiveDate $effective_dates[$rule_id]",- InitialApplicationPeriodCumulativeEffectTransitionAxis: removed from the taxonomy in 2025; no replacement concept is named,InitialApplicationPeriodCumulativeEffectTransitionAxis,"ASSERT US.0161.10083 satisfied
+
+$rule_id = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+
+$EBPReports = set('11-K','11-K/A','11-KT').contains([covered @concept.local-name ='DocumentType']);
+
+if $EBPReports
+    skip
+else
+    $axisExtensibleEnumDict = dict(
+                                    list(RetirementPlanFundingStatusAxis, ""DefinedBenefitPlanFundingStatusExtensibleList""),
+                                    list(InvestmentTypeAxis, ""InvestmentTypeExtensibleEnumeration""),
+                                    list(RetirementPlanTaxStatusAxis,""DefinedBenefitPlanTaxStatusExtensibleList or DefinedContributionPlanTaxStatusExtensibleList"" )
+                                    )
+
+    $all_cubes = filter taxonomy().cubes;
+
+    for $cube in $all_cubes
+        if $cube.dimensions().concept().name.contains(InitialApplicationPeriodCumulativeEffectTransitionAxis)
+            skip
+        else
+            for $dim in $axisExtensibleEnumDict.keys
+                if $cube.dimensions().concept().name.contains($dim)
+                        $domain = navigate dimensions dimension-domain descendants from $dim drs-role $cube.drs-role returns set target-name;
+                        if count(navigate dimensions descendants from $domain drs-role $cube.drs-role cube $cube.cube-concept()) == 1
+                            $count_values = count(list({@cube = $cube @$dim = *}#PrimaryConcept));
+                        
+                            $count_values == 1 and (not exists({@cube = $cube @$dim = none}))
+                        else
+                            skip
+                else
+                        skip
+
+
+message
+""The filing has  reported a value for the element {$PrimaryConcept.concept} with a value of {$PrimaryConcept} using the axis {$dim} in the role {$cube.drs-role.description} on the table {$cube.cube-concept()}. However, the only member used to disaggregate the total for {$PrimaryConcept.concept} was the member {$PrimaryConcept.dimension($dim)}. If only one member is used on this axis then the filer should either:
+
+1. Retag the filing using the element {$axisExtensibleEnumDict[$dim]} with a value of {$PrimaryConcept.dimension($dim)}.  The member {$PrimaryConcept.dimension($dim)} should be removed from the value as it represents the aggregate value of {$PrimaryConcept.concept}.
+ 
+2. Tag the aggregate value of {$PrimaryConcept.concept} with a value of {$PrimaryConcept} without the {$dim} axis. This rule will not generate an error if the aggregate value of {$PrimaryConcept.concept} is reported.
+
+The properties of this {$PrimaryConcept.concept} fact are:
+Period :{$PrimaryConcept.period}
+Dimensions : {$PrimaryConcept.dimensions.join(', ','=')}
+Unit : {$PrimaryConcept.unit}
+
+Rule Element Id:{$rule_id}
+Rule version: {$ruleVersion}
+""
+
+SEVERITY error
+
+effectiveDate $effective_dates[$rule_id]"
+DQC_0189.xule,US.0189.10184,2024,2025,logic,"ASSERT US.0189.10184 satisfied
+
+$rule_id = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+
+$axisExtensibleEnumDict = dict(
+                                list(VariableRateAxis, ""InvestmentVariableInterestRateTypeExtensibleEnumeration or DebtInstrumentVariableInterestRateTypeExtensibleEnumeration""),
+                                )
+
+$all_cubes = filter taxonomy().cubes;
+
+for $cube in $all_cubes
+	if $cube.dimensions().concept().name.contains(InitialApplicationPeriodCumulativeEffectTransitionAxis)
+		skip
+	else
+        for $dim in $axisExtensibleEnumDict.keys
+            if $cube.dimensions().concept().name.contains($dim)
+                    $domain = navigate dimensions dimension-domain descendants from $dim drs-role $cube.drs-role returns set target-name;
+                    if count(navigate dimensions descendants from $domain drs-role $cube.drs-role cube $cube.cube-concept()) == 1
+                        $PrimaryConcepts = list({@cube = $cube @$dim = *});
+                        $count_values = count($PrimaryConcepts);
+                        if $count_values == 1 and (not exists({@concept = $PrimaryConcepts[1].concept @$dim = none}))
+                            $PrimaryConcept = $PrimaryConcepts[1]
+                            true
+                        else
+                            false
+                    else
+                        skip
+            else
+                    skip
+
+
+message
+""The filing has  reported a value for the element {$PrimaryConcept.concept} with a value of {$PrimaryConcept} using the axis {$dim} in the role {$cube.drs-role.description} on the table {$cube.cube-concept()}. However, the only member used to disaggregate the total for {$PrimaryConcept.concept} was the member {$PrimaryConcept.dimension($dim)}. If only one member is used on this axis then the filer should either:
+
+1. Retag the filing using the element {$axisExtensibleEnumDict[$dim]} with a value of {$PrimaryConcept.dimension($dim)}.  The member {$PrimaryConcept.dimension($dim)} should be removed from the value as it represents the aggregate value of {$PrimaryConcept.concept}.
+ 
+2. Tag the aggregate value of {$PrimaryConcept.concept} with a value of {$PrimaryConcept} without the {$dim} axis. This rule will not generate an error if the aggregate value of {$PrimaryConcept.concept} is reported.
+
+The properties of this {$PrimaryConcept.concept} fact are:
+Period :{$PrimaryConcept.period}
+Dimensions : {$PrimaryConcept.dimensions.join(', ','=')}
+Unit : {$PrimaryConcept.unit}
+
+Rule Element Id:{$rule_id}
+Rule version: {$ruleVersion}
+""
+
+SEVERITY error
+
+effectiveDate $effective_dates[$rule_id]","ASSERT US.0189.10184 satisfied
+
+$rule_id = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+$axisExtensibleEnumDict = dict(
+                                list(VariableRateAxis, ""InvestmentVariableInterestRateTypeExtensibleEnumeration or DebtInstrumentVariableInterestRateTypeExtensibleEnumeration""),
+                                )
+
+$all_cubes = filter taxonomy().cubes;
+
+for $cube in $all_cubes
+        for $dim in $axisExtensibleEnumDict.keys
+            if $cube.dimensions().concept().name.contains($dim)
+                    $domain = navigate dimensions dimension-domain descendants from $dim drs-role $cube.drs-role returns set target-name;
+                    if count(navigate dimensions descendants from $domain drs-role $cube.drs-role cube $cube.cube-concept()) == 1
+                        $PrimaryConcepts = list({@cube = $cube @$dim = *});
+                        $count_values = count($PrimaryConcepts);
+                        if $count_values == 1 and (not exists({@concept = $PrimaryConcepts[1].concept @$dim = none}))
+                            $PrimaryConcept = $PrimaryConcepts[1]
+                            true
+                        else
+                            false
+                    else
+                        skip
+            else
+                    skip
+
+
+message
+""The filing has  reported a value for the element {$PrimaryConcept.concept} with a value of {$PrimaryConcept} using the axis {$dim} in the role {$cube.drs-role.description} on the table {$cube.cube-concept()}. However, the only member used to disaggregate the total for {$PrimaryConcept.concept} was the member {$PrimaryConcept.dimension($dim)}. If only one member is used on this axis then the filer should either:
+
+1. Retag the filing using the element {$axisExtensibleEnumDict[$dim]} with a value of {$PrimaryConcept.dimension($dim)}.  The member {$PrimaryConcept.dimension($dim)} should be removed from the value as it represents the aggregate value of {$PrimaryConcept.concept}.
+ 
+2. Tag the aggregate value of {$PrimaryConcept.concept} with a value of {$PrimaryConcept} without the {$dim} axis. This rule will not generate an error if the aggregate value of {$PrimaryConcept.concept} is reported.
+
+The properties of this {$PrimaryConcept.concept} fact are:
+Period :{$PrimaryConcept.period}
+Dimensions : {$PrimaryConcept.dimensions.join(', ','=')}
+Unit : {$PrimaryConcept.unit}
+
+Rule Element Id:{$rule_id}
+Rule version: {$ruleVersion}
+""
+
+SEVERITY error
+
+effectiveDate $effective_dates[$rule_id]",- InitialApplicationPeriodCumulativeEffectTransitionAxis: removed from the taxonomy in 2025; no replacement concept is named,InitialApplicationPeriodCumulativeEffectTransitionAxis,"ASSERT US.0189.10184 satisfied
+
+$rule_id = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+
+$axisExtensibleEnumDict = dict(
+                                list(VariableRateAxis, ""InvestmentVariableInterestRateTypeExtensibleEnumeration or DebtInstrumentVariableInterestRateTypeExtensibleEnumeration""),
+                                )
+
+$all_cubes = filter taxonomy().cubes;
+
+for $cube in $all_cubes
+	if $cube.dimensions().concept().name.contains(InitialApplicationPeriodCumulativeEffectTransitionAxis)
+		skip
+	else
+        for $dim in $axisExtensibleEnumDict.keys
+            if $cube.dimensions().concept().name.contains($dim)
+                    $domain = navigate dimensions dimension-domain descendants from $dim drs-role $cube.drs-role returns set target-name;
+                    if count(navigate dimensions descendants from $domain drs-role $cube.drs-role cube $cube.cube-concept()) == 1
+                        $PrimaryConcepts = list({@cube = $cube @$dim = *});
+                        $count_values = count($PrimaryConcepts);
+                        if $count_values == 1 and (not exists({@concept = $PrimaryConcepts[1].concept @$dim = none}))
+                            $PrimaryConcept = $PrimaryConcepts[1]
+                            true
+                        else
+                            false
+                    else
+                        skip
+            else
+                    skip
+
+
+message
+""The filing has  reported a value for the element {$PrimaryConcept.concept} with a value of {$PrimaryConcept} using the axis {$dim} in the role {$cube.drs-role.description} on the table {$cube.cube-concept()}. However, the only member used to disaggregate the total for {$PrimaryConcept.concept} was the member {$PrimaryConcept.dimension($dim)}. If only one member is used on this axis then the filer should either:
+
+1. Retag the filing using the element {$axisExtensibleEnumDict[$dim]} with a value of {$PrimaryConcept.dimension($dim)}.  The member {$PrimaryConcept.dimension($dim)} should be removed from the value as it represents the aggregate value of {$PrimaryConcept.concept}.
+ 
+2. Tag the aggregate value of {$PrimaryConcept.concept} with a value of {$PrimaryConcept} without the {$dim} axis. This rule will not generate an error if the aggregate value of {$PrimaryConcept.concept} is reported.
+
+The properties of this {$PrimaryConcept.concept} fact are:
+Period :{$PrimaryConcept.period}
+Dimensions : {$PrimaryConcept.dimensions.join(', ','=')}
+Unit : {$PrimaryConcept.unit}
+
+Rule Element Id:{$rule_id}
+Rule version: {$ruleVersion}
+""
+
+SEVERITY error
+
+effectiveDate $effective_dates[$rule_id]"
+DQC_0047.xule,US.0047.7481,2025,2026,logic,"assert US.0047.7481 satisfied
+
+$rule_id = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+for ( $cashOperating in set(NetCashProvidedByUsedInOperatingActivitiesContinuingOperations,NetCashProvidedByUsedInOperatingActivities))
+
+	$misplaced_concept = navigate summation-item descendants from ($cashOperating)
+	 
+	where $relationship.target.balance == none 
+	
+    and $relationship.target.name  != NetCashProvidedByUsedInOperatingActivitiesContinuingOperations
+	and $relationship.target.name  != InvestmentCompanyNetAssetsFromOperationsIncreaseDecrease
+	
+	and is_base($relationship.target, $ALL_BASE_TAXONOMIES_ELTS);
+
+	for $x in $misplaced_concept.to-set 
+		true
+
+message
+""In the company's extension taxonomy the concept {taxonomy().concept($cashOperating).label.text} includes {$x} as a summation-child. The concept {$x}  should not appear as a child of {$cashOperating} because it does not have a balance type. Increase (Decrease) items without balance attributes are used in a roll forward and should not be used in the cash flow statement as they represent the impact on the balance sheet item which is the opposite of the impact on cash.
+
+Rule Element Id:{$rule_id}
+Rule version: {$ruleVersion}""
+
+
+severity error
+effectiveDate $effective_dates[$rule_id]","assert US.0047.7481 satisfied
+
+$rule_id = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+for ( $cashOperating in set(NetCashProvidedByUsedInOperatingActivitiesContinuingOperations,NetCashProvidedByUsedInOperatingActivities))
+
+	$misplaced_concept = navigate summation-item descendants from ($cashOperating)
+	 
+	where $relationship.target.balance == none 
+	
+    and $relationship.target.name  != NetCashProvidedByUsedInOperatingActivitiesContinuingOperations
+	
+	
+	and is_base($relationship.target, $ALL_BASE_TAXONOMIES_ELTS);
+
+	for $x in $misplaced_concept.to-set 
+		true
+
+message
+""In the company's extension taxonomy the concept {taxonomy().concept($cashOperating).label.text} includes {$x} as a summation-child. The concept {$x}  should not appear as a child of {$cashOperating} because it does not have a balance type. Increase (Decrease) items without balance attributes are used in a roll forward and should not be used in the cash flow statement as they represent the impact on the balance sheet item which is the opposite of the impact on cash.
+
+Rule Element Id:{$rule_id}
+Rule version: {$ruleVersion}""
+
+
+severity error
+effectiveDate $effective_dates[$rule_id]",- InvestmentCompanyNetAssetsFromOperationsIncreaseDecrease: removed from the taxonomy in 2026; no replacement concept is named,InvestmentCompanyNetAssetsFromOperationsIncreaseDecrease,"assert US.0047.7481 satisfied
+
+$rule_id = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+for ( $cashOperating in set(NetCashProvidedByUsedInOperatingActivitiesContinuingOperations,NetCashProvidedByUsedInOperatingActivities))
+
+	$misplaced_concept = navigate summation-item descendants from ($cashOperating)
+	 
+	where $relationship.target.balance == none 
+	
+    and $relationship.target.name  != NetCashProvidedByUsedInOperatingActivitiesContinuingOperations
+	and $relationship.target.name  != InvestmentCompanyNetAssetsFromOperationsIncreaseDecrease
+	
+	and is_base($relationship.target, $ALL_BASE_TAXONOMIES_ELTS);
+
+	for $x in $misplaced_concept.to-set 
+		true
+
+message
+""In the company's extension taxonomy the concept {taxonomy().concept($cashOperating).label.text} includes {$x} as a summation-child. The concept {$x}  should not appear as a child of {$cashOperating} because it does not have a balance type. Increase (Decrease) items without balance attributes are used in a roll forward and should not be used in the cash flow statement as they represent the impact on the balance sheet item which is the opposite of the impact on cash.
+
+Rule Element Id:{$rule_id}
+Rule version: {$ruleVersion}""
+
+
+severity error
+effectiveDate $effective_dates[$rule_id]"
+DQC_0124.xule,US.0124.9587,2025,2026,logic,"assert US.0124.9587 satisfied
+
+$rule_id = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+
+
+
+
+$ReportingPeriod = [covered @concept.local-name ='DocumentPeriodEndDate']
+
+$PeriodToIgnore = ($ReportingPeriod - time-span('P1Y3M'))
+
+
+
+if exists([@concept = FinanceLeaseRightOfUseAsset @BalanceSheetLocationAxis @unit=* where $fact != 0 and $fact.period.end >= $PeriodToIgnore]#leaseAsset) and set('10-K','10-K/A','10-KT','20-F','20-F/A','40-F','40-F/A').contains([covered @concept.local-name ='DocumentType'])
+	
+	
+
+	$allNetworks = $PRES_NETWORKS;
+
+	
+	if $allNetworks == none
+			false
+	else
+	
+		
+		$FS_Networks = filter $allNetworks where $item.role.description.contains('- Statement ');
+
+		
+		$FS_Concepts = sum(set(for ($network in $FS_Networks)
+								$network.concepts));
+								
+		$FS_Concepts_qname = filter $FS_Concepts returns $item.name;
+
+		
+
+		if $FS_Concepts_qname.contains(FinanceLeaseRightOfUseAsset) or $FS_Concepts_qname.contains(PropertyPlantAndEquipmentAndFinanceLeaseRightOfUseAssetAfterAccumulatedDepreciationAndAmortization)
+			false
+			
+		else
+		
+				
+				if exists({@FinanceLeaseRightOfUseAssetStatementOfFinancialPositionExtensibleList @unit}) or exists([@FinanceLeaseRightOfUseAsset @BalanceSheetLocationAxis = * @unit=*])
+				 	false
+				else 
+					
+					
+					if count(list({@concept = FinanceLeaseRightOfUseAsset @BalanceSheetLocationAxis = * @unit=*})) > 1
+						false
+					else
+						if count(list({@concept = FinanceLeaseRightOfUseAsset @BalanceSheetLocationAxis = * @unit=*})) == 1
+							$FLROU = list({@concept = FinanceLeaseRightOfUseAsset @unit=*})
+							({@concept = FinanceLeaseRightOfUseAsset @BalanceSheetLocationAxis = * @unit=*} == {@concept = FinanceLeaseRightOfUseAsset @unit=*}) or $FLROU.length == 0
+						else
+							true
+else
+ 	false
+ 
+
+
+message
+
+""The element {$leaseAsset.concept.name} with a value of {$leaseAsset} has been used in the filing but does not appear in the financial statements of the filing. This disclosure should appear in the face financials unless it is included in another account caption. If this is the case either:
+1. The element FinanceLeaseRightOfUseAssetStatementOfFinancialPositionExtensibleList should be used to identify the account where the Finance Lease Asset is included; or
+2. The Balance Sheet location axis should be used with two or more account members to identify into which financial statement captions the Finance Lease Asset has been apportioned.
+ 
+Period :{$leaseAsset.period}
+Dimensions : {$leaseAsset.dimensions.join(', ','=')}
+Unit : {$leaseAsset.unit}
+Decimals: {$leaseAsset.decimals}
+
+Rule Element Id:{$rule_id}
+Rule version: {$ruleVersion}""
+
+SEVERITY error
+
+effectiveDate $effective_dates[$rule_id]
+
+rule-focus $leaseAsset 
+
+","assert US.0124.9587 satisfied
+
+$rule_id = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+
+
+
+
+$ReportingPeriod = [covered @concept.local-name ='DocumentPeriodEndDate']
+
+$PeriodToIgnore = ($ReportingPeriod - time-span('P1Y3M'))
+
+
+
+if exists([@concept = FinanceLeaseRightOfUseAsset @StatementOfFinancialPositionLocationBalanceAxis @unit=* where $fact != 0 and $fact.period.end >= $PeriodToIgnore]#leaseAsset) and set('10-K','10-K/A','10-KT','20-F','20-F/A','40-F','40-F/A').contains([covered @concept.local-name ='DocumentType'])
+	
+	
+
+	$allNetworks = $PRES_NETWORKS;
+
+	
+	if $allNetworks == none
+			false
+	else
+	
+		
+		$FS_Networks = filter $allNetworks where $item.role.description.contains('- Statement ');
+
+		
+		$FS_Concepts = sum(set(for ($network in $FS_Networks)
+								$network.concepts));
+								
+		$FS_Concepts_qname = filter $FS_Concepts returns $item.name;
+
+		
+
+		if $FS_Concepts_qname.contains(FinanceLeaseRightOfUseAsset) or $FS_Concepts_qname.contains(PropertyPlantAndEquipmentAndFinanceLeaseRightOfUseAssetAfterAccumulatedDepreciationAndAmortization)
+			false
+			
+		else
+		
+				
+				if exists({@FinanceLeaseRightOfUseAssetStatementOfFinancialPositionExtensibleList @unit}) or exists([@FinanceLeaseRightOfUseAsset @StatementOfFinancialPositionLocationBalanceAxis = * @unit=*])
+				 	false
+				else 
+					
+					
+					if count(list({@concept = FinanceLeaseRightOfUseAsset @StatementOfFinancialPositionLocationBalanceAxis = * @unit=*})) > 1
+						false
+					else
+						if count(list({@concept = FinanceLeaseRightOfUseAsset @StatementOfFinancialPositionLocationBalanceAxis = * @unit=*})) == 1
+							$FLROU = list({@concept = FinanceLeaseRightOfUseAsset @unit=*})
+							({@concept = FinanceLeaseRightOfUseAsset @StatementOfFinancialPositionLocationBalanceAxis = * @unit=*} == {@concept = FinanceLeaseRightOfUseAsset @unit=*}) or $FLROU.length == 0
+						else
+							true
+else
+ 	false
+ 
+
+
+message
+
+""The element {$leaseAsset.concept.name} with a value of {$leaseAsset} has been used in the filing but does not appear in the financial statements of the filing. This disclosure should appear in the face financials unless it is included in another account caption. If this is the case either:
+1. The element FinanceLeaseRightOfUseAssetStatementOfFinancialPositionExtensibleList should be used to identify the account where the Finance Lease Asset is included; or
+2. The Balance Sheet location axis should be used with two or more account members to identify into which financial statement captions the Finance Lease Asset has been apportioned.
+ 
+Period :{$leaseAsset.period}
+Dimensions : {$leaseAsset.dimensions.join(', ','=')}
+Unit : {$leaseAsset.unit}
+Decimals: {$leaseAsset.decimals}
+
+Rule Element Id:{$rule_id}
+Rule version: {$ruleVersion}""
+
+SEVERITY error
+
+effectiveDate $effective_dates[$rule_id]
+
+rule-focus $leaseAsset 
+
+",- BalanceSheetLocationAxis: deprecated in 2026; replaced by StatementOfFinancialPositionLocationBalanceAxis,BalanceSheetLocationAxis,"assert US.0124.9587 satisfied
+
+$rule_id = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+
+
+
+
+$ReportingPeriod = [covered @concept.local-name ='DocumentPeriodEndDate']
+
+$PeriodToIgnore = ($ReportingPeriod - time-span('P1Y3M'))
+
+
+
+if exists([@concept = FinanceLeaseRightOfUseAsset @StatementOfFinancialPositionLocationBalanceAxis @unit=* where $fact != 0 and $fact.period.end >= $PeriodToIgnore]#leaseAsset) and set('10-K','10-K/A','10-KT','20-F','20-F/A','40-F','40-F/A').contains([covered @concept.local-name ='DocumentType'])
+	
+	
+
+	$allNetworks = $PRES_NETWORKS;
+
+	
+	if $allNetworks == none
+			false
+	else
+	
+		
+		$FS_Networks = filter $allNetworks where $item.role.description.contains('- Statement ');
+
+		
+		$FS_Concepts = sum(set(for ($network in $FS_Networks)
+								$network.concepts));
+								
+		$FS_Concepts_qname = filter $FS_Concepts returns $item.name;
+
+		
+
+		if $FS_Concepts_qname.contains(FinanceLeaseRightOfUseAsset) or $FS_Concepts_qname.contains(PropertyPlantAndEquipmentAndFinanceLeaseRightOfUseAssetAfterAccumulatedDepreciationAndAmortization)
+			false
+			
+		else
+		
+				
+				if exists({@FinanceLeaseRightOfUseAssetStatementOfFinancialPositionExtensibleList @unit}) or exists([@FinanceLeaseRightOfUseAsset @StatementOfFinancialPositionLocationBalanceAxis = * @unit=*])
+				 	false
+				else 
+					
+					
+					if count(list({@concept = FinanceLeaseRightOfUseAsset @StatementOfFinancialPositionLocationBalanceAxis = * @unit=*})) > 1
+						false
+					else
+						if count(list({@concept = FinanceLeaseRightOfUseAsset @StatementOfFinancialPositionLocationBalanceAxis = * @unit=*})) == 1
+							$FLROU = list({@concept = FinanceLeaseRightOfUseAsset @unit=*})
+							({@concept = FinanceLeaseRightOfUseAsset @StatementOfFinancialPositionLocationBalanceAxis = * @unit=*} == {@concept = FinanceLeaseRightOfUseAsset @unit=*}) or $FLROU.length == 0
+						else
+							true
+else
+ 	false
+ 
+
+
+message
+
+""The element {$leaseAsset.concept.name} with a value of {$leaseAsset} has been used in the filing but does not appear in the financial statements of the filing. This disclosure should appear in the face financials unless it is included in another account caption. If this is the case either:
+1. The element FinanceLeaseRightOfUseAssetStatementOfFinancialPositionExtensibleList should be used to identify the account where the Finance Lease Asset is included; or
+2. The Balance Sheet location axis should be used with two or more account members to identify into which financial statement captions the Finance Lease Asset has been apportioned.
+ 
+Period :{$leaseAsset.period}
+Dimensions : {$leaseAsset.dimensions.join(', ','=')}
+Unit : {$leaseAsset.unit}
+Decimals: {$leaseAsset.decimals}
+
+Rule Element Id:{$rule_id}
+Rule version: {$ruleVersion}""
+
+SEVERITY error
+
+effectiveDate $effective_dates[$rule_id]
+
+rule-focus $leaseAsset 
+
+"
+DQC_0124.xule,US.0124.9588,2025,2026,logic,"assert US.0124.9588 satisfied
+
+$rule_id = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+
+
+
+
+$ReportingPeriod = [covered @concept.local-name ='DocumentPeriodEndDate']
+
+$PeriodToIgnore = ($ReportingPeriod - time-span('P1Y3M'))
+
+
+
+if exists([@concept = OperatingLeaseRightOfUseAsset @BalanceSheetLocationAxis @unit=* where $fact != 0 and $fact.period.end >= $PeriodToIgnore]#leaseAsset) and set('10-K','10-K/A','10-KT','20-F','20-F/A','40-F','40-F/A').contains([covered @concept.local-name ='DocumentType'])
+	
+	
+
+	$allNetworks = $PRES_NETWORKS;
+
+	
+	if $allNetworks == none
+			false
+	else
+	
+		
+		$FS_Networks = filter $allNetworks where $item.role.description.contains('- Statement ');
+
+		
+		$FS_Concepts = sum(set(for ($network in $FS_Networks)
+								$network.concepts));
+								
+		$FS_Concepts_qname = filter $FS_Concepts returns $item.name;
+
+		
+
+		if $FS_Concepts_qname.contains(OperatingLeaseRightOfUseAsset) 
+			false
+			
+		else
+		
+				
+				if exists({@OperatingLeaseRightOfUseAssetStatementOfFinancialPositionExtensibleList @unit}) or exists([@OperatingLeaseRightOfUseAsset @BalanceSheetLocationAxis = * @unit=*])
+				 	false
+				else 
+					
+					
+					if count(list({@concept = OperatingLeaseRightOfUseAsset @BalanceSheetLocationAxis = * @unit=*})) > 1
+						false
+					else
+						if count(list({@concept = OperatingLeaseRightOfUseAsset @BalanceSheetLocationAxis = * @unit=*})) == 1
+							$OLROU = list({@concept = OperatingLeaseRightOfUseAsset @unit=*})
+							({@concept = OperatingLeaseRightOfUseAsset @BalanceSheetLocationAxis = * @unit=*} == {@concept = OperatingLeaseRightOfUseAsset @unit=*}) or $OLROU.length == 0
+						else
+							true
+else
+ 	false
+ 
+
+
+message
+
+""The element {$leaseAsset.concept.name} with a value of {$leaseAsset} has been used in the filing but does not appear in the financial statements of the filing. This disclosure should appear in the face financials unless it is included in another account caption. If this is the case either:
+1. The element OperatingLeaseRightOfUseAssetStatementOfFinancialPositionExtensibleList should be used to identify the account where the Operating Lease Asset is included; or
+2. The Balance Sheet location axis should be used with two or more account members to identify into which financial statement captions the Operating Lease Asset has been apportioned.
+ 
+Period :{$leaseAsset.period}
+Dimensions : {$leaseAsset.dimensions.join(', ','=')}
+Unit : {$leaseAsset.unit}
+Decimals: {$leaseAsset.decimals}
+
+Rule Element Id:{$rule_id}
+Rule version: {$ruleVersion}""
+
+SEVERITY error
+
+effectiveDate $effective_dates[$rule_id]
+
+rule-focus $leaseAsset ","assert US.0124.9588 satisfied
+
+$rule_id = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+
+
+
+
+$ReportingPeriod = [covered @concept.local-name ='DocumentPeriodEndDate']
+
+$PeriodToIgnore = ($ReportingPeriod - time-span('P1Y3M'))
+
+
+
+if exists([@concept = OperatingLeaseRightOfUseAsset @StatementOfFinancialPositionLocationBalanceAxis @unit=* where $fact != 0 and $fact.period.end >= $PeriodToIgnore]#leaseAsset) and set('10-K','10-K/A','10-KT','20-F','20-F/A','40-F','40-F/A').contains([covered @concept.local-name ='DocumentType'])
+	
+	
+
+	$allNetworks = $PRES_NETWORKS;
+
+	
+	if $allNetworks == none
+			false
+	else
+	
+		
+		$FS_Networks = filter $allNetworks where $item.role.description.contains('- Statement ');
+
+		
+		$FS_Concepts = sum(set(for ($network in $FS_Networks)
+								$network.concepts));
+								
+		$FS_Concepts_qname = filter $FS_Concepts returns $item.name;
+
+		
+
+		if $FS_Concepts_qname.contains(OperatingLeaseRightOfUseAsset) 
+			false
+			
+		else
+		
+				
+				if exists({@OperatingLeaseRightOfUseAssetStatementOfFinancialPositionExtensibleList @unit}) or exists([@OperatingLeaseRightOfUseAsset @StatementOfFinancialPositionLocationBalanceAxis = * @unit=*])
+				 	false
+				else 
+					
+					
+					if count(list({@concept = OperatingLeaseRightOfUseAsset @StatementOfFinancialPositionLocationBalanceAxis = * @unit=*})) > 1
+						false
+					else
+						if count(list({@concept = OperatingLeaseRightOfUseAsset @StatementOfFinancialPositionLocationBalanceAxis = * @unit=*})) == 1
+							$OLROU = list({@concept = OperatingLeaseRightOfUseAsset @unit=*})
+							({@concept = OperatingLeaseRightOfUseAsset @StatementOfFinancialPositionLocationBalanceAxis = * @unit=*} == {@concept = OperatingLeaseRightOfUseAsset @unit=*}) or $OLROU.length == 0
+						else
+							true
+else
+ 	false
+ 
+
+
+message
+
+""The element {$leaseAsset.concept.name} with a value of {$leaseAsset} has been used in the filing but does not appear in the financial statements of the filing. This disclosure should appear in the face financials unless it is included in another account caption. If this is the case either:
+1. The element OperatingLeaseRightOfUseAssetStatementOfFinancialPositionExtensibleList should be used to identify the account where the Operating Lease Asset is included; or
+2. The Balance Sheet location axis should be used with two or more account members to identify into which financial statement captions the Operating Lease Asset has been apportioned.
+ 
+Period :{$leaseAsset.period}
+Dimensions : {$leaseAsset.dimensions.join(', ','=')}
+Unit : {$leaseAsset.unit}
+Decimals: {$leaseAsset.decimals}
+
+Rule Element Id:{$rule_id}
+Rule version: {$ruleVersion}""
+
+SEVERITY error
+
+effectiveDate $effective_dates[$rule_id]
+
+rule-focus $leaseAsset ",- BalanceSheetLocationAxis: deprecated in 2026; replaced by StatementOfFinancialPositionLocationBalanceAxis,BalanceSheetLocationAxis,"assert US.0124.9588 satisfied
+
+$rule_id = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+
+
+
+
+$ReportingPeriod = [covered @concept.local-name ='DocumentPeriodEndDate']
+
+$PeriodToIgnore = ($ReportingPeriod - time-span('P1Y3M'))
+
+
+
+if exists([@concept = OperatingLeaseRightOfUseAsset @StatementOfFinancialPositionLocationBalanceAxis @unit=* where $fact != 0 and $fact.period.end >= $PeriodToIgnore]#leaseAsset) and set('10-K','10-K/A','10-KT','20-F','20-F/A','40-F','40-F/A').contains([covered @concept.local-name ='DocumentType'])
+	
+	
+
+	$allNetworks = $PRES_NETWORKS;
+
+	
+	if $allNetworks == none
+			false
+	else
+	
+		
+		$FS_Networks = filter $allNetworks where $item.role.description.contains('- Statement ');
+
+		
+		$FS_Concepts = sum(set(for ($network in $FS_Networks)
+								$network.concepts));
+								
+		$FS_Concepts_qname = filter $FS_Concepts returns $item.name;
+
+		
+
+		if $FS_Concepts_qname.contains(OperatingLeaseRightOfUseAsset) 
+			false
+			
+		else
+		
+				
+				if exists({@OperatingLeaseRightOfUseAssetStatementOfFinancialPositionExtensibleList @unit}) or exists([@OperatingLeaseRightOfUseAsset @StatementOfFinancialPositionLocationBalanceAxis = * @unit=*])
+				 	false
+				else 
+					
+					
+					if count(list({@concept = OperatingLeaseRightOfUseAsset @StatementOfFinancialPositionLocationBalanceAxis = * @unit=*})) > 1
+						false
+					else
+						if count(list({@concept = OperatingLeaseRightOfUseAsset @StatementOfFinancialPositionLocationBalanceAxis = * @unit=*})) == 1
+							$OLROU = list({@concept = OperatingLeaseRightOfUseAsset @unit=*})
+							({@concept = OperatingLeaseRightOfUseAsset @StatementOfFinancialPositionLocationBalanceAxis = * @unit=*} == {@concept = OperatingLeaseRightOfUseAsset @unit=*}) or $OLROU.length == 0
+						else
+							true
+else
+ 	false
+ 
+
+
+message
+
+""The element {$leaseAsset.concept.name} with a value of {$leaseAsset} has been used in the filing but does not appear in the financial statements of the filing. This disclosure should appear in the face financials unless it is included in another account caption. If this is the case either:
+1. The element OperatingLeaseRightOfUseAssetStatementOfFinancialPositionExtensibleList should be used to identify the account where the Operating Lease Asset is included; or
+2. The Balance Sheet location axis should be used with two or more account members to identify into which financial statement captions the Operating Lease Asset has been apportioned.
+ 
+Period :{$leaseAsset.period}
+Dimensions : {$leaseAsset.dimensions.join(', ','=')}
+Unit : {$leaseAsset.unit}
+Decimals: {$leaseAsset.decimals}
+
+Rule Element Id:{$rule_id}
+Rule version: {$ruleVersion}""
+
+SEVERITY error
+
+effectiveDate $effective_dates[$rule_id]
+
+rule-focus $leaseAsset "
+DQC_0137.xule,US.0137.9838,2025,2026,logic,"assert US.0137.9838 satisfied
+
+
+$ruleId = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+
+if set('10-K','10-K/A','10-KT','20-F','20-F/A','40-F','40-F/A','10-Q','10-Q/A','10-QT', '10-QT/A').contains([covered @concept.local-name ='DocumentType'])
+
+	
+	for $extPairs in $EXT_ENUM
+		$fsConcept = $extPairs[1]
+		$relatedExtEnum = $extPairs[2]
+
+		
+
+		if taxonomy().concept($fsConcept).period-type == instant
+
+			$fsConceptItems = list({@concept = $fsConcept @BalanceSheetLocationAxis = * @unit = *});
+			$locationAxis = ""BalanceSheetLocationAxis"";
+			if $fsConceptItems.length == 1
+				
+				true
+			else 
+				
+				false
+		else
+			$fsConceptItems = list({@concept = $fsConcept @IncomeStatementLocationAxis = * @unit = *});
+			$locationAxis = ""IncomeStatementLocationAxis"";
+			if $fsConceptItems.length == 1
+				true
+			else 
+				false
+else
+ 	false
+ 
+message
+
+""The element {$fsConcept} with a value of {first($fsConceptItems.sort)} has been used in the filing with the axis {$locationAxis}.  This is the only fact reported with this element.  Rather than using the {$locationAxis} the filer should use the extensible enumeration element to indicate the location of the item in the financial statements. In this case the element {$relatedExtEnum} should be used to identify the account where the element {$fsConcept} is included. 
+
+ 
+Period :{first($fsConceptItems.sort).period}
+Dimensions : {first($fsConceptItems.sort).dimensions.join(', ','=')}
+Unit : {first($fsConceptItems.sort).unit}
+Decimals: {first($fsConceptItems.sort).decimals}
+
+Rule Element Id:{$ruleId}
+Rule version: {$ruleVersion}""
+
+SEVERITY error
+effectiveDate $effective_dates[$ruleId]
+
+rule-focus first($fsConceptItems.sort)
+
+","assert US.0137.9838 satisfied
+
+
+$ruleId = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+
+if set('10-K','10-K/A','10-KT','20-F','20-F/A','40-F','40-F/A','10-Q','10-Q/A','10-QT', '10-QT/A').contains([covered @concept.local-name ='DocumentType'])
+
+	
+	for $extPairs in $EXT_ENUM
+		$fsConcept = $extPairs[1]
+		$relatedExtEnum = $extPairs[2]
+
+		
+
+		if taxonomy().concept($fsConcept).period-type == instant
+
+			$fsConceptItems = list({@concept = $fsConcept @StatementOfFinancialPositionLocationBalanceAxis = * @unit = *});
+			$locationAxis = ""StatementOfFinancialPositionLocationBalanceAxis"";
+			if $fsConceptItems.length == 1
+				
+				true
+			else 
+				
+				false
+		else
+			$fsConceptItems = list({@concept = $fsConcept @StatementOfIncomeLocationBalanceAxis = * @unit = *});
+			$locationAxis = ""StatementOfIncomeLocationBalanceAxis"";
+			if $fsConceptItems.length == 1
+				true
+			else 
+				false
+else
+ 	false
+ 
+message
+
+""The element {$fsConcept} with a value of {first($fsConceptItems.sort)} has been used in the filing with the axis {$locationAxis}.  This is the only fact reported with this element.  Rather than using the {$locationAxis} the filer should use the extensible enumeration element to indicate the location of the item in the financial statements. In this case the element {$relatedExtEnum} should be used to identify the account where the element {$fsConcept} is included. 
+
+ 
+Period :{first($fsConceptItems.sort).period}
+Dimensions : {first($fsConceptItems.sort).dimensions.join(', ','=')}
+Unit : {first($fsConceptItems.sort).unit}
+Decimals: {first($fsConceptItems.sort).decimals}
+
+Rule Element Id:{$ruleId}
+Rule version: {$ruleVersion}""
+
+SEVERITY error
+effectiveDate $effective_dates[$ruleId]
+
+rule-focus first($fsConceptItems.sort)
+
+","- BalanceSheetLocationAxis: deprecated in 2026; replaced by StatementOfFinancialPositionLocationBalanceAxis
+- IncomeStatementLocationAxis: deprecated in 2026; replaced by StatementOfIncomeLocationBalanceAxis",BalanceSheetLocationAxis;IncomeStatementLocationAxis,"assert US.0137.9838 satisfied
+
+
+$ruleId = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+
+if set('10-K','10-K/A','10-KT','20-F','20-F/A','40-F','40-F/A','10-Q','10-Q/A','10-QT', '10-QT/A').contains([covered @concept.local-name ='DocumentType'])
+
+	
+	for $extPairs in $EXT_ENUM
+		$fsConcept = $extPairs[1]
+		$relatedExtEnum = $extPairs[2]
+
+		
+
+		if taxonomy().concept($fsConcept).period-type == instant
+
+			$fsConceptItems = list({@concept = $fsConcept @StatementOfFinancialPositionLocationBalanceAxis = * @unit = *});
+			$locationAxis = ""StatementOfFinancialPositionLocationBalanceAxis"";
+			if $fsConceptItems.length == 1
+				
+				true
+			else 
+				
+				false
+		else
+			$fsConceptItems = list({@concept = $fsConcept @StatementOfIncomeLocationBalanceAxis = * @unit = *});
+			$locationAxis = ""StatementOfIncomeLocationBalanceAxis"";
+			if $fsConceptItems.length == 1
+				true
+			else 
+				false
+else
+ 	false
+ 
+message
+
+""The element {$fsConcept} with a value of {first($fsConceptItems.sort)} has been used in the filing with the axis {$locationAxis}.  This is the only fact reported with this element.  Rather than using the {$locationAxis} the filer should use the extensible enumeration element to indicate the location of the item in the financial statements. In this case the element {$relatedExtEnum} should be used to identify the account where the element {$fsConcept} is included. 
+
+ 
+Period :{first($fsConceptItems.sort).period}
+Dimensions : {first($fsConceptItems.sort).dimensions.join(', ','=')}
+Unit : {first($fsConceptItems.sort).unit}
+Decimals: {first($fsConceptItems.sort).decimals}
+
+Rule Element Id:{$ruleId}
+Rule version: {$ruleVersion}""
+
+SEVERITY error
+effectiveDate $effective_dates[$ruleId]
+
+rule-focus first($fsConceptItems.sort)
+
+"
+DQC_0164.xule,US.0164.10086,2025,2026,logic,"Assert US.0164.10086 satisfied
+$ruleId = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+
+
+
+
+$excluded_concepts = set(AllocatedShareBasedCompensationExpense)
+
+for $cube in $STATEMENT_CUBES  
+    $dimensionsSet = filter $cube.dimensions returns $item.concept.name 
+    for $abstract in set(BalanceSheetLocationAxis, IncomeStatementLocationAxis, OtherComprehensiveIncomeLocationAxis) 
+        if $dimensionsSet.contains($abstract) 
+            $facts_with_excluded_concept = list({covered @cube=$cube @$abstract = * where $fact.concept.name in $excluded_concepts}) 
+            $facts_with_bad_axis = list({covered @cube=$cube @$abstract = * where $fact.concept.name not in $excluded_concepts}) 
+            if $facts_with_bad_axis.length == 0 and $facts_with_excluded_concept.length == 0 
+                $concepts_with_facts = """";
+                true
+            else 
+                $concepts_with_facts = ""The following concepts were used with the axis"" + $abstract.local-name + "" : "" + ((filter $facts_with_bad_axis returns $item.name.local-name).to-set).join(', ') + "".""
+                $facts_with_bad_axis.length > 0 
+        else
+            false
+
+message
+""The filer has used the axis {$abstract} in the financial statement presentation cube {$cube.drs-role.description}. The axis {$abstract}  should not be used in a financial statement.
+{$concepts_with_facts}
+Rule Element Id:{$ruleId}
+Rule version: {$ruleVersion}""
+
+severity error
+
+effectiveDate $effective_dates[$ruleId]
+
+
+","Assert US.0164.10086 satisfied
+$ruleId = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+
+
+
+
+$excluded_concepts = set(AllocatedShareBasedCompensationExpense)
+
+for $cube in $STATEMENT_CUBES  
+    $dimensionsSet = filter $cube.dimensions returns $item.concept.name 
+    for $abstract in set(StatementOfFinancialPositionLocationBalanceAxis, StatementOfIncomeLocationBalanceAxis, OtherComprehensiveIncomeBalanceAxis) 
+        if $dimensionsSet.contains($abstract) 
+            $facts_with_excluded_concept = list({covered @cube=$cube @$abstract = * where $fact.concept.name in $excluded_concepts}) 
+            $facts_with_bad_axis = list({covered @cube=$cube @$abstract = * where $fact.concept.name not in $excluded_concepts}) 
+            if $facts_with_bad_axis.length == 0 and $facts_with_excluded_concept.length == 0 
+                $concepts_with_facts = """";
+                true
+            else 
+                $concepts_with_facts = ""The following concepts were used with the axis"" + $abstract.local-name + "" : "" + ((filter $facts_with_bad_axis returns $item.name.local-name).to-set).join(', ') + "".""
+                $facts_with_bad_axis.length > 0 
+        else
+            false
+
+message
+""The filer has used the axis {$abstract} in the financial statement presentation cube {$cube.drs-role.description}. The axis {$abstract}  should not be used in a financial statement.
+{$concepts_with_facts}
+Rule Element Id:{$ruleId}
+Rule version: {$ruleVersion}""
+
+severity error
+
+effectiveDate $effective_dates[$ruleId]
+
+
+","- BalanceSheetLocationAxis: deprecated in 2026; replaced by StatementOfFinancialPositionLocationBalanceAxis
+- IncomeStatementLocationAxis: deprecated in 2026; replaced by StatementOfIncomeLocationBalanceAxis
+- OtherComprehensiveIncomeLocationAxis: deprecated in 2026; replaced by OtherComprehensiveIncomeBalanceAxis",BalanceSheetLocationAxis;IncomeStatementLocationAxis;OtherComprehensiveIncomeLocationAxis,"Assert US.0164.10086 satisfied
+$ruleId = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+
+
+
+
+$excluded_concepts = set(AllocatedShareBasedCompensationExpense)
+
+for $cube in $STATEMENT_CUBES  
+    $dimensionsSet = filter $cube.dimensions returns $item.concept.name 
+    for $abstract in set(StatementOfFinancialPositionLocationBalanceAxis, StatementOfIncomeLocationBalanceAxis, OtherComprehensiveIncomeBalanceAxis) 
+        if $dimensionsSet.contains($abstract) 
+            $facts_with_excluded_concept = list({covered @cube=$cube @$abstract = * where $fact.concept.name in $excluded_concepts}) 
+            $facts_with_bad_axis = list({covered @cube=$cube @$abstract = * where $fact.concept.name not in $excluded_concepts}) 
+            if $facts_with_bad_axis.length == 0 and $facts_with_excluded_concept.length == 0 
+                $concepts_with_facts = """";
+                true
+            else 
+                $concepts_with_facts = ""The following concepts were used with the axis"" + $abstract.local-name + "" : "" + ((filter $facts_with_bad_axis returns $item.name.local-name).to-set).join(', ') + "".""
+                $facts_with_bad_axis.length > 0 
+        else
+            false
+
+message
+""The filer has used the axis {$abstract} in the financial statement presentation cube {$cube.drs-role.description}. The axis {$abstract}  should not be used in a financial statement.
+{$concepts_with_facts}
+Rule Element Id:{$ruleId}
+Rule version: {$ruleVersion}""
+
+severity error
+
+effectiveDate $effective_dates[$ruleId]
+
+
+"
+DQC_0164.xule,US.0164.10087,2025,2026,logic,"Assert US.0164.10087 satisfied
+$ruleId = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+
+
+$HighLevelElements = set(Assets, Liabilities, AssetsCurrent, AssetsNoncurrent, LiabilitiesCurrent, LiabilitiesNoncurrent, LiabilitiesAndStockholdersEquity, StockholdersEquity, StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest)
+
+exists({@concept in $HighLevelElements @BalanceSheetLocationAxis = *}#fact2)
+message
+""A value of {$fact2} is reported for the concept {$fact2.concept.name} with the BalanceSheetLocationAxis. This concept is an aggregation concept and should not be disaggregated using the BalanceSheetLocationAxis and the member {$fact2.dimension(BalanceSheetLocationAxis)}. Use a more specific line item from the fact.
+
+The properties of this {$fact2.concept.name} fact are:
+
+Period :{$fact2.period}
+Dimensions : {$fact2.dimensions.join(', ','=')}
+Unit : {$fact2.unit}
+
+Rule Element Id:{$ruleId}
+Rule version: {$ruleVersion}""
+
+severity error
+
+effectiveDate $effective_dates[$ruleId]
+
+
+","Assert US.0164.10087 satisfied
+$ruleId = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+
+
+$HighLevelElements = set(Assets, Liabilities, AssetsCurrent, AssetsNoncurrent, LiabilitiesCurrent, LiabilitiesNoncurrent, LiabilitiesAndStockholdersEquity, StockholdersEquity, StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest)
+
+exists({@concept in $HighLevelElements @StatementOfFinancialPositionLocationBalanceAxis = *}#fact2)
+message
+""A value of {$fact2} is reported for the concept {$fact2.concept.name} with the StatementOfFinancialPositionLocationBalanceAxis. This concept is an aggregation concept and should not be disaggregated using the StatementOfFinancialPositionLocationBalanceAxis and the member {$fact2.dimension(StatementOfFinancialPositionLocationBalanceAxis)}. Use a more specific line item from the fact.
+
+The properties of this {$fact2.concept.name} fact are:
+
+Period :{$fact2.period}
+Dimensions : {$fact2.dimensions.join(', ','=')}
+Unit : {$fact2.unit}
+
+Rule Element Id:{$ruleId}
+Rule version: {$ruleVersion}""
+
+severity error
+
+effectiveDate $effective_dates[$ruleId]
+
+
+",- BalanceSheetLocationAxis: deprecated in 2026; replaced by StatementOfFinancialPositionLocationBalanceAxis,BalanceSheetLocationAxis,"Assert US.0164.10087 satisfied
+$ruleId = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+
+
+$HighLevelElements = set(Assets, Liabilities, AssetsCurrent, AssetsNoncurrent, LiabilitiesCurrent, LiabilitiesNoncurrent, LiabilitiesAndStockholdersEquity, StockholdersEquity, StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest)
+
+exists({@concept in $HighLevelElements @StatementOfFinancialPositionLocationBalanceAxis = *}#fact2)
+message
+""A value of {$fact2} is reported for the concept {$fact2.concept.name} with the StatementOfFinancialPositionLocationBalanceAxis. This concept is an aggregation concept and should not be disaggregated using the StatementOfFinancialPositionLocationBalanceAxis and the member {$fact2.dimension(StatementOfFinancialPositionLocationBalanceAxis)}. Use a more specific line item from the fact.
+
+The properties of this {$fact2.concept.name} fact are:
+
+Period :{$fact2.period}
+Dimensions : {$fact2.dimensions.join(', ','=')}
+Unit : {$fact2.unit}
+
+Rule Element Id:{$ruleId}
+Rule version: {$ruleVersion}""
+
+severity error
+
+effectiveDate $effective_dates[$ruleId]
+
+
+"
+DQC_0164.xule,US.0164.10088,2025,2026,logic,"Assert US.0164.10088 satisfied
+$ruleId = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+
+
+$HighLevelElements = set(ProfitLoss, NetIncomeLoss, IncomeLossFromContinuingOperationsIncludingPortionAttributableToNoncontrollingInterest, IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest, IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments, OperatingIncomeLoss, GrossProfit, OperatingExpenses, Revenues, CostOfRevenue, OperatingCostsAndExpenses, OtherOperatingIncomeExpenseNet, NonoperatingIncomeExpense, OtherNonoperatingIncomeExpense, IncomeTaxExpenseBenefit)
+
+exists({@concept in $HighLevelElements @IncomeStatementLocationAxis = *}#fact2)
+message
+""A value of {$fact2} is reported for the concept {$fact2.concept.name} with the IncomeStatementLocationAxis. This concept is an aggregation concept and should not be disaggregated using the IncomeStatementLocationAxis and the member {$fact2.dimension(IncomeStatementLocationAxis)}. Use a more specific line item to report the fact value or remove the IncomeStatementLocationAxis.
+
+The properties of this {$fact2.concept.name} fact are:
+
+Period :{$fact2.period}
+Dimensions : {$fact2.dimensions.join(', ','=')}
+Unit : {$fact2.unit}
+
+Rule Element Id:{$ruleId}
+Rule version: {$ruleVersion}""
+
+severity error
+
+effectiveDate $effective_dates[$ruleId]
+
+
+
+
+
+","Assert US.0164.10088 satisfied
+$ruleId = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+
+
+$HighLevelElements = set(ProfitLoss, NetIncomeLoss, IncomeLossFromContinuingOperationsIncludingPortionAttributableToNoncontrollingInterest, IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest, IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments, OperatingIncomeLoss, GrossProfit, OperatingExpenses, Revenues, CostOfRevenue, OperatingCostsAndExpenses, OtherOperatingIncomeExpenseNet, NonoperatingIncomeExpense, OtherNonoperatingIncomeExpense, IncomeTaxExpenseBenefit)
+
+exists({@concept in $HighLevelElements @StatementOfIncomeLocationBalanceAxis = *}#fact2)
+message
+""A value of {$fact2} is reported for the concept {$fact2.concept.name} with the StatementOfIncomeLocationBalanceAxis. This concept is an aggregation concept and should not be disaggregated using the StatementOfIncomeLocationBalanceAxis and the member {$fact2.dimension(StatementOfIncomeLocationBalanceAxis)}. Use a more specific line item to report the fact value or remove the StatementOfIncomeLocationBalanceAxis.
+
+The properties of this {$fact2.concept.name} fact are:
+
+Period :{$fact2.period}
+Dimensions : {$fact2.dimensions.join(', ','=')}
+Unit : {$fact2.unit}
+
+Rule Element Id:{$ruleId}
+Rule version: {$ruleVersion}""
+
+severity error
+
+effectiveDate $effective_dates[$ruleId]
+
+
+
+
+
+",- IncomeStatementLocationAxis: deprecated in 2026; replaced by StatementOfIncomeLocationBalanceAxis,IncomeStatementLocationAxis,"Assert US.0164.10088 satisfied
+$ruleId = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+
+
+$HighLevelElements = set(ProfitLoss, NetIncomeLoss, IncomeLossFromContinuingOperationsIncludingPortionAttributableToNoncontrollingInterest, IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest, IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments, OperatingIncomeLoss, GrossProfit, OperatingExpenses, Revenues, CostOfRevenue, OperatingCostsAndExpenses, OtherOperatingIncomeExpenseNet, NonoperatingIncomeExpense, OtherNonoperatingIncomeExpense, IncomeTaxExpenseBenefit)
+
+exists({@concept in $HighLevelElements @StatementOfIncomeLocationBalanceAxis = *}#fact2)
+message
+""A value of {$fact2} is reported for the concept {$fact2.concept.name} with the StatementOfIncomeLocationBalanceAxis. This concept is an aggregation concept and should not be disaggregated using the StatementOfIncomeLocationBalanceAxis and the member {$fact2.dimension(StatementOfIncomeLocationBalanceAxis)}. Use a more specific line item to report the fact value or remove the StatementOfIncomeLocationBalanceAxis.
+
+The properties of this {$fact2.concept.name} fact are:
+
+Period :{$fact2.period}
+Dimensions : {$fact2.dimensions.join(', ','=')}
+Unit : {$fact2.unit}
+
+Rule Element Id:{$ruleId}
+Rule version: {$ruleVersion}""
+
+severity error
+
+effectiveDate $effective_dates[$ruleId]
+
+
+
+
+
+"
+DQC_0183.xule,US.0183.10161,2025,2026,logic,"ASSERT US.0183.10161 satisfied
+
+
+$rule_id = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+exists({@BalanceSheetLocationAxis=* where ($fact.concept.period-type == duration and $fact.concept.data-type.name == xbrli:monetaryItemType)}#BSLocationFact)
+message
+""The value {$BSLocationFact} for {$BSLocationFact.concept.name} has been broken down using the axis BalanceSheetLocationAxis. This is a duration element. Duration elements should not be used with the balance sheet location axis. The BalanceSheetLocationAxis is used to show where a value appears in a Balance Sheet. If the element represent the explanation of the balance sheet accounts to which an accrual or duration element has been applied then one of the following two axis may be more appropriate:
+- StatementOfFinancialPositionLocationActivityAccrualAxis or 
+- StatementOfFinancialPositionLocationActivityCapitalizationAxis
+
+The properties of this {$BSLocationFact.concept.name} fact are:
+Period :{$BSLocationFact.period}
+Dimensions : {$BSLocationFact.dimensions.join(', ','=')}
+Unit : {$BSLocationFact.unit}\n
+
+Rule Element Id:{$rule_id}
+Rule version: {$ruleVersion}
+""
+
+severity error
+rule-focus $BSLocationFact
+
+effectiveDate $effective_dates[$rule_id]
+
+
+
+
+","ASSERT US.0183.10161 satisfied
+
+
+$rule_id = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+exists({@StatementOfFinancialPositionLocationBalanceAxis=* where ($fact.concept.period-type == duration and $fact.concept.data-type.name == xbrli:monetaryItemType)}#BSLocationFact)
+message
+""The value {$BSLocationFact} for {$BSLocationFact.concept.name} has been broken down using the axis StatementOfFinancialPositionLocationBalanceAxis. This is a duration element. Duration elements should not be used with the balance sheet location axis. The StatementOfFinancialPositionLocationBalanceAxis is used to show where a value appears in a Balance Sheet. If the element represent the explanation of the balance sheet accounts to which an accrual or duration element has been applied then one of the following two axis may be more appropriate:
+- StatementOfFinancialPositionLocationActivityAccrualAxis or 
+- StatementOfFinancialPositionLocationActivityCapitalizationAxis
+
+The properties of this {$BSLocationFact.concept.name} fact are:
+Period :{$BSLocationFact.period}
+Dimensions : {$BSLocationFact.dimensions.join(', ','=')}
+Unit : {$BSLocationFact.unit}\n
+
+Rule Element Id:{$rule_id}
+Rule version: {$ruleVersion}
+""
+
+severity error
+rule-focus $BSLocationFact
+
+effectiveDate $effective_dates[$rule_id]
+
+
+
+
+","- BalanceSheetLocationAxis: deprecated in 2026; replaced by StatementOfFinancialPositionLocationBalanceAxis
+- StatementOfFinancialPositionLocationActivityAccrualAxis: deprecated in 2026; replaced by SfpLocationActivityAccrualAxis
+- StatementOfFinancialPositionLocationActivityCapitalizationAxis: deprecated in 2026; replaced by SfpLocationActivityCapitalizationAxis",BalanceSheetLocationAxis;StatementOfFinancialPositionLocationActivityAccrualAxis;StatementOfFinancialPositionLocationActivityCapitalizationAxis,"ASSERT US.0183.10161 satisfied
+
+
+$rule_id = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+exists({@StatementOfFinancialPositionLocationBalanceAxis=* where ($fact.concept.period-type == duration and $fact.concept.data-type.name == xbrli:monetaryItemType)}#BSLocationFact)
+message
+""The value {$BSLocationFact} for {$BSLocationFact.concept.name} has been broken down using the axis StatementOfFinancialPositionLocationBalanceAxis. This is a duration element. Duration elements should not be used with the balance sheet location axis. The StatementOfFinancialPositionLocationBalanceAxis is used to show where a value appears in a Balance Sheet. If the element represent the explanation of the balance sheet accounts to which an accrual or duration element has been applied then one of the following two axis may be more appropriate:
+- SfpLocationActivityAccrualAxis or 
+- SfpLocationActivityCapitalizationAxis
+
+The properties of this {$BSLocationFact.concept.name} fact are:
+Period :{$BSLocationFact.period}
+Dimensions : {$BSLocationFact.dimensions.join(', ','=')}
+Unit : {$BSLocationFact.unit}\n
+
+Rule Element Id:{$rule_id}
+Rule version: {$ruleVersion}
+""
+
+severity error
+rule-focus $BSLocationFact
+
+effectiveDate $effective_dates[$rule_id]
+
+
+
+
+"
+DQC_0183.xule,US.0183.10162,2025,2026,logic,"ASSERT US.0183.10162 satisfied
+
+$rule_id = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+$Income_Statement_Items = $INCOME_STATEMENT_CONCEPTS + set(ContractWithCustomerLiabilityRevenueRecognized)
+
+exists({@concept not in $Income_Statement_Items @StatementOfFinancialPositionLocationActivityAccrualAxis = * where $fact.concept.name not in $EXTENSION_QNAME}#BSLocationFact)
+
+message
+""The value {$BSLocationFact} for {$BSLocationFact.concept.name} has been broken down using the axis StatementOfFinancialPositionLocationActivityAccrualAxis and the member {$BSLocationFact.dimension(StatementOfFinancialPositionLocationActivityAccrualAxis).name}. This  axis should be used when a filer needs to disclose where a revenue or expense item has been reported as an effect on a statement of position line item. The concept reported is not a a concept that is an accrual concept that can be allocated to a Financial Statement account. See FASB guidance at https:
+
+The properties of this {$BSLocationFact.concept.name} fact are:
+Period :{$BSLocationFact.period}
+Dimensions : {$BSLocationFact.dimensions.join(', ','=')}
+Unit : {$BSLocationFact.unit}\n
+
+Rule Element Id:{$rule_id}
+Rule version: {$ruleVersion}
+""
+
+severity error
+rule-focus $BSLocationFact
+
+effectiveDate $effective_dates[$rule_id]
+
+","ASSERT US.0183.10162 satisfied
+
+$rule_id = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+$Income_Statement_Items = $INCOME_STATEMENT_CONCEPTS + set(ContractWithCustomerLiabilityRevenueRecognized)
+
+exists({@concept not in $Income_Statement_Items @SfpLocationActivityAccrualAxis = * where $fact.concept.name not in $EXTENSION_QNAME}#BSLocationFact)
+
+message
+""The value {$BSLocationFact} for {$BSLocationFact.concept.name} has been broken down using the axis SfpLocationActivityAccrualAxis and the member {$BSLocationFact.dimension(SfpLocationActivityAccrualAxis).name}. This  axis should be used when a filer needs to disclose where a revenue or expense item has been reported as an effect on a statement of position line item. The concept reported is not a a concept that is an accrual concept that can be allocated to a Financial Statement account. See FASB guidance at https:
+
+The properties of this {$BSLocationFact.concept.name} fact are:
+Period :{$BSLocationFact.period}
+Dimensions : {$BSLocationFact.dimensions.join(', ','=')}
+Unit : {$BSLocationFact.unit}\n
+
+Rule Element Id:{$rule_id}
+Rule version: {$ruleVersion}
+""
+
+severity error
+rule-focus $BSLocationFact
+
+effectiveDate $effective_dates[$rule_id]
+
+",- StatementOfFinancialPositionLocationActivityAccrualAxis: deprecated in 2026; replaced by SfpLocationActivityAccrualAxis,StatementOfFinancialPositionLocationActivityAccrualAxis,"ASSERT US.0183.10162 satisfied
+
+$rule_id = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+$Income_Statement_Items = $INCOME_STATEMENT_CONCEPTS + set(ContractWithCustomerLiabilityRevenueRecognized)
+
+exists({@concept not in $Income_Statement_Items @SfpLocationActivityAccrualAxis = * where $fact.concept.name not in $EXTENSION_QNAME}#BSLocationFact)
+
+message
+""The value {$BSLocationFact} for {$BSLocationFact.concept.name} has been broken down using the axis SfpLocationActivityAccrualAxis and the member {$BSLocationFact.dimension(SfpLocationActivityAccrualAxis).name}. This  axis should be used when a filer needs to disclose where a revenue or expense item has been reported as an effect on a statement of position line item. The concept reported is not a a concept that is an accrual concept that can be allocated to a Financial Statement account. See FASB guidance at https:
+
+The properties of this {$BSLocationFact.concept.name} fact are:
+Period :{$BSLocationFact.period}
+Dimensions : {$BSLocationFact.dimensions.join(', ','=')}
+Unit : {$BSLocationFact.unit}\n
+
+Rule Element Id:{$rule_id}
+Rule version: {$ruleVersion}
+""
+
+severity error
+rule-focus $BSLocationFact
+
+effectiveDate $effective_dates[$rule_id]
+
+"
+DQC_0183.xule,US.0183.10177,2025,2026,logic,"ASSERT US.0183.10177 satisfied
+
+$rule_id = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+exists({@StatementOfFinancialPositionLocationActivityAccrualAxis = * where $fact.concept.period-type == instant }#AccrualAxisFact)
+
+message
+""The value {$AccrualAxisFact} for {$AccrualAxisFact.concept.name} has been broken down using the axis StatementOfFinancialPositionLocationActivityAccrualAxis and the member {$AccrualAxisFact.dimension(StatementOfFinancialPositionLocationActivityAccrualAxis).name}. This concept is an instant concept. This  axis should only be used with a duration concept. See FASB guidance at https:
+
+The properties of this {$AccrualAxisFact.concept.name} fact are:
+Period :{$AccrualAxisFact.period}
+Dimensions : {$AccrualAxisFact.dimensions.join(', ','=')}
+
+Rule Element Id:{$rule_id}
+Rule version: {$ruleVersion}
+""
+
+severity error
+rule-focus $AccrualAxisFact
+
+effectiveDate $effective_dates[$rule_id]
+
+","ASSERT US.0183.10177 satisfied
+
+$rule_id = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+exists({@SfpLocationActivityAccrualAxis = * where $fact.concept.period-type == instant }#AccrualAxisFact)
+
+message
+""The value {$AccrualAxisFact} for {$AccrualAxisFact.concept.name} has been broken down using the axis SfpLocationActivityAccrualAxis and the member {$AccrualAxisFact.dimension(SfpLocationActivityAccrualAxis).name}. This concept is an instant concept. This  axis should only be used with a duration concept. See FASB guidance at https:
+
+The properties of this {$AccrualAxisFact.concept.name} fact are:
+Period :{$AccrualAxisFact.period}
+Dimensions : {$AccrualAxisFact.dimensions.join(', ','=')}
+
+Rule Element Id:{$rule_id}
+Rule version: {$ruleVersion}
+""
+
+severity error
+rule-focus $AccrualAxisFact
+
+effectiveDate $effective_dates[$rule_id]
+
+",- StatementOfFinancialPositionLocationActivityAccrualAxis: deprecated in 2026; replaced by SfpLocationActivityAccrualAxis,StatementOfFinancialPositionLocationActivityAccrualAxis,"ASSERT US.0183.10177 satisfied
+
+$rule_id = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+exists({@SfpLocationActivityAccrualAxis = * where $fact.concept.period-type == instant }#AccrualAxisFact)
+
+message
+""The value {$AccrualAxisFact} for {$AccrualAxisFact.concept.name} has been broken down using the axis SfpLocationActivityAccrualAxis and the member {$AccrualAxisFact.dimension(SfpLocationActivityAccrualAxis).name}. This concept is an instant concept. This  axis should only be used with a duration concept. See FASB guidance at https:
+
+The properties of this {$AccrualAxisFact.concept.name} fact are:
+Period :{$AccrualAxisFact.period}
+Dimensions : {$AccrualAxisFact.dimensions.join(', ','=')}
+
+Rule Element Id:{$rule_id}
+Rule version: {$ruleVersion}
+""
+
+severity error
+rule-focus $AccrualAxisFact
+
+effectiveDate $effective_dates[$rule_id]
+
+"
+DQC_0183.xule,US.0183.10178,2025,2026,logic,"ASSERT US.0183.10178 satisfied
+
+$rule_id = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+exists({@StatementOfFinancialPositionLocationActivityCapitalizationAxis = * where $fact.concept.period-type == instant }#CapitalizationAxis)
+
+message
+""The value {$CapitalizationAxis} for {$CapitalizationAxis.concept.name} has been broken down using the axis StatementOfFinancialPositionLocationActivityCapitalizationAxis and the member {$CapitalizationAxis.dimension(StatementOfFinancialPositionLocationActivityCapitalizationAxis).name}. This concept is an instant concept. This  axis should only be used with a duration concept. See FASB guidance at https:
+
+The properties of this {$CapitalizationAxis.concept.name} fact are:
+Period :{$CapitalizationAxis.period}
+Dimensions : {$CapitalizationAxis.dimensions.join(', ','=')}
+
+Rule Element Id:{$rule_id}
+Rule version: {$ruleVersion}
+""
+
+severity error
+rule-focus $CapitalizationAxis
+
+effectiveDate $effective_dates[$rule_id]
+","ASSERT US.0183.10178 satisfied
+
+$rule_id = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+exists({@SfpLocationActivityCapitalizationAxis = * where $fact.concept.period-type == instant }#CapitalizationAxis)
+
+message
+""The value {$CapitalizationAxis} for {$CapitalizationAxis.concept.name} has been broken down using the axis SfpLocationActivityCapitalizationAxis and the member {$CapitalizationAxis.dimension(SfpLocationActivityCapitalizationAxis).name}. This concept is an instant concept. This  axis should only be used with a duration concept. See FASB guidance at https:
+
+The properties of this {$CapitalizationAxis.concept.name} fact are:
+Period :{$CapitalizationAxis.period}
+Dimensions : {$CapitalizationAxis.dimensions.join(', ','=')}
+
+Rule Element Id:{$rule_id}
+Rule version: {$ruleVersion}
+""
+
+severity error
+rule-focus $CapitalizationAxis
+
+effectiveDate $effective_dates[$rule_id]
+",- StatementOfFinancialPositionLocationActivityCapitalizationAxis: deprecated in 2026; replaced by SfpLocationActivityCapitalizationAxis,StatementOfFinancialPositionLocationActivityCapitalizationAxis,"ASSERT US.0183.10178 satisfied
+
+$rule_id = (rule-name().split('.'))[rule-name().split('.').length];
+
+
+if not applicable_form(rule-name())
+	skip
+else
+
+exists({@SfpLocationActivityCapitalizationAxis = * where $fact.concept.period-type == instant }#CapitalizationAxis)
+
+message
+""The value {$CapitalizationAxis} for {$CapitalizationAxis.concept.name} has been broken down using the axis SfpLocationActivityCapitalizationAxis and the member {$CapitalizationAxis.dimension(SfpLocationActivityCapitalizationAxis).name}. This concept is an instant concept. This  axis should only be used with a duration concept. See FASB guidance at https:
+
+The properties of this {$CapitalizationAxis.concept.name} fact are:
+Period :{$CapitalizationAxis.period}
+Dimensions : {$CapitalizationAxis.dimensions.join(', ','=')}
+
+Rule Element Id:{$rule_id}
+Rule version: {$ruleVersion}
+""
+
+severity error
+rule-focus $CapitalizationAxis
+
+effectiveDate $effective_dates[$rule_id]
+"
