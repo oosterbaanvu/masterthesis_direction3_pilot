@@ -74,13 +74,33 @@ logic (comments, years, bookkeeping lines and message text removed) against the 
 | --- | --- | --- |
 | No change (copy old rule) | 0 of 16 | 0.98 |
 | Find and replace with the named replacement (no AI) | 10 of 16 | 0.99 |
-| qwen2.5-coder-7b with change notes | LLM_EXACT | LLM_SIM |
+| qwen2.5-coder-7b with change notes | 14 of 16 | 1.00 |
 
-LLM_NOTE
+The model solved all 10 cases that find and replace solves, and 4 of the 6 it does not. In those 4, a concept had
+been removed from the taxonomy without a named successor, and the official update deletes the reference to it (an item
+in a list, or an exception clause); the model did the same. It failed twice: in DQC_0046 (2023 to 2024) the committee
+replaced a deprecated concept by a new concept that the taxonomy files do not name as its replacement, and in
+DQC_0189 (2024 to 2025) the model left the removed concept in the rule (similarity 0.96). Mean time was about 2
+minutes per case on a 4-core CPU (3 threads), temperature 0, one run per case.
+
+Caveats: 16 cases, one model, one run; scoring on the logic only (message text ignored). The cases are the easiest kind,
+because they were selected for being explained by the taxonomy change files, from which the change notes are also
+derived. The model was released in November 2024; whether it can have seen the 2025 and 2026 rule versions during
+training has not been checked against publication dates yet.
 
 ## 6. What this means for the thesis
 
-LLM_IMPLICATIONS
+- The material for RQ1 exists: 62 substantive DQC logic changes and 56 new assertions in three yearly updates, and
+  1,406 EBA formula changes, all dated, and for DQC with machine-readable causes for 28 of the 62 logic changes.
+- Simple methods are strong baselines: find and replace solves 10 of 16 explained cases, and the concept radar finds
+  40% of the changed files at 55% precision. AI must be measured against these, not against doing nothing.
+- On the explained cases, a small local model already reaches 14 of 16. The informative part of the benchmark is
+  therefore the 34 DQC logic changes that the deprecation files do not explain (corrections, scope changes), the EBA
+  template changes (which need the DPM), and the radar task of finding which rules must change.
+- Contamination must be controlled by publication date; a prospective test on a newly published taxonomy year or EBA
+  release is the cleanest check.
+- First benchmark version: `dqc_changes.csv.gz`, `explained_changes.csv`, `update_cases.csv`, `update_results.csv`
+  and `eba_changes.csv.gz` in `results/pilot_b/`.
 
 Limitations: one model, one prompt, 16 cases; the manual samples are small (12 DQC, 10 EBA) and were read by one
 person; the radar does not yet use constant files; EBA template changes were not linked to the DPM.
