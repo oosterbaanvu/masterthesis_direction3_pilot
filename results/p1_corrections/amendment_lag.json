@@ -1,0 +1,14 @@
+{
+  "pairs": 1294,
+  "median_days_all_pairs": 86.0,
+  "originals_2023": 652,
+  "median_days_originals_2023": 93.0,
+  "share_within_days_originals_2023": {
+    "30": 0.284,
+    "90": 0.488,
+    "180": 0.707,
+    "365": 0.948
+  },
+  "max_days_originals_2023": 757,
+  "note": "Conditional on an amendment accepted by 2025q2; later amendments are not observed."
+}
