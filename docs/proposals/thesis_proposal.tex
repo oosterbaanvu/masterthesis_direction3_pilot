@@ -109,14 +109,14 @@ Term & Meaning in this proposal \\
 Reporting standard & The dictionary of names that reports must use, with their meaning. For US company reports this is the US GAAP taxonomy (US GAAP are the US accounting rules; a taxonomy is a dictionary of reporting names), published every year by the Financial Accounting Standards Board (FASB). Each yearly version is a \emph{taxonomy year}. For European banks it is the EBA reporting framework: numbered report tables with rows and columns. \\
 Deprecated name & A name that a new version of the standard marks as outdated, often with a named successor. It is usually removed in a later version. \\
 Change files & Files published with each US taxonomy year that list deprecated and removed names and, where one exists, the name that replaces them. A \emph{change notice} is a short summary of these files that is given to a model. \\
-Report, filing & A set of numbers that a company or bank submits to a supervisor. Each number is a \emph{fact}: a name from the standard, a value, a date or period, and a unit. \\
+Report, filing & A set of numbers that a company or bank submits to a supervisor. US listed companies file a quarterly report (form 10-Q) and an annual report (form 10-K) with the SEC. Each number is a \emph{fact}: a name from the standard, a value, a date or period, and a unit. \\
 XBRL & The digital format in which each number in a report is labelled with its name, date and unit. \\
 Validation rule & A small program that checks a report. When the check fails, the rule raises an \emph{alert}. Each DQC rule is one file that contains one or more checks, called \emph{sub-rules}. \\
 DQC & XBRL US Data Quality Committee. Publishes about 180 rules for US company reports, with their code and official test cases. \\
 EBA & European Banking Authority. Publishes the report tables and validation rules for European banks. \\
 Alert, alert budget & An alert is a value flagged for a person to review. The alert budget is the number of alerts per report that a team is willing to review. \\
 Planted error & An error deliberately introduced into a copy of a report, at a recorded location. Used to test whether a rule catches it. A copy without planted errors is a \emph{clean copy}. \\
-Amended report & A corrected version of a report that a company files later. A changed number may reveal an error in the original. \\
+Amended report & A corrected version of a report that a company files later (form 10-Q/A or 10-K/A). A changed number may reveal an error in the earlier version. \\
 Shadow mode & A new rule runs on real data and its alerts are stored, but it does not stop or change any data. \\
 Monitor, warn, block & The three action levels of a rule: record alerts only; let data through with a warning; hold data for review. \\
 Language model & An AI system that reads text and writes text or code. \emph{Open-weight} models can be downloaded and run on one's own computers, so no data leaves the organisation. \\
@@ -195,7 +195,7 @@ The experts correct their own rule & In a hand-checked pilot sample of 12 DQC ch
 \section{Pilot work and choice of research direction}
 \label{sec:pilots}
 
-The research direction was developed between September and November 2026 through three pilots, a small EBA side study and a test of historical rule execution. The figures below are the author's unpublished results; working reports, scripts and data are in the public pilot repository \cite{pilotreport,feasibility,pilotb,repo}. Table~\ref{tab:pilots} summarises what each study showed and how it shaped the research questions.
+The research direction was developed between September and November 2026 through three pilots, a small EBA side study and a test of historical rule execution. The figures below are unpublished pilot results; working reports, scripts and data are in the public pilot repository \cite{pilotreport,feasibility,pilotb,repo}. Table~\ref{tab:pilots} summarises what each study showed and how it shaped the research questions.
 
 \begin{table}[htb]
 \centering
@@ -223,7 +223,7 @@ The pilot compared existing rules and statistical checks with seven detectors, i
 
 \subsection{Pilot 2: language models writing financial rules}
 
-US listed companies submit financial reports to the Securities and Exchange Commission (SEC). The numbers are labelled with standard accounting names in XBRL. The DQC publishes rules for these reports, together with their code and test reports with the expected results \cite{dqc,fsds}. The pilot asked two small open-weight models, Qwen2.5-Coder-7B and Qwen3-8B \cite{qwen25coder,qwen3}, to write rules from the descriptions of DQC rules, and to propose new rules for errors that the existing controls missed.
+US listed companies submit financial reports to the Securities and Exchange Commission (SEC): a quarterly report (form 10-Q) for each of the first three quarters and an annual report (form 10-K). These reports contain the company's financial statements, such as the balance sheet. Each number in them is also labelled in XBRL with a standard accounting name, a date and a unit, so that software can read and check it (Figure~\ref{fig:amend}, steps 1 and 2). The DQC publishes rules for these reports, together with their code and test reports with the expected results \cite{dqc,fsds}. The pilot asked two small open-weight models, Qwen2.5-Coder-7B and Qwen3-8B \cite{qwen25coder,qwen3}, to write rules from the descriptions of DQC rules, and to propose new rules for errors that the existing controls missed.
 
 The models often failed to reproduce the official rules. On the 10 DQC rules published before the models were released, the code written by the models raised about 41\% of the alerts that the official rules raise on the committee's test reports. On the 6 rules published later, it raised 3\% (Qwen2.5-Coder-7B) and 13\% (Qwen3-8B) \cite{pilotreport}. These groups are small, but the drop is consistent with the models having seen the older rules during training. This is why the thesis controls for prior exposure (Section~\ref{sec:rq1}).
 
@@ -234,11 +234,58 @@ A follow-up looked at individual generated sub-rules. Only sub-rules that caught
 \subsection{SEC corrections and the historical test}
 \label{sec:feasibility}
 
-SEC data also makes it possible to compare original reports with the amended reports that companies filed later. At first this seemed to provide real errors. A closer review showed why that assumption is unsafe. The author checked 20 correction candidates against the SEC documents, with an AI pre-fill that the author then verified. In nine cases the original number was judged wrong, but seven of these were changes to the company's underlying accounts. Two appeared to be tagging problems: one number carried the wrong accounting name, and one quarterly amount was marked as covering a full year. In three cases the original was not wrong, and eight remained unclear \cite{pilotreport,repo}. A rule can detect a wrong name or an inconsistent period. It generally cannot establish that an amount was wrong when the original report accurately reflected the company's accounts at the time. A dataset of real errors therefore needs careful individual review (Section~\ref{sec:d5}).
+Companies sometimes file a corrected version of a report, called an amended report (form 10-Q/A or 10-K/A). By comparing two versions of the same report number by number, one can see which numbers changed (Figure~\ref{fig:amend}). At first sight, every changed number looks like an error in the earlier version. A closer look shows that this is often not the case.
+
+\begin{figure}[htb]
+\centering
+\begin{tikzpicture}[node distance=3mm and 6mm]
+\tikzset{
+  hdr/.style={font=\small\bfseries, text width=4.58cm, align=left, inner sep=0pt},
+  doc/.style={draw=cA, fill=cA!5, rounded corners=1pt, font=\footnotesize, inner sep=4pt, text width=4.3cm, align=left, minimum height=2.75cm},
+  fact/.style={draw=black!40, fill=black!4, rounded corners=1pt, font=\footnotesize, inner sep=4pt, text width=4.3cm, align=left, minimum height=1.95cm},
+  out/.style={box=#1, font=\footnotesize, text width=3.12cm, minimum height=4.7cm, anchor=north west},
+}
+\node[hdr] (h1) {1.\ A report as filed};
+\node[doc, below=2mm of h1.south west, anchor=north west] (d1) {\textbf{Quarterly report}\\for July--September 2023,\\version filed in March 2024\\[3pt]\textit{Balance sheet, 30 Sept.\ 2023}\\\dots\\Total assets \hfill \$7,170,767};
+\node[fact, below=of d1] (f1) {\textbf{The same number in XBRL}\\name: \texttt{Assets}\\value: 7,170,767 \quad unit: USD\\date: 30 September 2023};
+\node[hdr, right=6mm of h1] (h2) {2.\ A corrected version};
+\node[doc, below=2mm of h2.south west, anchor=north west] (d2) {\textbf{Amended report}\\(form 10-Q/A),\\filed in August 2024\\[3pt]\textit{Balance sheet, 30 Sept.\ 2023}\\\dots\\Total assets \hfill \textcolor{cR}{\$4,670,767}};
+\node[fact, below=of d2] (f2) {\textbf{The same number in XBRL}\\name: \texttt{Assets}\\value: \textcolor{cR}{4,670,767} \quad unit: USD\\date: 30 September 2023};
+\node[hdr, right=6mm of h2] (h3) {3.\ Compare the versions};
+\node[box=cG, font=\footnotesize, text width=4.3cm, anchor=north west] (cmp) at ($(h3.south west)+(0,-2mm)$) {Each number in the earlier version is matched to the number with the same name, date and unit in the corrected version.\\[4pt]
+{\setlength{\tabcolsep}{3pt}\begin{tabular}{@{}lrr@{}}
+ & earlier & corrected\\
+\texttt{Assets} & 7,170,767 & \textcolor{cR}{4,670,767}\\
+\end{tabular}}\\[4pt]
+The value changed, so this is a \emph{candidate correction}. But was the earlier number an error?};
+\draw[arr] (d1) -- (f1);
+\draw[arr] (d2) -- (f2);
+\draw[arr] (d1.east) -- (d2.west);
+\draw[arr] (d2.east) -- (d2.east -| cmp.west);
+\draw[arr] (f2.east) -- (f2.east -| cmp.west);
+\node[font=\small\bfseries, anchor=north west, text width=14.6cm, align=left, inner sep=0pt] (h4) at ($(f1.south west)+(0,-7mm)$) {4.\ Why did the number change? Outcome for the 20 numbers checked};
+\draw[arr] (cmp.south) -- (cmp.south |- h4.north);
+\node[out=cB] (o1) at ($(h4.south west)+(0,-2.5mm)$) {\textbf{A mistake in the report itself}\\[2pt]e.g.\ an amount for one quarter labelled as covering a whole year. A validation rule \emph{could} catch this.\\[4pt]\textbf{2 of 20}};
+\node[out=cG] (o2) at ($(o1.north east)+(3.5mm,0)$) {\textbf{Bookkeeping corrected later (restatement)}\\[2pt]e.g.\ the example above: notes receivable reduced by \$2,500,000. The earlier report matched the books at the time, so no rule could catch this.\\[4pt]\textbf{7 of 20}};
+\node[out=cG] (o3) at ($(o2.north east)+(3.5mm,0)$) {\textbf{The number was not wrong}\\[2pt]e.g.\ the same value filed under another name, or an amendment filed for another reason.\\[4pt]\textbf{3 of 20}};
+\node[out=cG] (o4) at ($(o3.north east)+(3.5mm,0)$) {\textbf{Unclear}\\[2pt]The documents do not show whether the earlier number was wrong.\\[4pt]\textbf{8 of 20}};
+\end{tikzpicture}
+\caption{What a report and an amended report are, with a real example from the pilot (company name omitted). This quarterly report was filed in several versions; the figure compares the versions of March and August 2024. Step 4 shows the outcome for the 20 changed numbers checked in the pilot \cite{pilotreport,repo}.}
+\label{fig:amend}
+\end{figure}
+
+In the pilot, 20 changed numbers were checked one by one against the SEC documents and the companies' own explanations of the amendment \cite{pilotreport,repo}:
+\begin{itemize}
+\item In 9 cases the earlier number was wrong. In 7 of these, the company later corrected its own bookkeeping, which is called a restatement. The earlier report showed what was in the company's books at the time, so the mistake was not visible in the report itself. Only 2 were mistakes in the report: one number was filed under the wrong accounting name, and one amount for a single quarter was labelled as covering a whole year.
+\item In 3 cases the earlier number was not wrong: the same value was only filed under a different name, or the amendment was filed for an unrelated reason.
+\item In 8 cases the documents did not make clear whether the earlier number was wrong.
+\end{itemize}
+
+This difference matters for validation rules. A rule can catch a mistake in the report itself, such as a wrong name or a period that does not fit the report. It cannot catch a number that matched the company's books when it was filed and was only changed later. A changed number in an amended report is therefore not automatically an error that a rule should find. For this reason, the dataset of real errors used in this thesis reviews each change individually (dataset D5, Section~\ref{sec:d5}).
 
 The same data shows how long corrections take to appear. Of the 652 original reports filed in 2023 that were amended by mid-2025, about half were amended within 90 days and 95\% within a year \cite{repo}. This share is slightly optimistic, because amendments filed after mid-2025 are not in the data. A historical test can therefore treat reports filed more than a year before the corrections are collected as close to complete; more recent reports cannot be treated that way.
 
-A separate test replayed 29 SEC reports filed between February 2023 and March 2025. The official DQC checks ran on 22 of them; five used the 2022 taxonomy, for which the current DQC rule package has no rules, and two downloads failed. Of the 886 DQC alerts, 404 (46\%) came from rules that were first published after the report was filed; the test filtered the current rule package by each rule's first release date \cite{feasibility}. Of the 13 hand-checked corrections that could be located in these reports, none was flagged by any rule, expert or AI. Real errors that a rule can detect are rare, and this shapes the expectations for RQ3. A historical evaluation must therefore distinguish what today's rules find from what was possible at the time. This test is the starting point for RQ3.
+A separate test replayed 29 SEC reports filed between February 2023 and March 2025. The official DQC checks ran on 22 of them; five used the 2022 taxonomy, for which the current DQC rule package has no rules, and two downloads failed. Of the 886 DQC alerts, 404 (46\%) came from rules that were first published after the report was filed; the test filtered the current rule package by each rule's first release date \cite{feasibility}. A historical evaluation must therefore distinguish what today's rules find from what was possible at the time. In the same test, none of the 13 checked corrections that could be located in these reports was flagged by any rule, expert or AI. Real errors that a rule can detect are rare, which shapes the expectations for RQ3. This test is the starting point for RQ3.
 
 \subsection{Pilot 3: rules that change with the standard}
 \label{sec:pilotb}
@@ -586,9 +633,9 @@ D5 will be created during the thesis. When a company files an amended report, th
 \node[box=cA, text width=6.6cm, below=of o1] (a1) {\textbf{Amended report}\\Same amount, period corrected to the three months ending 31 March 2023.};
 \node[box=cB, text width=6.6cm, below=of a1] (c1) {\textbf{Pilot conclusion}\\A reporting error that was visible in the original. A rule could check whether a figure in a quarterly report covers a quarter.};
 \node[font=\small\bfseries, anchor=west] (h2) at (7.6,0) {Case 2: an accounting restatement};
-\node[box=cA, text width=6.6cm, below=2mm of h2.south west, anchor=north west] (o2) {\textbf{Original quarterly report}\\\texttt{Assets} = 7,170,767 USD on 30 September 2023.};
-\node[box=cA, text width=6.6cm, below=of o2] (a2) {\textbf{Amended report}\\\texttt{Assets} = 4,670,767 USD, after the company reduced notes receivable by 2,500,000 in a restatement.};
-\node[box=cG, text width=6.6cm, below=of a2] (c2) {\textbf{Pilot conclusion}\\The original matched the company's accounts at the time. No validation rule could have flagged it.};
+\node[box=cA, text width=6.6cm, below=2mm of h2.south west, anchor=north west] (o2) {\textbf{Quarterly report, version of March 2024}\\\texttt{Assets} = 7,170,767 USD on 30 September 2023.};
+\node[box=cA, text width=6.6cm, below=of o2] (a2) {\textbf{Corrected version, August 2024}\\\texttt{Assets} = 4,670,767 USD, after the company reduced notes receivable by 2,500,000 in a restatement.};
+\node[box=cG, text width=6.6cm, below=of a2] (c2) {\textbf{Pilot conclusion}\\The earlier version matched the company's accounts at the time. No validation rule could have flagged it.};
 \draw[arr] (o1) -- (a1); \draw[arr] (a1) -- (c1);
 \draw[arr] (o2) -- (a2); \draw[arr] (a2) -- (c2);
 % build steps
@@ -596,16 +643,16 @@ D5 will be created during the thesis. When a company files an amended report, th
 \node[sbox, anchor=north west] (s1) at ($(c1.south west |- c2.south)+(0,-8mm)$) {1,294 amended reports, 2023 to mid-2025};
 \node[sbox, right=4mm of s1] (s2) {Compare original and amended, fact by fact};
 \node[sbox, right=4mm of s2] (s3) {Select 300 changed facts: signs, units, names, periods};
-\node[sbox, right=4mm of s3] (s4) {Author labels from the documents, without AI pre-fill};
+\node[sbox, right=4mm of s3] (s4) {Each item labelled directly from the documents};
 \node[sbox, right=4mm of s4] (s5) {Second reviewer checks 100 items; agreement (kappa)};
 \draw[arr] (s1) -- (s2); \draw[arr] (s2) -- (s3); \draw[arr] (s3) -- (s4); \draw[arr] (s4) -- (s5);
 \node[note, anchor=north west, text width=15.0cm] at ($(s1.south west)+(0,-2mm)$) {Labels: reporting error visible in the original \textbullet{} accounting restatement \textbullet{} presentation change only \textbullet{} uncertain. Separately, 200 randomly drawn alerts on reports that were never amended are checked, to estimate the share of false alarms.};
 \end{tikzpicture}
-\caption{Top: two real correction cases from the pilot review, labelled by the author after an AI pre-fill and checked against the SEC documents \cite{pilotreport,repo}; company names omitted. Bottom: how D5 is built.}
+\caption{Top: two real correction cases from the pilot review, checked against the SEC documents \cite{pilotreport,repo}; company names omitted. Case 2 is the example of Figure~\ref{fig:amend}. Bottom: how D5 is built.}
 \label{fig:d5}
 \end{figure}
 
-The target is 300 changed facts, selected across companies and kinds of correction, with emphasis on changes that resemble reporting errors: wrong signs, units, names or periods. For each item the dataset stores the company, the filing dates, the original and amended fact, where the evidence was found, the kind of change, whether the original was wrong, and whether a rule could have detected the problem from the original report alone. The author labels the items from the source documents without an AI pre-fill. A second reviewer independently checks 100 items where possible, and agreement is reported with Cohen's kappa \cite{cohen}. Unresolved cases remain labelled as uncertain. Table~\ref{tab:review} lists the questions a reviewer answers for typical cases.
+The target is 300 changed facts, selected across companies and kinds of correction, with emphasis on changes that resemble reporting errors: wrong signs, units, names or periods. For each item the dataset stores the company, the filing dates, the original and amended fact, where the evidence was found, the kind of change, whether the original was wrong, and whether a rule could have detected the problem from the original report alone. We label each item directly from the source documents. A second reviewer independently checks 100 items where possible, and agreement is reported with Cohen's kappa \cite{cohen}. Unresolved cases remain labelled as uncertain. Table~\ref{tab:review} lists the questions a reviewer answers for typical cases.
 
 \begin{table}[htb]
 \centering
@@ -801,7 +848,7 @@ RQ3 tests the updated rules from RQ1 and the selected new rules from both RQ2 se
 \label{fig:time}
 \end{figure}
 
-\textbf{Prospective run.} Before the final run, the selected rules and the approval thresholds are frozen and stored in the public repository as a dated version that cannot be changed afterwards. They are then run every week on new SEC reports during the thesis, and their alerts are stored before any corrections are known. In this part of the test, nobody can know the outcome in advance, including the author. Only about 2\% of reports are later amended (1,294 of 68,875 in the pilot data), about half of the amendments arrive within 90 days, and only a small share of them are reporting errors. The run is therefore expected to find few or no real errors within the thesis. Its main evidence is how frozen rules behave on reports that nobody had seen when the rules were fixed: whether they still run, and how many alerts they raise.
+\textbf{Prospective run.} Before the final run, the selected rules and the approval thresholds are frozen and stored in the public repository as a dated version that cannot be changed afterwards. They are then run every week on new SEC reports during the thesis, and their alerts are stored before any corrections are known. In this part of the test, nobody can know the outcome in advance. Only about 2\% of reports are later amended (1,294 of 68,875 in the pilot data), about half of the amendments arrive within 90 days, and only a small share of them are reporting errors. The run is therefore expected to find few or no real errors within the thesis. Its main evidence is how frozen rules behave on reports that nobody had seen when the rules were fixed: whether they still run, and how many alerts they raise.
 
 \textbf{Anticipating expert rules.} The DQC added 16 sub-rules in its 2026 version and 6 in its 2025 version. Where a new sub-rule was published after a model's release, according to the repository history, the study checks whether the rules generated in RQ2 already detected what the new expert rule detects. The number of cases is small, so this is a secondary analysis.
 
