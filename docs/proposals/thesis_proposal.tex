@@ -195,46 +195,50 @@ The experts correct their own rule & In a hand-checked pilot sample of 12 DQC ch
 \section{Pilot work and choice of research direction}
 \label{sec:pilots}
 
-The research direction was developed between September and November 2026 through three pilots, a small EBA side study and a test of historical rule execution. The figures below are unpublished pilot results; working reports, scripts and data are in the public pilot repository \cite{pilotreport,feasibility,pilotb,repo}. Table~\ref{tab:pilots} summarises what each study showed and how it shaped the research questions.
+Between September and November 2026, four small studies were run to find a research direction that is both useful and measurable. Each study asked one question:
+\begin{enumerate}
+\item Can automatic error detectors find mistakes in ordinary tables? (Section~\ref{sec:pilot1})
+\item Can a language model write validation rules for financial reports? (Section~\ref{sec:pilot2})
+\item Do corrected reports give real errors to test rules on? (Section~\ref{sec:feasibility})
+\item When the dictionary of reporting names changes, can the affected rules be found and updated? (Section~\ref{sec:pilotb})
+\end{enumerate}
+Each subsection gives the question, what was done, what was found and what it means for the thesis. The numbers are unpublished pilot results; reports, code and data are in the public pilot repository \cite{pilotreport,feasibility,pilotb,repo}.
 
-\begin{table}[htb]
-\centering
-\small
-\begin{tabularx}{\textwidth}{P{3.2cm} L L}
-\toprule
-Study & Main finding & Consequence for the thesis \\
-\midrule
-Pilot 1: error detectors on public tables & The best extra detector found 11 to 21 of 40 missed errors, but raised 520 to 900 extra alerts per 800 records. & Always count alerts. Use data that comes with real expert rules. \\
-Pilot 2: language models write financial rules & Model-written versions of DQC rules raised 41\% of the official rules' alerts for rules published before the models, and 3--13\% for rules published later. The best set of new rules found 6 extra planted errors at 458 alerts per report. & Select rules by what they add to existing rules (RQ2). Control for models having seen the rules before. \\
-SEC corrections and historical test & 2 of 20 checked corrections were tagging errors that a rule might catch. 46\% of DQC alerts came from rules published after the report was filed. & Build a hand-reviewed set of real errors (dataset D5, Section~\ref{sec:d5}). Replay rules as they were at the time (RQ3). \\
-Pilot 3: rules that change with the standard & Simple name replacement solved 10 of 16 simple updates; a small model solved 14. 34 DQC logic changes are not explained by the change files. & Build a benchmark of published expert updates (RQ1), including the harder changes. \\
-EBA side study & A small model predicted which rules would later be deactivated less well overall than simply ranking rules by formula length. & Study changes that have a published answer, not predictions from formula text. \\
-\bottomrule
-\end{tabularx}
-\caption{Summary of the pilot work (September--November 2026).}
-\label{tab:pilots}
-\end{table}
+\subsection{Pilot 1: error detectors on ordinary tables}
+\label{sec:pilot1}
 
-\subsection{Pilot 1: choosing an error detector}
+\textbf{Question.} Can methods that flag unusual values, without being told any rules, find mistakes that simple rules miss?
 
-The first question was whether the best error detector depends on how mistakes enter a table. An error detector is a method that flags unusual values without being given explicit rules. The pilot used three public datasets: credit-card customers, bank-marketing records and wine measurements \cite{uci-credit,uci-bank,uci-wine}. It changed values on purpose, for example an amount from 250 to 2,500, a removed value or an invalid code. Errors were placed at random, in groups associated with another field, or more often on particular values, following work on realistic error mechanisms \cite{taberr}.
+\textbf{What we did.} We took three public tables, with credit-card customers, bank-marketing records and wine measurements \cite{uci-credit,uci-bank,uci-wine}. We changed values on purpose, for example an amount from 250 to 2,500, and ran seven such detectors next to simple rules. Two of the detectors were published systems, CDC and Raha \cite{cdc,raha}.
 
-The pilot compared existing rules and statistical checks with seven detectors, including two published error-detection systems, CDC and Raha \cite{cdc,raha}. The strongest additional detector found 11 to 21 of 40 errors that the other checks missed, but raised 520 to 900 extra alerts in a batch of 800 records. When a reviewer could inspect only 20 alerts per batch, the net benefit, meaning the extra real errors among those 20 alerts, was small or even negative, because the detector's alerts pushed useful alerts of the existing checks out of the review \cite{repo1}. These datasets also had no independent set of business rules and no verified real errors. The next pilot therefore used reports that come with published expert rules.
+\textbf{What we found.} The best detector found 11 to 21 of the 40 errors that the rules missed. It also flagged 520 to 900 correct values per 800 records. A reviewer who can check only 20 alerts per batch therefore gains little or nothing \cite{repo1}.
 
-\subsection{Pilot 2: language models writing financial rules}
+\textbf{What this means.} An extra check is only useful if it raises few alerts. These tables also come without real expert rules and without verified errors, so the next studies used financial reports, which have both.
 
-US listed companies submit financial reports to the Securities and Exchange Commission (SEC): a quarterly report (form 10-Q) for each of the first three quarters and an annual report (form 10-K). These reports contain the company's financial statements, such as the balance sheet. Each number in them is also labelled in XBRL with a standard accounting name, a date and a unit, so that software can read and check it (Figure~\ref{fig:amend}, steps 1 and 2). The DQC publishes rules for these reports, together with their code and test reports with the expected results \cite{dqc,fsds}. The pilot asked two small open-weight models, Qwen2.5-Coder-7B and Qwen3-8B \cite{qwen25coder,qwen3}, to write rules from the descriptions of DQC rules, and to propose new rules for errors that the existing controls missed.
+\subsection{Pilot 2: language models writing rules for financial reports}
+\label{sec:pilot2}
 
-The models often failed to reproduce the official rules. On the 10 DQC rules published before the models were released, the code written by the models raised about 41\% of the alerts that the official rules raise on the committee's test reports. On the 6 rules published later, it raised 3\% (Qwen2.5-Coder-7B) and 13\% (Qwen3-8B) \cite{pilotreport}. These groups are small, but the drop is consistent with the models having seen the older rules during training. This is why the thesis controls for prior exposure (Section~\ref{sec:rq1}).
+\textbf{Question.} Can a small language model write useful validation rules for company reports?
 
-The pilot also planted errors in 83 altered copies of 12 SEC reports that were set aside for testing. The existing controls (the official DQC rules plus generic and statistical checks) detected 27 of the 83 planted errors. The strongest set of new rules written by a model found six more, but raised on average 458 alerts per report on reports that had never been corrected (measured on 66 reports). The DQC rules raised about 1.8 (measured on 12) \cite{pilotreport}. A rule set that finds a few extra errors while flagging hundreds of correct values is difficult to use.
+\textbf{What we looked at.} US listed companies send quarterly and annual reports to the Securities and Exchange Commission (SEC). Every number in these reports is labelled with a standard name, a date and a unit (Figure~\ref{fig:amend}, steps 1 and 2). The DQC publishes about 180 expert rules for these reports, with test reports that show what each rule must flag \cite{dqc,fsds}.
 
-A follow-up looked at individual generated sub-rules. Only sub-rules that caught planted errors missed by the existing rules, at no more than one alert per report, were kept; one sub-rule passed. On reports set aside for evaluation it detected 3 of 195 planted errors that the existing controls missed, at 0.21 alerts per report. A generic filter that ignores the existing rules needed 3.4 alerts per report for the same three detections, and about twice as many alerts as this selection at larger budgets \cite{repo}. The gain was small, but it raised a useful question for RQ2: which generated rules add something specific to the checks that are already running?
+\textbf{What we did.} Two small open-weight models, Qwen2.5-Coder-7B and Qwen3-8B \cite{qwen25coder,qwen3}, did two tasks. First, they rewrote existing DQC rules from the written description of each rule, so that their code could be compared with the real rule. Second, they proposed new rules. These were tested by planting errors, such as an amount multiplied by 1,000, in 83 copies of 12 reports.
 
-\subsection{SEC corrections and the historical test}
+\textbf{What we found.}
+\begin{itemize}
+\item \emph{Rewriting existing rules.} For 10 rules published before the models were released, the models' code raised about 41\% of the alerts that the real rules raise on the test reports. For 6 rules published later, it raised only 3\% and 13\%. The groups are small, but this suggests that the models had seen the older rules during training \cite{pilotreport}.
+\item \emph{New rules.} The DQC rules and simple checks caught 27 of the 83 planted errors. The best set of new rules caught 6 more, but raised 458 alerts per report, against about 1.8 for the DQC rules \cite{pilotreport}.
+\item \emph{Keeping only useful new rules.} When only new rules were kept that caught errors the DQC rules missed while raising at most one alert per report, one rule remained. On reports that were not used to choose it, it caught 3 of 195 missed errors at 0.21 alerts per report \cite{repo}.
+\end{itemize}
+
+\textbf{What this means.} A new rule should be judged by what it adds to the existing expert rules at a fixed number of alerts (RQ2). Tests must also control for models that have already seen the rules (RQ1).
+
+\subsection{Corrected reports: a source of real errors?}
 \label{sec:feasibility}
 
-Companies sometimes file a corrected version of a report, called an amended report (form 10-Q/A or 10-K/A). By comparing two versions of the same report number by number, one can see which numbers changed (Figure~\ref{fig:amend}). At first sight, every changed number looks like an error in the earlier version. A closer look shows that this is often not the case.
+\textbf{Question.} Do corrected reports give real errors to test rules on?
+
+\textbf{What we looked at.} Companies sometimes file a corrected version of a report, called an \emph{amended report}. Comparing the two versions number by number shows which numbers changed. Figure~\ref{fig:amend} shows a real example.
 
 \begin{figure}[htb]
 \centering
@@ -274,47 +278,50 @@ The value changed, so this is a \emph{candidate correction}. But was the earlier
 \label{fig:amend}
 \end{figure}
 
-In the pilot, 20 changed numbers were checked one by one against the SEC documents and the companies' own explanations of the amendment \cite{pilotreport,repo}:
+\textbf{What we did.} We checked 20 changed numbers one by one against the SEC documents and the companies' own explanations. We also ran the DQC rules on 22 reports filed between February 2023 and March 2025, to see what the rules would have flagged.
+
+\textbf{What we found.}
 \begin{itemize}
-\item In 9 cases the earlier number was wrong. In 7 of these, the company later corrected its own bookkeeping, which is called a restatement. The earlier report showed what was in the company's books at the time, so the mistake was not visible in the report itself. Only 2 were mistakes in the report: one number was filed under the wrong accounting name, and one amount for a single quarter was labelled as covering a whole year.
-\item In 3 cases the earlier number was not wrong: the same value was only filed under a different name, or the amendment was filed for an unrelated reason.
-\item In 8 cases the documents did not make clear whether the earlier number was wrong.
+\item Only 2 of the 20 changes were mistakes in the report itself that a rule could catch. Most (7) were later corrections of the company's bookkeeping, which no rule can see in the earlier report (Figure~\ref{fig:amend}, step 4) \cite{pilotreport,repo}.
+\item In the replay, 46\% of the DQC alerts came from rules that did not yet exist when the report was filed. None of the 13 checked corrections that could be located in these reports was flagged by any rule \cite{feasibility}.
+\item Corrections arrive quickly. Of 652 reports from 2023 that were later amended, half were amended within 90 days and 95\% within a year \cite{repo}.
 \end{itemize}
 
-This difference matters for validation rules. A rule can catch a mistake in the report itself, such as a wrong name or a period that does not fit the report. It cannot catch a number that matched the company's books when it was filed and was only changed later. A changed number in an amended report is therefore not automatically an error that a rule should find. For this reason, the dataset of real errors used in this thesis reviews each change individually (dataset D5, Section~\ref{sec:d5}).
-
-The same data shows how long corrections take to appear. Of the 652 original reports filed in 2023 that were amended by mid-2025, about half were amended within 90 days and 95\% within a year \cite{repo}. This share is slightly optimistic, because amendments filed after mid-2025 are not in the data. A historical test can therefore treat reports filed more than a year before the corrections are collected as close to complete; more recent reports cannot be treated that way.
-
-A separate test replayed 29 SEC reports filed between February 2023 and March 2025. The official DQC checks ran on 22 of them; five used the 2022 taxonomy, for which the current DQC rule package has no rules, and two downloads failed. Of the 886 DQC alerts, 404 (46\%) came from rules that were first published after the report was filed; the test filtered the current rule package by each rule's first release date \cite{feasibility}. A historical evaluation must therefore distinguish what today's rules find from what was possible at the time. In the same test, none of the 13 checked corrections that could be located in these reports was flagged by any rule, expert or AI. Real errors that a rule can detect are rare, which shapes the expectations for RQ3. This test is the starting point for RQ3.
+\textbf{What this means.} Real errors that a rule can catch are rare and must be checked one by one; this is dataset D5 (Section~\ref{sec:d5}). A test over time must use the rules as they existed at the time (RQ3).
 
 \subsection{Pilot 3: rules that change with the standard}
 \label{sec:pilotb}
 
-The final pilot (called Pilot B in the working reports) compared the published DQC rule versions for the 2023, 2024, 2025 and 2026 US taxonomies, and EBA formulas across framework releases \cite{pilotb}. Table~\ref{tab:dqcchanges} shows how the DQC sub-rules changed. In 28 of the 62 logic changes, the rule had referred to a name that the new taxonomy deprecated or removed. The change files of the taxonomy explain these cases. The other 34 have other causes, such as corrected calculations or changes in scope.
+\textbf{Question.} When the dictionary of reporting names changes, can we find the rules that must change, and can a model write the new version?
 
-\begin{table}[htb]
+\textbf{What we looked at.} The DQC keeps one version of its rules for each yearly version of the US dictionary, from 2023 to 2026. Comparing a rule with its next-year version shows what the experts changed. Figure~\ref{fig:task} shows one case. Over three years, the experts made 62 changes to the logic of existing checks and added 56 new checks. The dictionary's change files explain 28 of the 62 changes, because the rule used a name that was replaced or removed. The other 34 have other causes, such as a corrected calculation \cite{pilotb}. In the working reports this study is called Pilot B.
+
+\begin{figure}[htb]
 \centering
-\small
-\begin{tabularx}{\textwidth}{P{2.6cm} >{\raggedleft\arraybackslash}X >{\raggedleft\arraybackslash}X >{\raggedleft\arraybackslash}X >{\raggedleft\arraybackslash}X >{\raggedleft\arraybackslash}X}
-\toprule
-Taxonomy update & Logic unchanged & Logic changed & of which explained by change files & Added & Removed \\
-\midrule
-2023 $\rightarrow$ 2024 & 338 & 14 & 1 & 34 & 2 \\
-2024 $\rightarrow$ 2025 & 360 & 20 & 7 & 6 & 6 \\
-2025 $\rightarrow$ 2026 & 356 & 28 & 20 & 16 & 2 \\
-\midrule
-Total & & 62 & 28 & 56 & 10 \\
-\bottomrule
-\end{tabularx}
-\caption{Changes to DQC sub-rules between successive taxonomy years. ``Logic unchanged'' includes sub-rules in which only internal variable names or the message text changed. ``Explained by change files'': the old rule used a name that the taxonomy's change files list as deprecated or removed \cite{pilotb}.}
-\label{tab:dqcchanges}
-\end{table}
+\begin{tikzpicture}[node distance=4mm and 7mm]
+\tikzset{code/.style={box=#1, font=\footnotesize, text width=4.4cm}}
+\node[code=cA] (old) {\textbf{Input 1: the old rule (2025)}\\[2pt]{\scriptsize\texttt{exists(\{@concept in \$HighLevelElements @\textcolor{cC}{BalanceSheetLocationAxis} = *\}\#fact2)}}};
+\node[code=cA, below=of old] (chg) {\textbf{Input 2: the change file (2026)}\\[2pt]{\scriptsize\texttt{BalanceSheetLocationAxis}}: deprecated; replaced by {\scriptsize\texttt{StatementOfFinancialPosition\ab LocationBalanceAxis}}};
+\coordinate (in) at ($(old.east)!0.5!(chg.east)$);
+\node[box=cD, font=\footnotesize, text width=3.3cm, right=10mm of in] (m) {\textbf{Method under test}\\[2pt]find-and-replace, or a language model, writes the 2026 rule};
+\node[code=cB, right=15mm of m] (ans) {\textbf{Answer key: the experts' 2026 rule}\\[2pt]{\scriptsize\texttt{exists(\{@concept in \$HighLevelElements @\textcolor{cC}{StatementOfFinancialPosition\ab LocationBalanceAxis} = *\}\#fact2)}}\\[3pt]held back until the method has answered};
+\draw[arr] (old.east) -| ($(m.west)+(-5mm,0)$) -- (m.west);
+\draw[arr] (chg.east) -| ($(m.west)+(-5mm,0)$) -- (m.west);
+\draw[arr] (m) -- node[note, above] {compare} (ans);
+\end{tikzpicture}
+\caption{One rule-update task, from DQC rule \texttt{DQC\_0164} (sub-rule 10087). The rule flags totals such as \texttt{Assets} that are split by balance-sheet location. In 2026 one name in it was replaced, and the experts updated the rule. A method sees the two inputs and must produce the new rule; the experts' version is the answer key. Only the coloured part differs.}
+\label{fig:task}
+\end{figure}
 
-The pilot first built a simple search method without AI. It searched each rule for names that the new taxonomy lists as deprecated or removed, and flagged the rules that use them. Across the three updates, 23 of the 42 flagged rule files had indeed been changed by the committee, and the search found 23 of the 57 rule files that changed in some way (counted once per annual update). Lists of names that are kept in shared files were not yet traced to the rules that use them, which lowers the second number.
+\textbf{What we did.} Two tests on these real changes:
+\begin{enumerate}
+\item \emph{Finding.} A simple search, without AI, flagged every rule that uses a name that the new dictionary replaces or removes.
+\item \emph{Updating.} For 16 simple changes that the change files explain, the old rule and a short change note were given to a find-and-replace script and to a small model (Qwen2.5-Coder-7B). Each result was compared with the experts' new rule.
+\end{enumerate}
 
-The pilot then tested 16 of the 28 explained changes: those whose old code is at most 3,000 characters, with one model run each. Copying the old rule solved none of them. Replacing old names with their published successors solved 10. Qwen2.5-Coder-7B, given the old rule and a short change notice, solved 14. In four of the extra cases, the old name had been removed without a named successor, and the official rule simply deleted the reference; the model did the same \cite{pilotb}. Section~\ref{sec:benchmark} shows three of these cases.
+\textbf{What we found.} The search flagged 42 rules, and 23 of them had indeed been changed by the experts. It missed more than half of the changed rules: it found 23 of 57. Find-and-replace wrote 10 of the 16 updates correctly, the model 14 \cite{pilotb}. A small side study on EBA rules found that a model did not predict which rules the EBA would later switch off better than simply ranking rules by the length of their formula \cite{repo}.
 
-These 16 cases are the easiest kind, and the model may have seen newer public rule versions during training; this has not yet been checked. The informative part of the benchmark is the harder material: the 34 DQC logic changes that the change files do not explain, and EBA formulas that change because a report table changed. In the EBA side study, a small model that read formulas predicted which rules would later be deactivated less accurately overall than simply ranking rules by formula length, a ranking that was only added afterwards; among its top 20 picks it did slightly better \cite{repo}. The thesis therefore focuses on rule changes that have a published answer, not on predicting unknown mistakes from formula text.
+\textbf{What this means.} Real rule updates with a published expert answer exist, so RQ1 can be measured. Simple methods do well on easy cases; the open question is the 34 harder changes and the changes in EBA tables.
 
 \section{Related research and scientific contribution}
 
@@ -508,30 +515,7 @@ When the EBA changes a template, its rows or its definitions, the rules that ref
 \subsection{The rule-change benchmark built for RQ1}
 \label{sec:benchmark}
 
-The project combines the DQC and EBA version histories into a set of individual maintenance tasks. Each task records the old rule, the published change to the standard, the updated expert rule and the dates on which each became available. A method sees only the old rule and the change; the expert rule is held back as the answer (Figure~\ref{fig:task}). The pilot has already assembled the first DQC and EBA comparisons \cite{pilotb}.
-
-\begin{figure}[htb]
-\centering
-\begin{tikzpicture}[node distance=6mm and 7mm]
-\node[box=cA, text width=3.0cm] (old) {\textbf{Old rule}\\e.g.\ the 2025 version};
-\node[box=cA, text width=3.0cm, below=3mm of old] (chg) {\textbf{Published change}\\e.g.\ ``name X replaced by Y in 2026''};
-\coordinate (in) at ($(old.east)!0.5!(chg.east)$);
-\node[box=cD, text width=2.9cm, right=8mm of in] (m) {\textbf{Method under test}\\simple replacement, or a language model};
-\node[box=cD, text width=2.4cm, right=of m] (p) {\textbf{Proposed new rule}};
-\node[box=cR, text width=3.0cm, right=of p] (cmp) {\textbf{Comparison}\\same logic as the expert rule? passes the tests?};
-\node[box=cB, text width=3.0cm, above=6mm of cmp] (exp) {\textbf{Expert's new rule}\\held back until evaluation};
-\node[box=cB, text width=3.0cm, below=6mm of cmp] (tst) {\textbf{Official test reports}\\where available};
-\draw[arr] (old.east) -- (m.west |- old.east) -- (m.west);
-\draw[arr] (chg.east) -- (m.west |- chg.east) -- (m.west);
-\draw[arr] (m) -- (p);
-\draw[arr] (p) -- (cmp);
-\draw[arr] (exp) -- (cmp);
-\draw[arr] (tst) -- (cmp);
-\end{tikzpicture}
-\caption{One maintenance task in the benchmark. The method never sees the expert's new rule.}
-\label{fig:task}
-\end{figure}
-
+The project combines the DQC and EBA version histories into a set of individual maintenance tasks. Each task records the old rule, the published change to the standard, the updated expert rule and the dates on which each became available. A method sees only the old rule and the change; the expert rule is held back as the answer (Figure~\ref{fig:task} in Section~\ref{sec:pilotb}). The pilot has already assembled the first DQC and EBA comparisons \cite{pilotb}.
 Table~\ref{tab:cases} shows three real tasks from the pilot work and how the methods performed on them. They illustrate the range of difficulty. In case A, the change file names the successor, and a simple search-and-replace is enough. In case B, the name was removed without a successor, and the right update is to delete it from a list. In case C, the committee chose a replacement that the change files do not mention, and both methods failed.
 
 \begin{table}[htb]
@@ -736,7 +720,7 @@ RQ1 uses two successive versions of the same reporting standard. In the US case,
 
 \textbf{Evaluation.} Each proposal is compared with the official update. For the DQC, the official test reports are also run with Arelle to check whether the proposed rule produces the expected messages. For the EBA, formulas are compared after normalising the notation, and differing proposals are checked by hand. Each model setup is repeated five times to measure consistency. Results are reported separately for name changes, logic changes and notation-only changes.
 
-\textbf{Prior exposure.} Public rule versions may have been part of a model's training data, and the drop from 41\% to 3--13\% in the second pilot suggests that this matters. The study records when each rule version and each model became available, and compares results on rule versions published before and after the model's release. For OLMo~2, an open model whose training data is public (Section~\ref{sec:models}), it checks directly whether the rule texts occur in that data \cite{olmo2,olmotrace,livecodebench}. If a new taxonomy year or EBA release appears during the thesis, the methods are also run on it before the experts' updates are published. The remaining risk of prior exposure is reported.
+\textbf{Prior exposure.} Public rule versions may have been part of a model's training data, and the drop from 41\% to 3--13\% in Pilot 2 (Section~\ref{sec:pilot2}) suggests that this matters. The study records when each rule version and each model became available, and compares results on rule versions published before and after the model's release. For OLMo~2, an open model whose training data is public (Section~\ref{sec:models}), it checks directly whether the rule texts occur in that data \cite{olmo2,olmotrace,livecodebench}. If a new taxonomy year or EBA release appears during the thesis, the methods are also run on it before the experts' updates are published. The remaining risk of prior exposure is reported.
 
 \subsection{RQ2: finding gaps and selecting new rules}
 \label{sec:rq2}
