@@ -394,7 +394,27 @@ RQ3 & Do the rules hold up on real reports over time, and are approval decisions
 \section{Datasets and reference material}
 \label{sec:data}
 
-Each research question needs data together with an answer key that nobody in this project wrote. Five public sources provide this. They are labelled D1 to D5 below.
+Each research question needs two things: data on which rules can be run, and an answer key that nobody in this project wrote, so that a result can be marked right or wrong. Five sources provide this, labelled D1 to D5. In addition, the rule-change benchmark for RQ1 is assembled from D1 and D2. Table~\ref{tab:datasets} shows, for each of them, what it is, what we do with it and what serves as the answer key. The subsections that follow describe each one with an example.
+
+\begin{table}[htb]
+\centering
+\footnotesize
+\renewcommand{\arraystretch}{1.15}
+\begin{tabularx}{\textwidth}{P{2.0cm} L L P{3.0cm} P{0.85cm}}
+\toprule
+Dataset & What it is & What we do with it & Answer key & RQ \\
+\midrule
+\textbf{D1} US company reports (Section~\ref{sec:d1}) & Quarterly and annual reports of US listed companies, in which every number is labelled, e.g.\ \texttt{Assets} = 340,000,000 USD. Also the DQC's expert rules for these reports, one version per year, and the yearly change files of the US dictionary. & RQ1: give a method the 2025 rule and the 2026 change files, and ask for the 2026 rule. RQ2: let a model propose new rules, plant errors in copies of reports and count what the rules catch. RQ3: run the rules on real reports in the order in which they were filed. & RQ1: the DQC's own 2026 rule. RQ2: the planted errors. RQ3: dataset D5. & 1--3 \\ \addlinespace
+\textbf{D2} European bank reports (Section~\ref{sec:eba}) & The EBA's report tables, in which each cell has a table, row and column number, and the EBA's validation formulas in every release. & Give a method an old formula and the change to the tables, and ask for the new formula. & The formula the EBA published in the next release. & 1 \\ \addlinespace
+\textbf{D3} European company reports (Section~\ref{sec:d3}), preferred extension & Annual reports of EU listed companies, labelled with IFRS names, and a public set of IFRS data-quality rules. & Repeat the RQ2 and RQ3 experiments on a second kind of report. & Planted errors; the published IFRS rules. & 2, 3 \\ \addlinespace
+\textbf{D4} US mortgage applications (Section~\ref{sec:d4}), optional & One row per mortgage application, as in an ordinary table in a data platform, and the regulator's published checks. & Repeat the RQ2 experiment on ordinary table data. & Planted errors. & 2 \\ \addlinespace
+\textbf{D5} Real SEC corrections (Section~\ref{sec:d5}), built during the thesis & Numbers that companies changed in a corrected report, each checked by hand (Figure~\ref{fig:amend}). & Check whether the rules would have caught real errors, and how many alerts they raise on reports that were never corrected. & The hand-made label: a real reporting error or not. & 3 \\ \addlinespace
+\textbf{Benchmark} built from D1 and D2 (Section~\ref{sec:benchmark}) & A list of real rule changes. Each task has an old rule, the published change and the experts' new rule (Figure~\ref{fig:task}). & Run every method for finding and updating rules on the same tasks and compare the results. & The experts' new rule. & 1 \\
+\bottomrule
+\end{tabularx}
+\caption{The datasets: what each one is, what we do with it, and what tells us whether a result is right.}
+\label{tab:datasets}
+\end{table}
 
 \subsection{How data, rules and AI fit together}
 
@@ -421,27 +441,8 @@ Figure~\ref{fig:layers} shows how the pieces relate. The reporting standard is t
 \label{fig:layers}
 \end{figure}
 
-Table~\ref{tab:datasets} lists the five sources and the research questions they serve.
-
-\begin{table}[htb]
-\centering
-\small
-\begin{tabularx}{\textwidth}{P{1.9cm} L P{2.4cm}}
-\toprule
-Source & What is available & Used for \\
-\midrule
-D1, SEC & US company reports, DQC rule versions, FASB taxonomies and official test reports & RQ1, RQ2, RQ3 \\
-D2, EBA & European bank report tables and successive versions of validation formulas & RQ1 \\
-D3, ESEF & European company reports, IFRS data-quality rules and reference tests & RQ2, RQ3 (preferred extension) \\
-D4, HMDA & US mortgage-application records and published filing checks & RQ2 (optional) \\
-D5, SEC & Original and amended reports, with each change reviewed by hand & RQ3 \\
-\bottomrule
-\end{tabularx}
-\caption{The data sources and the research questions they support. D5 is built during the thesis.}
-\label{tab:datasets}
-\end{table}
-
 \subsection{D1: US company reports, DQC rules and FASB taxonomies}
+\label{sec:d1}
 
 The SEC receives financial reports from publicly listed US companies. Each number in these reports is an XBRL fact: a value with its accounting name, its unit and the date or period it refers to \cite{fsds}. The DQC supplies about 180 expert rules for finding inconsistencies in such reports. The rules are written in XULE, a language for checking XBRL data, and can be run with the open-source processor Arelle \cite{dqc,arelle}. For each rule, the DQC also publishes small test reports together with the messages the rule must produce. These official tests show whether a rule written by someone else, or by a model, behaves like the committee's rule.
 
@@ -512,49 +513,8 @@ Two changes at once: all codes now have four digits (notation only), and column 
 
 When the EBA changes a template, its rows or its definitions, the rules that refer to them may need adjustment. The EBA's workbooks contain the rules of successive releases, with their formulas and a label for the kind of change. In the pilot, 1,406 formula changes were identified across 1,094 rules; 266 of them only changed the notation \cite{pilotb}. For RQ1, a model receives an earlier EBA formula and the relevant changes to the templates or definitions. It proposes the next formula without seeing the version that the EBA later published, which is then used to check the result. The EBA does not publish executable test reports for every rule, so formula comparison and manual checking play a larger role than for the DQC. This dataset is the closest to the supervisory reporting work of a bank.
 
-\subsection{The rule-change benchmark built for RQ1}
-\label{sec:benchmark}
-
-The project combines the DQC and EBA version histories into a set of individual maintenance tasks. Each task records the old rule, the published change to the standard, the updated expert rule and the dates on which each became available. A method sees only the old rule and the change; the expert rule is held back as the answer (Figure~\ref{fig:task} in Section~\ref{sec:pilotb}). The pilot has already assembled the first DQC and EBA comparisons \cite{pilotb}.
-Table~\ref{tab:cases} shows three real tasks from the pilot work and how the methods performed on them. They illustrate the range of difficulty. In case A, the change file names the successor, and a simple search-and-replace is enough. In case B, the name was removed without a successor, and the right update is to delete it from a list. In case C, the committee chose a replacement that the change files do not mention, and both methods failed.
-
-\begin{table}[htb]
-\centering
-\small
-\begin{tabularx}{\textwidth}{P{3.0cm} L}
-\toprule
-\multicolumn{2}{p{\dimexpr\textwidth-2\tabcolsep\relax}}{\textbf{A.\ A name is replaced by a named successor.} \texttt{DQC\_0164}, sub-rule 10087, 2025 $\rightarrow$ 2026} \\
-\midrule
-What the rule checks & Totals such as \texttt{Assets} or \texttt{Liabilities} must not be split by balance-sheet location; the report should use a more specific item instead. \\
-Published change & \texttt{BalanceSheetLocationAxis}: deprecated in 2026; replaced by \texttt{StatementOfFinancialPosition\ab LocationBalanceAxis}. \\
-Old code (2025) & {\footnotesize\texttt{exists(\{@concept in \$HighLevelElements @\textcolor{cC}{BalanceSheetLocationAxis} = *\}\#fact2)}} \\
-Expert's code (2026) & {\footnotesize\texttt{exists(\{@concept in \$HighLevelElements @\textcolor{cC}{StatementOfFinancialPosition\ab LocationBalanceAxis} = *\}\#fact2)}} \\
-Result & Name replacement (no AI): correct. Qwen2.5-Coder-7B: correct. \\
-\midrule
-\multicolumn{2}{p{\dimexpr\textwidth-2\tabcolsep\relax}}{\textbf{B.\ A name is removed without a successor.} \texttt{DQC\_0004}, sub-rule 9286, 2024 $\rightarrow$ 2025} \\
-\midrule
-What the rule checks & The total change in cash must equal the sum of the operating, investing and financing cash flows. For the total, the rule takes the first of two names that the report uses. \\
-Published change & \texttt{CashAndCashEquivalents\ab PeriodIncreaseDecrease\ab ExcludingExchangeRateEffect}: removed in 2025; no replacement named. \\
-Old code (2024) & {\footnotesize\texttt{\$base = first-value(\{nonils @CashCashEquivalentsRestrictedCash\ldots\}\textcolor{cC}{, \{nonils @CashAndCashEquivalents\ab PeriodIncreaseDecrease\ab ExcludingExchangeRateEffect\}})}} \\
-Expert's code (2025) & {\footnotesize\texttt{\$base = first-value(\{nonils @CashCashEquivalentsRestrictedCash\ldots\})}} \\
-Result & Name replacement: not possible, because no successor is named. Qwen2.5-Coder-7B: correct; it deleted the removed name, as the committee did. \\
-\midrule
-\multicolumn{2}{p{\dimexpr\textwidth-2\tabcolsep\relax}}{\textbf{C.\ The experts chose a replacement that the change files do not name.} \texttt{DQC\_0046}, sub-rule 7480, 2023 $\rightarrow$ 2024} \\
-\midrule
-What the rule checks & It flags a report whose own calculation places the exchange-rate effect inside net cash from discontinued operations, which the US GAAP taxonomy does not do. \\
-Published change & \texttt{EffectOfExchangeRateOn\ab CashAndCashEquivalents\ab DiscontinuedOperations}: deprecated in 2024; no replacement named. \\
-Old code (2023) & {\footnotesize\texttt{\textcolor{cC}{EffectOfExchangeRateOnCashAndCashEquivalents\ab DiscontinuedOperations} in navigate summation-item descendants from NetCashProvidedByUsedIn\ab DiscontinuedOperations}} \\
-Expert's code (2024) & {\footnotesize\texttt{\textcolor{cC}{EffectOfExchangeRateOnCashCashEquivalents\ab RestrictedCashAndRestrictedCashEquivalents\ab DisposalGroupIncludingDiscontinuedOperations} in navigate summation-item descendants from \ldots}} \\
-Result & Name replacement: no successor to insert, so the rule stays unchanged (wrong). Qwen2.5-Coder-7B: wrong. \\
-\bottomrule
-\end{tabularx}
-\caption{Three real maintenance tasks from the pilot work \cite{pilotb}. Only the coloured parts differ between the old and the new code; code shortened with \ldots; names are the published DQC and US GAAP names. ``Correct'' means that the logic of the proposal equals the committee's new version after comments and message text are removed.}
-\label{tab:cases}
-\end{table}
-
-The benchmark will also contain changes that cannot be solved by replacing names, such as a calculation corrected by the committee or a rule affected by an EBA template change. These cases show whether a model can use the wider documentation to make the right update. Every task is classified as a name change, a logic change or a notation-only change. A sample of the classifications will be checked by a second person before the benchmark is published.
-
 \subsection{D3: European company reports and ESEF rules}
+\label{sec:d3}
 
 Listed companies in the European Union publish their annual financial reports in the European Single Electronic Format (ESEF). Their consolidated financial statements follow International Financial Reporting Standards (IFRS), and the numbers are labelled with Inline XBRL, so that people and software read the same report \cite{esma}. XBRL International maintains a public set of additional IFRS data-quality rules with a reference implementation and test suite \cite{esefdqr,dqrconf}. These rules are voluntary and separate from the mandatory ESEF requirements. Table~\ref{tab:esef} gives an example.
 
@@ -582,6 +542,7 @@ Same check in IFRS & \texttt{Assets} must equal \texttt{EquityAndLiabilities}. T
 D3 provides a second setting for RQ2 and RQ3. The experiment can apply the existing IFRS checks to European reports, let a model propose new rules from the IFRS definitions, plant known errors in copies of reports and measure the extra detections. It also offers a second kind of maintenance task: moving a rule written for US names to the corresponding IFRS names while keeping its intended behaviour. The published IFRS implementation serves as the reference.
 
 \subsection{D4: US mortgage applications and HMDA edits (optional)}
+\label{sec:d4}
 
 The Home Mortgage Disclosure Act (HMDA) requires covered US lenders to report information about mortgage applications. Unlike the SEC data, these are rows in a table, one per application, much like an ordinary table in a data platform. Each row contains fields such as the loan amount, the action taken (for example 1 for a loan that was originated) and the location of the property. The US regulators publish filing instructions and checks, which they call \emph{edits} \cite{hmda}. Table~\ref{tab:hmda} shows three real edits and how a planted error triggers one of them.
 
@@ -655,6 +616,48 @@ Same value under a new name & The names in both reports and their definitions & 
 \end{table}
 
 \textbf{Expected yield.} In the pilot, 2 of 20 checked candidates were reporting errors that a rule might detect, and 8 remained unclear. Even with a selection that favours reporting errors, D5 is therefore likely to contain a few dozen detectable errors rather than hundreds. RQ3 will report its results on D5 with confidence intervals, and every report that contains a D5 item is included in the replay (Section~\ref{sec:rq3}). D5 is an evaluation dataset; it does not assume that every amended number was an error.
+
+\subsection{Combining D1 and D2: the rule-change benchmark for RQ1}
+\label{sec:benchmark}
+
+The benchmark is not a new data source. It combines the DQC rule versions from D1 and the EBA formula versions from D2 into a set of individual maintenance tasks. Each task records the old rule, the published change to the standard, the updated expert rule and the dates on which each became available. A method sees only the old rule and the change; the expert rule is held back as the answer (Figure~\ref{fig:task} in Section~\ref{sec:pilotb}). The pilot has already assembled the first DQC and EBA comparisons \cite{pilotb}.
+Table~\ref{tab:cases} shows three real tasks from the pilot work and how the methods performed on them. They illustrate the range of difficulty. In case A, the change file names the successor, and a simple search-and-replace is enough. In case B, the name was removed without a successor, and the right update is to delete it from a list. In case C, the committee chose a replacement that the change files do not mention, and both methods failed.
+
+\begin{table}[htb]
+\centering
+\small
+\begin{tabularx}{\textwidth}{P{3.0cm} L}
+\toprule
+\multicolumn{2}{p{\dimexpr\textwidth-2\tabcolsep\relax}}{\textbf{A.\ A name is replaced by a named successor.} \texttt{DQC\_0164}, sub-rule 10087, 2025 $\rightarrow$ 2026} \\
+\midrule
+What the rule checks & Totals such as \texttt{Assets} or \texttt{Liabilities} must not be split by balance-sheet location; the report should use a more specific item instead. \\
+Published change & \texttt{BalanceSheetLocationAxis}: deprecated in 2026; replaced by \texttt{StatementOfFinancialPosition\ab LocationBalanceAxis}. \\
+Old code (2025) & {\footnotesize\texttt{exists(\{@concept in \$HighLevelElements @\textcolor{cC}{BalanceSheetLocationAxis} = *\}\#fact2)}} \\
+Expert's code (2026) & {\footnotesize\texttt{exists(\{@concept in \$HighLevelElements @\textcolor{cC}{StatementOfFinancialPosition\ab LocationBalanceAxis} = *\}\#fact2)}} \\
+Result & Name replacement (no AI): correct. Qwen2.5-Coder-7B: correct. \\
+\midrule
+\multicolumn{2}{p{\dimexpr\textwidth-2\tabcolsep\relax}}{\textbf{B.\ A name is removed without a successor.} \texttt{DQC\_0004}, sub-rule 9286, 2024 $\rightarrow$ 2025} \\
+\midrule
+What the rule checks & The total change in cash must equal the sum of the operating, investing and financing cash flows. For the total, the rule takes the first of two names that the report uses. \\
+Published change & \texttt{CashAndCashEquivalents\ab PeriodIncreaseDecrease\ab ExcludingExchangeRateEffect}: removed in 2025; no replacement named. \\
+Old code (2024) & {\footnotesize\texttt{\$base = first-value(\{nonils @CashCashEquivalentsRestrictedCash\ldots\}\textcolor{cC}{, \{nonils @CashAndCashEquivalents\ab PeriodIncreaseDecrease\ab ExcludingExchangeRateEffect\}})}} \\
+Expert's code (2025) & {\footnotesize\texttt{\$base = first-value(\{nonils @CashCashEquivalentsRestrictedCash\ldots\})}} \\
+Result & Name replacement: not possible, because no successor is named. Qwen2.5-Coder-7B: correct; it deleted the removed name, as the committee did. \\
+\midrule
+\multicolumn{2}{p{\dimexpr\textwidth-2\tabcolsep\relax}}{\textbf{C.\ The experts chose a replacement that the change files do not name.} \texttt{DQC\_0046}, sub-rule 7480, 2023 $\rightarrow$ 2024} \\
+\midrule
+What the rule checks & It flags a report whose own calculation places the exchange-rate effect inside net cash from discontinued operations, which the US GAAP taxonomy does not do. \\
+Published change & \texttt{EffectOfExchangeRateOn\ab CashAndCashEquivalents\ab DiscontinuedOperations}: deprecated in 2024; no replacement named. \\
+Old code (2023) & {\footnotesize\texttt{\textcolor{cC}{EffectOfExchangeRateOnCashAndCashEquivalents\ab DiscontinuedOperations} in navigate summation-item descendants from NetCashProvidedByUsedIn\ab DiscontinuedOperations}} \\
+Expert's code (2024) & {\footnotesize\texttt{\textcolor{cC}{EffectOfExchangeRateOnCashCashEquivalents\ab RestrictedCashAndRestrictedCashEquivalents\ab DisposalGroupIncludingDiscontinuedOperations} in navigate summation-item descendants from \ldots}} \\
+Result & Name replacement: no successor to insert, so the rule stays unchanged (wrong). Qwen2.5-Coder-7B: wrong. \\
+\bottomrule
+\end{tabularx}
+\caption{Three real maintenance tasks from the pilot work \cite{pilotb}. Only the coloured parts differ between the old and the new code; code shortened with \ldots; names are the published DQC and US GAAP names. ``Correct'' means that the logic of the proposal equals the committee's new version after comments and message text are removed.}
+\label{tab:cases}
+\end{table}
+
+The benchmark will also contain changes that cannot be solved by replacing names, such as a calculation corrected by the committee or a rule affected by an EBA template change. These cases show whether a model can use the wider documentation to make the right update. Every task is classified as a name change, a logic change or a notation-only change. A sample of the classifications will be checked by a second person before the benchmark is published.
 
 \subsection{What counts as a correct result}
 \label{sec:measures}
